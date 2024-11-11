@@ -10,7 +10,6 @@ import UserPage, {
 import TasksPage from '../components/pages/TasksPage/TasksPage';
 import Error from '../components/simple/Error';
 import { User } from '../api/getUsers';
-
 type RoutesConfig = {
   path: string;
   element: React.ReactElement;
@@ -26,8 +25,8 @@ const routesConfig: RoutesConfig[] = [
   },
   {
     path: '/:userId',
-    loader: userLoader as ({ params }?: UserId) => Promise<User>,
     element: <UserPage />,
+    loader: userLoader as ({ params }?: UserId) => Promise<User>,
     children: [
       {
         path: '/:userId/tasks',

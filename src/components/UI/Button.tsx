@@ -1,6 +1,7 @@
 import { FC } from 'react';
 type ComponentProps = {
   children: string;
+  onClick?: () => any;
 };
 const Button: FC<ComponentProps> = ({ children }) => {
   return <button type="button">{children}</button>;
