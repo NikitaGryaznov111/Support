@@ -1,28 +1,42 @@
 import { nanoid } from 'nanoid';
-import { FC } from 'react';
-import { useAppSelector } from '../../../app/hooks';
-import { TypeTasks } from '../FormTasks/FormTasks';
+import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getTasksStorage } from '../../../forStorage';
+import { TypeTask } from '../FormTasks/FormTasks';
 
-const Tasks: FC = () => {
-  const selectedTask = useAppSelector((state) => state.tasks);
+type Props = {
+  input: TypeTask;
+};
+const Tasks: FC<Props> = (props: Props) => {
+  const [tasks, setTasks] = useState<TypeTask[]>();
   const { userId } = useParams();
+
+  useEffect(() => {
+    const init = async () => {
+      setTasks(await getTasksStorage());
+    };
+    init();
+  }, [props.input]);
 
   return (
     <div>
       <h1>Задачи:</h1>
-      <ul>
-        {selectedTask.map(
-          (input: TypeTasks) =>
-            userId == input.id &&
-            input.task !== '' && (
-              <li key={nanoid()}>
-                <h3>{input.task}</h3>
-                <p>{input.description}</p>
-              </li>
-            )
-        )}
-      </ul>
+      {tasks ? (
+        <ul>
+          {tasks.map(
+            (input: TypeTask) =>
+              userId == input.id &&
+              input.task !== '' && (
+                <li key={nanoid()}>
+                  <h3>{input.task}</h3>
+                  <p>{input.description}</p>
+                </li>
+              )
+          )}
+        </ul>
+      ) : (
+        <p>Нет задач</p>
+      )}
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainPage, {
   loader as mainLoader,
-  UserStorage,
 } from '../components/pages/MainPage/MainPage';
 import UserPage, {
   loader as userLoader,
@@ -9,11 +8,11 @@ import UserPage, {
 } from '../components/pages/UserPage/UserPage';
 import TasksPage from '../components/pages/TasksPage/TasksPage';
 import Error from '../components/simple/Error';
-import { User } from '../api/getUsers';
+import { TypeUser } from '../api/getUsers';
 type RoutesConfig = {
   path: string;
   element: React.ReactElement;
-  loader?: () => Promise<UserStorage> | Promise<User>;
+  loader?: () => any;
   children?: RoutesConfig[];
 };
 
@@ -26,7 +25,7 @@ const routesConfig: RoutesConfig[] = [
   {
     path: '/:userId',
     element: <UserPage />,
-    loader: userLoader as ({ params }?: UserId) => Promise<User>,
+    loader: userLoader as ({ params }?: UserId) => Promise<TypeUser>,
     children: [
       {
         path: '/:userId/tasks',

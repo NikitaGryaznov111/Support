@@ -3,9 +3,7 @@ import { User } from '../../../api/getUsers';
 import { Link, Outlet, useLoaderData } from 'react-router-dom';
 import { addUsersStorage, getUsersStorage } from '../../../forStorage';
 
-export type UserStorage = {
-  users: Promise<User[]>;
-};
+//
 export const loader = async () => {
   addUsersStorage();
   const users = (await getUsersStorage()) as Promise<User[]>;
@@ -18,7 +16,7 @@ const MainPage: FC = () => {
     return (
       <div>
         <h1>Main Page</h1>
-        {users.length ? (
+        {users ? (
           <ul>
             {users.map((user: User) => (
               <li key={user.id}>

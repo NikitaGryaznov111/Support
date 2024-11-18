@@ -1,16 +1,15 @@
 import React, { FC, useState } from 'react';
-import { useAppDispatch } from '../../../app/hooks';
-import { addTask } from '../../../store/parts/tasksSlice';
 import { useParams } from 'react-router-dom';
-export type TypeTasks = {
+import { addTasksStorage, getTasksStorage } from '../../../forStorage';
+import Tasks from '../Tasks/Tasks';
+export type TypeTask = {
   task: string;
   description: string;
   id?: string;
 };
 const FormTasks: FC = () => {
-  const dispatch = useAppDispatch();
   const { userId } = useParams();
-  const [input, setInput] = useState<TypeTasks>({
+  const [input, setInput] = useState<TypeTask>({
     task: '',
     description: '',
     id: userId,
@@ -26,36 +25,40 @@ const FormTasks: FC = () => {
     }
   };
 
-  const handleBtnClick = () => {
+  const handleBtnClick = async () => {
     if (input.task === '') {
       alert('Введите название задачи!');
       return;
     }
-    dispatch(addTask(input));
-    setInput({ task: '', description: '' });
+    const tasks = await getTasksStorage();
+    addTasksStorage(input, tasks);
+    setInput({ task: '', description: '', id: userId });
   };
   return (
-    <form>
-      <label htmlFor="task">Название задачи:</label>
-      <input
-        className="border-solid border-2 border-sky-500"
-        value={input.task}
-        type="text"
-        id="task"
-        onChange={handleInputChange}
-      />
-      <label htmlFor="description">Описание задачи:</label>
-      <input
-        className="border-solid border-2 border-sky-500"
-        value={input.description}
-        type="text"
-        id="description"
-        onChange={handleInputChange}
-      />
-      <button type="button" onClick={handleBtnClick}>
-        Добавить задачу
-      </button>
-    </form>
+    <>
+      <form>
+        <label htmlFor="task">Название задачи:</label>
+        <input
+          className="border-solid border-2 border-sky-500"
+          value={input.task}
+          type="text"
+          id="task"
+          onChange={handleInputChange}
+        />
+        <label htmlFor="description">Описание задачи:</label>
+        <input
+          className="border-solid border-2 border-sky-500"
+          value={input.description}
+          type="text"
+          id="description"
+          onChange={handleInputChange}
+        />
+        <button type="button" onClick={handleBtnClick}>
+          Добавить задачу
+        </button>
+      </form>
+      <Tasks input={input} />
+    </>
   );
 };
 
