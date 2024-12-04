@@ -1,31 +1,35 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLoaderData, useParams } from 'react-router-dom';
 import { getUserStorage } from '../../../forStorage';
-import { User } from '../../../api/getUsers';
+import { TypeUser } from '../../../api/getUsers';
 import Button from '../../UI/Button';
 export type UserId = {
   params: {
     userId: string;
   };
 };
-export const loader = async ({ params }: UserId) => {
-  const { userId } = params;
-  const user = (await getUserStorage(userId)) as User;
-  return user;
-};
+
 const UserPage: FC = () => {
-  const user = useLoaderData() as User;
+  const [user, setUser] = useState<TypeUser>();
   const { userId } = useParams();
-  const { name } = user;
+  useEffect(() => {
+    const init = async () => {
+      setUser(await getUserStorage(userId));
+    };
+    init();
+  }, []);
+
   return (
-    <div className="container pt-2 px-4 my-0 mx-auto">
+    <div>
       {!user ? (
         <p>Загрузка пользователя с id:{userId}</p>
       ) : (
         <>
           <div className="flex justify-between items-center justify-center">
-            <h1>{name}</h1>
-            <Button>Закрыть</Button>
+            <h1>{user.name}</h1>
+            <Link to={'/'}>
+              <Button>Закрыть</Button>
+            </Link>
           </div>
           <div>
             {/* <Button>Проекты</Button> */}

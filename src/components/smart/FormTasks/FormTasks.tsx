@@ -2,17 +2,21 @@ import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { addTasksStorage, getTasksStorage } from '../../../forStorage';
 import Tasks from '../Tasks/Tasks';
+import { nanoid } from 'nanoid';
 export type TypeTask = {
   task: string;
   description: string;
   id?: string;
+  nanoId?: string;
 };
 const FormTasks: FC = () => {
+  const nanoId = nanoid(6);
   const { userId } = useParams();
   const [input, setInput] = useState<TypeTask>({
     task: '',
     description: '',
     id: userId,
+    nanoId,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +36,7 @@ const FormTasks: FC = () => {
     }
     const tasks = await getTasksStorage();
     addTasksStorage(input, tasks);
-    setInput({ task: '', description: '', id: userId });
+    setInput({ task: '', description: '', id: userId, nanoId });
   };
   return (
     <>

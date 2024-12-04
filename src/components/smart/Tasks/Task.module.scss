@@ -1,0 +1,15 @@
+@import '../../../styles/templateBase.scss';
+
+.taskItem {
+  @include flex-between;
+  margin-bottom: 10px;
+  background-color: aqua;
+  padding: 0 12px;
+}
+.taskItem:last-child {
+  margin-bottom: 0px;
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+}

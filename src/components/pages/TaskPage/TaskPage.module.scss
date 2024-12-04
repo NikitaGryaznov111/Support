@@ -1,0 +1,4 @@
+@import '../../../styles/templateBase';
+.taskWrapper {
+  @include flex-between;
+}
