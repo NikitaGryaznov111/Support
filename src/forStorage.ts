@@ -39,66 +39,81 @@ export const getTasksStorage = async (): Promise<TypeTask[]> => {
 };
 
 export const getTaskStorage = async (
-  taskId: TypeTask['nanoId']
+  taskId: TypeTask['taskId']
 ): Promise<TypeTask> => {
   const tasksStorage = (await localforage.getItem('tasks')) as TypeTask[];
   const task = tasksStorage.find((task: TypeTask): boolean => {
-    return task.nanoId === taskId;
+    return task.taskId === taskId;
   });
   return task as TypeTask;
 };
 
-export const deletedTasksStorage = async (nanoId: TypeTask['nanoId']) => {
+export const deletedTaskStorage = async (nanoId: TypeTask['taskId']) => {
   const tasksStorage = (await localforage.getItem('tasks')) as TypeTask[];
-  const tasks = tasksStorage.filter((task) => task.nanoId !== nanoId);
+  const tasks = tasksStorage.filter((task) => task.taskId !== nanoId);
   localforage.setItem('tasks', tasks);
 };
 
 export const updateTaskStorage = async (
-  taskId: TypeTask['nanoId'],
+  taskId: TypeTask['taskId'],
   updates: TypeTaskUpdate
 ): Promise<TypeTask | undefined> => {
   const tasksStorage = (await localforage.getItem('tasks')) as TypeTask[];
   const task = tasksStorage.find((task: TypeTask): boolean => {
-    return task.nanoId === taskId;
+    return task.taskId === taskId;
   });
   Object.assign(task as TypeTask, updates);
   await localforage.setItem('tasks', tasksStorage);
   return task;
 };
-const arrayTimeTask: TypeTime[] = [];
+
+const arrayTimes: TypeTime[] = [];
 
 export const addTimeStorage = async (
   newTime: TypeTime,
   taskId: TypeTime['taskId']
 ) => {
-  if (arrayTimeTask.length > 0) {
+  if (arrayTimes.length > 0) {
     const timeStorage = (await localforage.getItem('time')) as TypeTime[];
     for (let i = 0; i < timeStorage.length; i++) {
       if (timeStorage[i].taskId === taskId) {
         timeStorage.splice(i, 1, newTime);
         await localforage.setItem('time', timeStorage);
-      } else {
-        // надо как-то выйти из цикла
-        const localArr = [];
-
-        localArr.push(newTime);
-        const elem = localArr.find((x) => x.taskId === taskId);
-        Object.assign(elem as any, newTime);
-        await localforage.setItem('time', [...timeStorage, ...localArr]);
+        break;
+      } else if (timeStorage[i].taskId !== taskId && newTime.minutes !== 3) {
+        await localforage.setItem('time', [...timeStorage, newTime]);
       }
     }
   } else {
-    arrayTimeTask.push(newTime);
-    await localforage.setItem('time', arrayTimeTask);
+    arrayTimes.push(newTime);
+    await localforage.setItem('time', arrayTimes);
   }
 };
 
-// export const getTimeStorage = async (taskId: TypeTime['taskId']) => {
-//   const timeStorage = (await localforage.getItem('time')) as TypeTime[];
-//   // const time = timeStorage.find((time: TypeTime): boolean => {
-//   //   return time.taskId === taskId;
-//   // });
-//   // return time as TypeTime;
-//   return timeStorage;
-// };
+export const getTimeStorage = async (taskId: TypeTime['taskId']) => {
+  const timeStorage: TypeTime[] | null = await localforage.getItem('time');
+  const initialTime: TypeTime = {
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    taskId,
+  };
+  try {
+    if (!timeStorage) {
+      return initialTime;
+    } else {
+      const time = timeStorage.find((time: TypeTime): boolean => {
+        return time.taskId === taskId;
+      });
+      return time || initialTime;
+    }
+  } catch (err) {
+    console.log('Error getTimeStorage: ', err);
+  }
+};
+
+export const deletedTimeStorage = async (nanoId: string) => {
+  const timeStorage = (await localforage.getItem('time')) as TypeTime[];
+  const tasks = timeStorage.filter((time) => time.taskId !== nanoId);
+  localforage.setItem('time', tasks);
+};

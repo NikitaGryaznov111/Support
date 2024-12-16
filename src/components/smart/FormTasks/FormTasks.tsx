@@ -7,7 +7,7 @@ export type TypeTask = {
   task: string;
   description: string;
   id?: string;
-  nanoId?: string;
+  taskId?: string;
 };
 const FormTasks: FC = () => {
   const nanoId = nanoid(6);
@@ -16,7 +16,7 @@ const FormTasks: FC = () => {
     task: '',
     description: '',
     id: userId,
-    nanoId,
+    taskId: nanoId,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,14 +29,16 @@ const FormTasks: FC = () => {
     }
   };
 
-  const handleBtnClick = async () => {
+  const handleBtnClick: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
     if (input.task === '') {
       alert('Введите название задачи!');
       return;
     }
     const tasks = await getTasksStorage();
     addTasksStorage(input, tasks);
-    setInput({ task: '', description: '', id: userId, nanoId });
+    setInput({ task: '', description: '', id: userId, taskId: nanoId });
   };
   return (
     <>

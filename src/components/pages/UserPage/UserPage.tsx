@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, Outlet, useLoaderData, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { getUserStorage } from '../../../forStorage';
 import { TypeUser } from '../../../api/getUsers';
 import Button from '../../UI/Button';

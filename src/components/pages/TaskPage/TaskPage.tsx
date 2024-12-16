@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask } from '../../smart/FormTasks/FormTasks';
 import {
   getTaskStorage,
   addTimeStorage,
-  // getTimeStorage,
+  getTimeStorage,
 } from '../../../forStorage';
 import styles from './TaskPage.module.scss';
 export type TypeTime = {
@@ -14,28 +14,43 @@ export type TypeTime = {
   taskId?: string;
 };
 
-const TaskPage = () => {
+const TaskPage: FC = () => {
   const { taskId } = useParams();
-
   const [task, setTask] = useState<TypeTask>();
+  const timerRef = useRef() as { current: number };
+  const btnRef = useRef() as any;
   const [time, setTime] = useState<TypeTime>({
     hours: 0,
-    minutes: 0,
+    minutes: 3,
     seconds: 0,
     taskId,
   });
-  const timerRef = useRef() as { current: number };
-  const btnRef = useRef() as any;
+
   useEffect(() => {
     const init = async () => {
       setTask(await getTaskStorage(taskId));
     };
     init();
   }, []);
+
   useEffect(() => {
-    const arr = addTimeStorage(time, taskId);
+    const init = async () => {
+      if (time.seconds === 0) {
+        const data = (await getTimeStorage(taskId)) as TypeTime;
+        setTime(data);
+      }
+    };
+    init();
+  }, []);
+  useEffect(() => {
+    const init = async () => {
+      await addTimeStorage(time, taskId);
+    };
+    init();
   }, [time]);
-  const handleBtnStartTime = async () => {
+  const handleBtnStartTime: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
     btnRef.current.disabled = true;
     timerRef.current = await setInterval(() => {
       setTime((prevTime) => ({
@@ -46,7 +61,7 @@ const TaskPage = () => {
       }));
     }, 1000);
   };
-  const handleBtnStopTime = () => {
+  const handleBtnStopTime: React.MouseEventHandler<HTMLButtonElement> = () => {
     clearInterval(timerRef.current);
     btnRef.current.disabled = false;
   };
@@ -62,11 +77,15 @@ const TaskPage = () => {
         Start
       </button>
       <button onClick={handleBtnStopTime}>Stop</button>
-      <div>
-        {hours < 10 ? '0' + hours : hours}:
-        {minutes < 10 ? '0' + minutes : minutes}:
-        {seconds < 10 ? '0' + seconds : seconds}
-      </div>
+      {time ? (
+        <div>
+          {hours < 10 ? '0' + hours : hours}:
+          {minutes < 10 ? '0' + minutes : minutes}:
+          {seconds < 10 ? '0' + seconds : seconds}
+        </div>
+      ) : (
+        <p>00:00:00</p>
+      )}
     </div>
   );
 };
