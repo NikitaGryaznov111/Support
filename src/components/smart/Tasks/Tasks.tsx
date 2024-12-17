@@ -1,13 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   getTasksStorage,
   deletedTaskStorage,
   deletedTimeStorage,
 } from '../../../forStorage';
 import { TypeTask } from '../FormTasks/FormTasks';
-import Button from '../../UI/Button';
-import styles from './Task.module.scss';
+import Task from '../../simple/Task/Task';
 type Props = {
   input: TypeTask;
 };
@@ -21,13 +20,13 @@ const Tasks: FC<Props> = (props: Props) => {
     init();
   }, [props.input]);
 
-  const handleDeletedTask: React.MouseEventHandler<HTMLButtonElement> = async (
+  const handleDeletedTask = async (
     e: React.MouseEvent<HTMLButtonElement> | any
   ) => {
     const li = e.currentTarget.parentNode?.parentNode;
-    const nanoId = li.dataset.nanoid;
-    await deletedTaskStorage(nanoId);
-    await deletedTimeStorage(nanoId);
+    const taskId = li.dataset.taskid;
+    await deletedTaskStorage(taskId);
+    await deletedTimeStorage(taskId);
     setTasks(await getTasksStorage());
   };
   return (
@@ -36,26 +35,15 @@ const Tasks: FC<Props> = (props: Props) => {
       {tasks ? (
         <ul>
           {tasks.map(
-            (input: TypeTask) =>
-              userId == input.id &&
-              input.task !== '' && (
-                <li
-                  key={input.taskId}
-                  data-nanoid={input.taskId}
-                  className={styles.taskItem}
-                >
-                  {' '}
-                  <Link to={`/${userId}/tasks/${input.taskId}`}>
-                    <h3>{input.task}</h3>
-                    <p>{input.description}</p>
-                  </Link>
-                  <div className={styles.buttons}>
-                    <Link to={`/${userId}/tasks/editTask/${input.taskId}`}>
-                      <button type="button">Edit</button>
-                    </Link>
-                    <Button onClick={handleDeletedTask}>Delete</Button>
-                  </div>
-                </li>
+            (task: TypeTask) =>
+              userId == task.id &&
+              task.task !== '' && (
+                <Task
+                  key={task.taskId}
+                  task={task}
+                  userId={userId}
+                  onClick={handleDeletedTask}
+                />
               )
           )}
         </ul>
