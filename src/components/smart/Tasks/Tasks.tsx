@@ -6,6 +6,7 @@ import {
   deletedTimeStorage,
 } from '../../../forStorage';
 import { TypeTask } from '../FormTasks/FormTasks';
+import Button from '../../UI/Button';
 import styles from './Task.module.scss';
 type Props = {
   input: TypeTask;
@@ -52,9 +53,7 @@ const Tasks: FC<Props> = (props: Props) => {
                     <Link to={`/${userId}/tasks/editTask/${input.taskId}`}>
                       <button type="button">Edit</button>
                     </Link>
-                    <button onClick={handleDeletedTask} type="button">
-                      Delete
-                    </button>
+                    <Button onClick={handleDeletedTask}>Delete</Button>
                   </div>
                 </li>
               )

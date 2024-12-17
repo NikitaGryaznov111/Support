@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { addTasksStorage, getTasksStorage } from '../../../forStorage';
 import Tasks from '../Tasks/Tasks';
+import Button from '../../UI/Button';
 import { nanoid } from 'nanoid';
 export type TypeTask = {
   task: string;
@@ -59,9 +60,7 @@ const FormTasks: FC = () => {
           id="description"
           onChange={handleInputChange}
         />
-        <button type="button" onClick={handleBtnClick}>
-          Добавить задачу
-        </button>
+        <Button onClick={handleBtnClick}>Добавить задачу</Button>
       </form>
       <Tasks input={input} />
     </>

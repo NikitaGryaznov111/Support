@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { TypeUser } from '../../../api/getUsers';
-import { Link, Outlet } from 'react-router-dom';
+import Users from '../../simple/Users/Users';
 import { addUsersStorage, getUsersStorage } from '../../../forStorage';
 
 const MainPage: FC = () => {
@@ -16,18 +16,7 @@ const MainPage: FC = () => {
   return (
     <div>
       <h1>Main Page</h1>
-      {users ? (
-        <ul>
-          {users.map((user: TypeUser) => (
-            <li key={user.id}>
-              <Link to={`/${user.id}`}>{user.name}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Заргузка пользователей...</p>
-      )}
-      <Outlet />
+      {users ? <Users users={users} /> : <p>Заргузка пользователей...</p>}
     </div>
   );
 };

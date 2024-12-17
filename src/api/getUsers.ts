@@ -14,7 +14,7 @@ export type TypeUser = Partial<{
 async function getUsers(): Promise<TypeUser[]> {
   try {
     const URL = 'https://jsonplaceholder.typicode.com/users';
-    const { data } = await axios.get(URL);
+    const { data } = await axios.get<TypeUser[]>(URL);
     return data;
   } catch (error) {
     console.error('Error fetching users:', error);
