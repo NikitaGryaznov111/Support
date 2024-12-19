@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Form, redirect, useParams } from 'react-router-dom';
 import type { ActionFunction } from 'react-router';
 
-import { getTaskStorage, updateTaskStorage } from '../../../forStorage';
+import { getTaskStorage, updateTaskStorage } from '../../../utils/forStorage';
 import { TypeTask } from '../../smart/FormTasks/FormTasks';
 export type TypeTaskUpdate = Pick<TypeTask, 'task' | 'description'>;
 

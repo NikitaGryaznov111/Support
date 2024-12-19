@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addTasksStorage, getTasksStorage } from '../../../forStorage';
+import { addTasksStorage, getTasksStorage } from '../../../utils/forStorage';
 import Tasks from '../Tasks/Tasks';
 import Button from '../../UI/Button';
 import { nanoid } from 'nanoid';

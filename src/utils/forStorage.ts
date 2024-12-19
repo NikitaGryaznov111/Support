@@ -1,8 +1,8 @@
-import getUsers, { TypeUser } from './api/getUsers';
+import getUsers, { TypeUser } from '../api/getUsers';
 import localforage from 'localforage';
-import { TypeTask } from './components/smart/FormTasks/FormTasks';
-import { TypeTaskUpdate } from './components/pages/EditTaskPage/EditTaskPage';
-import { TypeTime } from './components/pages/TaskPage/TaskPage';
+import { TypeTask } from '../components/smart/FormTasks/FormTasks';
+import { TypeTaskUpdate } from '../components/pages/EditTaskPage/EditTaskPage';
+import { TypeTime } from '../components/pages/TaskPage/TaskPage';
 export const getUsersStorage = async (): Promise<TypeUser[]> => {
   const usersStorage = (await localforage.getItem('users')) as TypeUser[];
   return usersStorage;

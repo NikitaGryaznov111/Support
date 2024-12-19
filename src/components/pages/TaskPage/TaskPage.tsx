@@ -5,7 +5,7 @@ import {
   getTaskStorage,
   addTimeStorage,
   getTimeStorage,
-} from '../../../forStorage';
+} from '../../../utils/forStorage';
 import styles from './TaskPage.module.scss';
 export type TypeTime = {
   hours: number;
@@ -55,8 +55,9 @@ const TaskPage: FC = () => {
     timerRef.current = await setInterval(() => {
       setTime((prevTime) => ({
         hours: prevTime.hours + Math.floor(prevTime.seconds / 3600),
-        minutes: prevTime.minutes + Math.floor((prevTime.seconds % 3600) / 59),
-        seconds: (prevTime.seconds % 59) + 1,
+        minutes: prevTime.minutes + Math.floor((prevTime.seconds % 3600) / 60),
+        // 59, 60, 01
+        seconds: (prevTime.seconds % 60) + 1,
         taskId,
       }));
     }, 1000);

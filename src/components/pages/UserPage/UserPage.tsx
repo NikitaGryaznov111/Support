@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { getUserStorage } from '../../../forStorage';
+import { getUserStorage } from '../../../utils/forStorage';
 import { TypeUser } from '../../../api/getUsers';
 import Button from '../../UI/Button';
 export type UserId = {

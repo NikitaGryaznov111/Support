@@ -4,10 +4,10 @@ import {
   getTasksStorage,
   deletedTaskStorage,
   deletedTimeStorage,
-} from '../../../forStorage';
+} from '../../../utils/forStorage';
 import { TypeTask } from '../FormTasks/FormTasks';
 import Task from '../../simple/Task/Task';
-import AllTimeTasks from '../../simple/AllTimeTasks';
+import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 type Props = {
   input: TypeTask;
 };
