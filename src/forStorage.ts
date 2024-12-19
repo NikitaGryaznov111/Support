@@ -112,8 +112,24 @@ export const getTimeStorage = async (taskId: TypeTime['taskId']) => {
   }
 };
 
-export const deletedTimeStorage = async (nanoId: string) => {
+export const deletedTimeStorage = async (taskId: string) => {
   const timeStorage = (await localforage.getItem('time')) as TypeTime[];
-  const tasks = timeStorage.filter((time) => time.taskId !== nanoId);
+  const tasks = timeStorage.filter((time) => time.taskId !== taskId);
   localforage.setItem('time', tasks);
+};
+
+export const getAllTimesTasksStorage = async (
+  userId: TypeTask['id']
+): Promise<TypeTime[]> => {
+  const tasksStorage = (await localforage.getItem('tasks')) as TypeTask[];
+  const timeStorage = (await localforage.getItem('time')) as TypeTime[];
+  const tasks = tasksStorage.filter((task) => task.id === userId);
+  let fullTimeForTheUser: TypeTime[] = [];
+
+  for (let i = 0; i < tasks.length; i++) {
+    timeStorage.map((time) => {
+      if (tasks[i].taskId === time.taskId) fullTimeForTheUser.push(time);
+    });
+  }
+  return fullTimeForTheUser;
 };

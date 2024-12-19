@@ -6,7 +6,6 @@ import {
   addTimeStorage,
   getTimeStorage,
 } from '../../../forStorage';
-import Button from '../../UI/Button';
 import styles from './TaskPage.module.scss';
 export type TypeTime = {
   hours: number;
@@ -19,7 +18,7 @@ const TaskPage: FC = () => {
   const { taskId } = useParams();
   const [task, setTask] = useState<TypeTask>();
   const timerRef = useRef() as { current: number };
-  const btnRef = useRef() as any;
+  const btnRef = useRef<HTMLButtonElement | null>(null);
   const [time, setTime] = useState<TypeTime>({
     hours: 0,
     minutes: 3,
@@ -52,7 +51,7 @@ const TaskPage: FC = () => {
   const handleBtnStartTime: React.MouseEventHandler<
     HTMLButtonElement
   > = async () => {
-    btnRef.current.disabled = true;
+    btnRef.current!.disabled = true;
     timerRef.current = await setInterval(() => {
       setTime((prevTime) => ({
         hours: prevTime.hours + Math.floor(prevTime.seconds / 3600),
@@ -64,7 +63,7 @@ const TaskPage: FC = () => {
   };
   const handleBtnStopTime: React.MouseEventHandler<HTMLButtonElement> = () => {
     clearInterval(timerRef.current);
-    btnRef.current.disabled = false;
+    btnRef.current!.disabled = false;
   };
   const { hours, minutes, seconds } = time;
   return (

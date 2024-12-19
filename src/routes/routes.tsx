@@ -1,4 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
+import type { ActionFunction } from 'react-router';
+
 import MainPage from '../components/pages/MainPage/MainPage';
 import UserPage, { UserId } from '../components/pages/UserPage/UserPage';
 import TasksPage from '../components/pages/TasksPage/TasksPage';
@@ -35,7 +37,7 @@ const routesConfig: RoutesConfig[] = [
   {
     path: '/:userId/tasks/editTask/:editTaskId',
     element: <EditTaskPage />,
-    action: editTaskAction as ({ params }?: UserId) => any,
+    action: editTaskAction as any,
   },
   {
     path: '/:userId/tasks/:taskId',

@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Form, redirect, useParams } from 'react-router-dom';
+import type { ActionFunction } from 'react-router';
+
 import { getTaskStorage, updateTaskStorage } from '../../../forStorage';
 import { TypeTask } from '../../smart/FormTasks/FormTasks';
 export type TypeTaskUpdate = Pick<TypeTask, 'task' | 'description'>;
 
-export const action = async ({ request, params }: any): Promise<any> => {
+export const action: ActionFunction = async ({
+  request,
+  params,
+}): Promise<any> => {
   const { userId, editTaskId } = params;
   const formData = await request.formData();
   const updates = Object.fromEntries(formData) as TypeTaskUpdate;
@@ -14,7 +19,6 @@ export const action = async ({ request, params }: any): Promise<any> => {
 const EditTaskPage = () => {
   const [input, setInput] = useState<TypeTask>();
   const { editTaskId } = useParams();
-  console.log(editTaskId);
   useEffect(() => {
     const init = async () => {
       setInput(await getTaskStorage(editTaskId));
