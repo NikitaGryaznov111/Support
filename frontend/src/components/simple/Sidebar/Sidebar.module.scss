@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Evolventa';
+  src: url('../../../assets/fonts/CrossdresserFutoPopGothic-q28Gr.ttf');
+}
+@import '../../../styles/variables.scss';
+.wrap {
+  min-height: 100vh;
+  background-color: rgb(3, 37, 96);
+  padding-top: 10px;
+  color: $colorTextSidebar;
+  min-width: 160px;
+}
+.sideBar {
+  position: sticky;
+  top: 5px;
+}
+.sideBarHeader {
+  font-family: 'Evolventa';
+  padding: 0 10px;
+}
+.sideBarNav {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  color: white;
+  margin-top: 20px;
+
+  & > a {
+    padding: 0 15px;
+    &.active {
+      font-weight: bold;
+      background-color: $colorNavActive;
+    }
+
+    &:hover {
+      background-color: $colorNavHover;
+      transition: 0.1s;
+    }
+  }
+}

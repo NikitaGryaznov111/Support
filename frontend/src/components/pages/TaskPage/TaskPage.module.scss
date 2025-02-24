@@ -1,0 +1,18 @@
+@import '../../../styles/templateBase.scss';
+.taskPage {
+  @include wrapperPage;
+}
+
+.taskPageHeader {
+  @include flex-between;
+  border-bottom: 1px solid rgba(64, 56, 56, 0.2);
+  & h3 {
+    font-weight: bold;
+    font-size: 17px;
+  }
+}
+.taskPageButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}

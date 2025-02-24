@@ -1,0 +1,15 @@
+@import '../../../styles/templateBase.scss';
+.userPage {
+  @include wrapperPage;
+}
+.userPageHeader {
+  @include flex-between;
+}
+.active {
+  & > button {
+    background: transparent;
+    color: gray !important;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    margin-bottom: 15px;
+  }
+}
