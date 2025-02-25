@@ -12,10 +12,8 @@ const Users: FC<TypeUsersProps> = ({ users }: TypeUsersProps) => {
       <h1>Список пользователей:</h1>
       <ul>
         {users.map((user: TypeUser) => (
-          <li className={styles.usersItem} key={user.id}>
-            <Link to={`/${user.id}`}>
-              {user.id}. {user.name}
-            </Link>
+          <li className={styles.usersItem} key={user._id}>
+            <Link to={`/${user.userId}`}>{user.email}</Link>
           </li>
         ))}
       </ul>

@@ -1,24 +1,6 @@
-import getUsers from '../api/getUsers';
 import localforage from 'localforage';
-import { TypeTask, TypeTaskUpdate, TypeTime, TypeUser } from './types';
-export const getUsersStorage = async (): Promise<TypeUser[]> => {
-  const usersStorage = (await localforage.getItem('users')) as TypeUser[];
-  return usersStorage;
-};
+import { TypeTask, TypeTaskUpdate, TypeTime } from './types';
 
-export const addUsersStorage = () => {
-  getUsers().then((users) => localforage.setItem('users', users));
-};
-
-export const getUserStorage = async (
-  userId: TypeUser['id']
-): Promise<TypeUser | undefined> => {
-  const usersStorage = (await localforage.getItem('users')) as TypeUser[];
-  const user = usersStorage.find((person: TypeUser): boolean => {
-    return Number(person.id) === Number(userId);
-  });
-  return user;
-};
 let arrayTasksStorage: TypeTask[] | any[] = [];
 
 export const addTasksStorage = async (

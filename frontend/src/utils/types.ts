@@ -10,17 +10,12 @@ export type TypeTime = {
   seconds: number;
   taskId?: string;
 };
-export type TypeUser = Partial<{
-  id: string;
-  name: string;
+export type TypeUser = {
+  _id: string;
   email: string;
-  adress: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-  };
-}>;
+  password: string;
+  userId: string;
+};
 export type TypeTaskUpdate = Pick<TypeTask, 'task' | 'description'>;
 
 export type TypeTaskProps = {
@@ -38,11 +33,11 @@ export type TypePropsForm = {
   text: string;
 };
 
-export type TYpeRoutesConfig = {
+export type TypeRoutesConfig = {
   path: string;
   element: React.ReactElement;
   loader?: () => any;
   action?: () => any;
-  children?: TYpeRoutesConfig[];
+  children?: TypeRoutesConfig[];
   errorElement?: React.ReactElement;
 };

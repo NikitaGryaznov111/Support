@@ -1,6 +1,6 @@
 import UserModel from '../models/user-models.js';
 import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 
 class UserServices {
   async registration(email, password) {
@@ -10,7 +10,7 @@ class UserServices {
         throw new Error(`Пользователь с таким ${email} уже существует`);
       }
       const hashedPassword = await bcrypt.hash(password, 3);
-      const userId = uuidv4();
+      const userId = nanoid(6);
       const user = await UserModel.create({
         userId,
         email,
