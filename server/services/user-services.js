@@ -21,6 +21,18 @@ class UserServices {
       throw new Error('Ошибка в сервисе пользователя');
     }
   }
+  async login(email, password) {
+    try {
+    } catch (error) {}
+  }
+  async getUsers() {
+    try {
+      const users = await UserModel.find();
+      return users;
+    } catch (error) {
+      throw new Error('Ошибка при получении списка пользователей');
+    }
+  }
 }
 
 export default new UserServices();

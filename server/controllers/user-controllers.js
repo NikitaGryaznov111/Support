@@ -18,6 +18,8 @@ class UserController {
   }
   async getUsers(req, res, next) {
     try {
+      const users = await userServices.getUsers();
+      return res.json(users);
     } catch (error) {
       res.status(500).json({ message: 'Server error' });
     }
