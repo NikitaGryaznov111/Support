@@ -1,7 +1,8 @@
-import UserModel from '../models/user-models.js';
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
-
+import UserModel from '../models/user-models.js';
+import TokenService from './token-services.js';
+import { UserDto } from '../dto/user-dto.js';
 class UserServices {
   async registration(email, password) {
     try {
@@ -16,7 +17,12 @@ class UserServices {
         email,
         password: hashedPassword,
       });
-      return user;
+      const userDto = new UserDto(user);
+      const token = TokenService.generateTokens({ ...userDto });
+      return {
+        ...token,
+        user: userDto,
+      };
     } catch (error) {
       throw new Error('Ошибка в сервисе пользователя');
     }
