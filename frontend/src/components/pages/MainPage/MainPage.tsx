@@ -14,7 +14,6 @@ const MainPage: FC = () => {
     };
     init();
   }, []);
-  console.log(users);
   return (
     <div className="flex">
       <Sidebar />

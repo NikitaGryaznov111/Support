@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const UserModel = new mongoose.Schema({
   userId: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
   email: {
     type: String,
     required: true,

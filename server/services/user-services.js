@@ -4,16 +4,17 @@ import UserModel from '../models/user-models.js';
 import TokenService from './token-services.js';
 import { UserDto } from '../dto/user-dto.js';
 class UserServices {
-  async registration(email, password) {
+  async registration(name, email, password) {
     try {
-      const candidate = await UserModel.findOne({ email });
+      const candidate = await UserModel.findOne({ name });
       if (candidate) {
-        throw new Error(`Пользователь с таким ${email} уже существует`);
+        throw new Error(`Пользователь с таким ${name} уже существует`);
       }
       const hashedPassword = await bcrypt.hash(password, 3);
       const userId = nanoid(6);
       const user = await UserModel.create({
         userId,
+        name,
         email,
         password: hashedPassword,
       });

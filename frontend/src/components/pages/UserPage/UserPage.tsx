@@ -30,7 +30,7 @@ const UserPage: FC = () => {
       ) : (
         <div className={styles.userPage}>
           <div className={styles.userPageHeader}>
-            <h1>{user.email}</h1>
+            <h1>{user.name}</h1>
             <Link to={'/'}>
               <Button>Закрыть</Button>
             </Link>

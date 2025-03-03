@@ -1,7 +1,14 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 import { FC } from 'react';
+import { TypePath, TypeUser } from '../../../utils/types';
+import AuthServices from '../../../api/AuthServices';
+
+const getUser = async (): Promise<TypeUser> => {
+  return await AuthServices.getUser();
+};
 const Sidebar: FC = () => {
+  // надо будет получить юзера из бд и получить потом его userId
   return (
     <div className={styles.wrap}>
       <div className={styles.sideBar}>

@@ -3,8 +3,8 @@ import userServices from '../services/user-services.js';
 class UserController {
   async registration(req, res, next) {
     try {
-      const { email, password } = req.body;
-      const user = await userServices.registration(email, password);
+      const { name, email, password } = req.body;
+      const user = await userServices.registration(name, email, password);
       return res.json(user);
     } catch (error) {
       res.status(500).json({ message: 'Server error' });

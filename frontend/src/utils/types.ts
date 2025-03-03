@@ -12,6 +12,7 @@ export type TypeTime = {
 };
 export type TypeUser = {
   _id: string;
+  name: string;
   email: string;
   password: string;
   userId: string;
@@ -40,4 +41,9 @@ export type TypeRoutesConfig = {
   action?: () => any;
   children?: TypeRoutesConfig[];
   errorElement?: React.ReactElement;
+};
+export type TypePath = {
+  userId?: string;
+  editTaskId?: string;
+  taskId?: string;
 };
