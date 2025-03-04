@@ -3,7 +3,9 @@ import AuthServices from '../../../api/AuthServices';
 import styles from './AuthStyles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/store';
-import { setToken } from '../../../store/parts/authSlice';
+import { getUser } from '../../../store/parts/authSlice';
+import { TypeRegisterUser } from '../../../utils/types';
+import { AxiosResponse } from 'axios';
 const Registration = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -14,10 +16,11 @@ const Registration = () => {
   });
   const handleSubmitEvent = async (event: any) => {
     event.preventDefault();
-    const newUser = await AuthServices.registerUser(input);
+    const newUser: AxiosResponse<TypeRegisterUser> | null =
+      await AuthServices.registerUser(input);
     if (newUser) {
       localStorage.setItem('token', newUser.data.accessToken);
-      dispatch(setToken(true));
+      dispatch(getUser(newUser.data));
       navigate(`/${newUser.data.user.userId}`);
     } else {
       alert('Такой пользваотель уже существует');

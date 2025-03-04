@@ -11,7 +11,7 @@ export type TypeTime = {
   taskId?: string;
 };
 export type TypeUser = {
-  _id: string;
+  _id?: string;
   name: string;
   email: string;
   password: string;
@@ -46,4 +46,9 @@ export type TypePath = {
   userId?: string;
   editTaskId?: string;
   taskId?: string;
+};
+
+export type TypeRegisterUser = {
+  accessToken: string;
+  user: TypeUser;
 };

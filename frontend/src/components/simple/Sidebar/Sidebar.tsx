@@ -1,14 +1,12 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 import { FC } from 'react';
-import { TypePath, TypeUser } from '../../../utils/types';
-import AuthServices from '../../../api/AuthServices';
+import { useAppSelector } from '../../../store/store';
 
-const getUser = async (): Promise<TypeUser> => {
-  return await AuthServices.getUser();
-};
 const Sidebar: FC = () => {
-  // надо будет получить юзера из бд и получить потом его userId
+  const userRegister = useAppSelector((state) => state.auth);
+  const { user } = userRegister;
+
   return (
     <div className={styles.wrap}>
       <div className={styles.sideBar}>
@@ -23,13 +21,13 @@ const Sidebar: FC = () => {
           <NavLink
             className={({ isActive }) => (isActive ? `${styles.active}` : '')}
             end={true}
-            to={'/2'}
+            to={`/${user.userId}`}
           >
             Моя страница
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? `${styles.active}` : '')}
-            to={'/2/tasks'}
+            to={`/${user.userId}/tasks`}
           >
             Мои задачи
           </NavLink>

@@ -24,6 +24,14 @@ class UserController {
       res.status(500).json({ message: 'Server error' });
     }
   }
+  async getUser(req, res, next) {
+    try {
+      const users = await userServices.getUser();
+      return res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
 }
 
 export default new UserController();
