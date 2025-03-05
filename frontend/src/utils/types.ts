@@ -48,7 +48,8 @@ export type TypePath = {
   taskId?: string;
 };
 
-export type TypeRegisterUser = {
+export type TypeAuthUser = {
   accessToken: string;
   user: TypeUser;
+  validPassword?: boolean;
 };

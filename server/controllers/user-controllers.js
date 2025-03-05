@@ -12,6 +12,9 @@ class UserController {
   }
   async login(req, res, next) {
     try {
+      const { name, password } = req.body;
+      const user = await userServices.login(name, password);
+      return res.json(user);
     } catch (error) {
       res.status(500).json({ message: 'Server error' });
     }
@@ -19,14 +22,6 @@ class UserController {
   async getUsers(req, res, next) {
     try {
       const users = await userServices.getUsers();
-      return res.json(users);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-    }
-  }
-  async getUser(req, res, next) {
-    try {
-      const users = await userServices.getUser();
       return res.json(users);
     } catch (error) {
       res.status(500).json({ message: 'Server error' });

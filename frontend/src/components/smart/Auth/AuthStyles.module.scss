@@ -1,6 +1,22 @@
 @import '../../../styles/templateBase.scss';
 @import '../../../styles/variables.scss';
 
+.logoutBtn {
+  position: fixed;
+  bottom: 0;
+  border: 1px solid #e4e4e4;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #fafafa 0, #f2f2f2 100%);
+  padding: 8px 15px;
+  color: $colorTextButton;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    background: transparent;
+    color: white;
+  }
+}
 .navAuth {
   display: flex;
   flex-direction: column;
@@ -12,14 +28,14 @@
   height: 100vh;
   background-color: rgb(3, 37, 96);
 }
-.registrationWrapper {
+.wrapper {
   width: 100vw;
   height: 100vh;
   background-color: rgb(3, 37, 96);
   display: flex;
   align-items: center;
 }
-.registrationForm {
+.form {
   color: white;
   text-align: center;
   border: 1px solid #e4e4e4;

@@ -2,13 +2,10 @@ import { useState } from 'react';
 import AuthServices from '../../../api/AuthServices';
 import styles from './AuthStyles.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../store/store';
-import { getUser } from '../../../store/parts/authSlice';
-import { TypeRegisterUser } from '../../../utils/types';
+import { TypeAuthUser } from '../../../utils/types';
 import { AxiosResponse } from 'axios';
 const Registration = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [input, setInput] = useState({
     name: '',
     email: '',
@@ -16,11 +13,11 @@ const Registration = () => {
   });
   const handleSubmitEvent = async (event: any) => {
     event.preventDefault();
-    const newUser: AxiosResponse<TypeRegisterUser> | null =
+    const newUser: AxiosResponse<TypeAuthUser> | null =
       await AuthServices.registerUser(input);
     if (newUser) {
       localStorage.setItem('token', newUser.data.accessToken);
-      dispatch(getUser(newUser.data));
+      localStorage.setItem('userId', newUser.data.user.userId);
       navigate(`/${newUser.data.user.userId}`);
     } else {
       alert('Такой пользваотель уже существует');
@@ -43,11 +40,11 @@ const Registration = () => {
     }
   };
   return (
-    <div className={styles.registrationWrapper}>
-      <form onSubmit={handleSubmitEvent} className={styles.registrationForm}>
-        <h4 className={styles.registrationFormHeader}>Регистрация</h4>
+    <div className={styles.wrapper}>
+      <form onSubmit={handleSubmitEvent} className={styles.form}>
+        <h4 className={styles.formHeader}>Регистрация</h4>
         <div className="form_control">
-          <label htmlFor="user-name">Name:</label>
+          <label htmlFor="user-name">Имя:</label>
           <input
             value={input.name}
             type="text"
@@ -55,10 +52,9 @@ const Registration = () => {
             name="name"
             onChange={handleInput}
           />
-          <div id="user-email" className="sr-only"></div>
         </div>
         <div className="form_control">
-          <label htmlFor="user-email">Email:</label>
+          <label htmlFor="user-email">Электронная почта:</label>
           <input
             value={input.email}
             type="email"
@@ -67,10 +63,9 @@ const Registration = () => {
             placeholder="example@yahoo.com"
             onChange={handleInput}
           />
-          <div id="user-email" className="sr-only"></div>
         </div>
         <div className="form_control">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Пароль:</label>
           <input
             value={input.password}
             type="password"
@@ -78,10 +73,9 @@ const Registration = () => {
             name="password"
             onChange={handleInput}
           />
-          <div id="user-password" className="sr-only"></div>
         </div>
 
-        <button type="submit" className={styles.registrationFormButton}>
+        <button type="submit" className={styles.formButton}>
           Зарегистрироваться
         </button>
       </form>

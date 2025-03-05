@@ -6,11 +6,7 @@ export default class AuthServices {
       .get('http://localhost:5000/api/users')
       .then((res) => res.data);
   }
-  static async getUser(): Promise<TypeUser> {
-    return await axios
-      .get('http://localhost:5000/api/user')
-      .then((res) => res.data);
-  }
+
   static async registerUser(user: {
     name: string;
     email: string;
@@ -20,6 +16,15 @@ export default class AuthServices {
       return await axios.post('http://localhost:5000/api/registration', user);
     } catch (error) {
       console.error('Error registering user:', error);
+      return null;
+    }
+  }
+
+  static async login(user: { name: string; password: string }) {
+    try {
+      return await axios.post('http://localhost:5000/api/login', user);
+    } catch (error) {
+      console.error('Error login user:', error);
       return null;
     }
   }

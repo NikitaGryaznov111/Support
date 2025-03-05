@@ -28,8 +28,23 @@ class UserServices {
       throw new Error('Ошибка в сервисе пользователя');
     }
   }
-  async login(email, password) {
+  async login(name, password) {
     try {
+      const user = await UserModel.findOne({ name });
+      if (!user) {
+        return 'Пользователь с таким именем не найден';
+      }
+      const validPassword = bcrypt.compareSync(password, user.password);
+      if (!validPassword) {
+        return 'Неверный пароль';
+      }
+      const userDto = new UserDto(user);
+      const token = TokenService.generateTokens({ ...userDto });
+      return {
+        validPassword,
+        ...token,
+        user: userDto,
+      };
     } catch (error) {}
   }
   async getUsers() {
