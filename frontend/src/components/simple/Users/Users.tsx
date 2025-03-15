@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeUser } from '../../../utils/types';
 import styles from './Users.module.scss';
+import Search from '../../smart/Search/Search';
 type TypeUsersProps = {
   users: TypeUser[];
 };
@@ -17,6 +18,7 @@ const Users: FC<TypeUsersProps> = ({ users }: TypeUsersProps) => {
           </li>
         ))}
       </ul>
+      <Search />
     </div>
   );
 };
