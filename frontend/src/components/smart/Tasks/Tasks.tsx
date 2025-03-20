@@ -1,10 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  getTasksUserStorage,
-  deletedTaskStorage,
-  deletedTimeStorage,
-} from '../../../utils/forStorage';
+import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
 import { TypeTask } from '../../../utils/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
@@ -19,13 +15,13 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   useEffect(() => {
     const init = async () => {
       if (!tasks?.length) setCheckedAll(false);
-      setTasks(await getTasksUserStorage(userId));
+      setTasks(await StorageTasks.getTasksUser(userId));
     };
     init();
   }, [props.state]);
   useEffect(() => {
     const init = async () => {
-      setTasks(await getTasksUserStorage(userId));
+      setTasks(await StorageTasks.getTasksUser(userId));
     };
     init();
   }, [toggle, userId]);
@@ -40,11 +36,11 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
       const taskId = (li as HTMLLIElement).dataset.taskid;
       const inputChecked = li.firstChild as HTMLInputElement;
       if (inputChecked.checked) {
-        await deletedTaskStorage(taskId);
-        await deletedTimeStorage(taskId as string);
+        await StorageTasks.deletedTask(taskId);
+        await StorageTimeTask.deletedTime(taskId as string);
       }
     }
-    setTasks(await getTasksUserStorage(userId));
+    setTasks(await StorageTasks.getTasksUser(userId));
   };
   const updateToggle = () => setToggle(!toggle);
   return (

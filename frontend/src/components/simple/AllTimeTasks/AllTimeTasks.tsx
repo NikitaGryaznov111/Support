@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { getAllTimesTasksStorage } from '../../../utils/forStorage';
+import { StorageTimeTask } from '../../../utils/forStorage';
 import { FC, useEffect, useState } from 'react';
 import { TypeTime } from '../../../utils/types';
 import { getAllTimes } from '../../../utils/getAllTimes';
@@ -10,7 +10,7 @@ const AllTimeTasks: FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      setAllTimes(await getAllTimesTasksStorage(userId));
+      setAllTimes(await StorageTimeTask.getFullTimeUser(userId));
     };
     init();
   }, []);

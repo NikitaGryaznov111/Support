@@ -17,7 +17,6 @@ export type TypeUser = {
   password: string;
   userId: string;
 };
-export type TypeTaskUpdate = Pick<TypeTask, 'task' | 'description'>;
 
 export type TypeTaskProps = {
   task: TypeTask;

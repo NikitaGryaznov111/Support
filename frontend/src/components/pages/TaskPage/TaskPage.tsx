@@ -1,11 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask, TypeTime } from '../../../utils/types';
-import {
-  getTaskStorage,
-  addTimeStorage,
-  getTimeStorage,
-} from '../../../utils/forStorage';
+import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from './TaskPage.module.scss';
@@ -26,7 +22,7 @@ const TaskPage: FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      setTask(await getTaskStorage(taskId));
+      setTask(await StorageTasks.getTask(taskId));
     };
     init();
   }, []);
@@ -34,7 +30,7 @@ const TaskPage: FC = () => {
   useEffect(() => {
     const init = async () => {
       if (time.seconds === 0) {
-        const data = (await getTimeStorage(taskId)) as TypeTime;
+        const data = (await StorageTimeTask.getTime(taskId)) as TypeTime;
         setTime(data);
       }
     };
@@ -42,7 +38,7 @@ const TaskPage: FC = () => {
   }, []);
   useEffect(() => {
     const init = async () => {
-      await addTimeStorage(time, taskId);
+      await StorageTimeTask.addTime(time, taskId);
     };
     init();
   }, [time]);

@@ -1,7 +1,7 @@
 import { FC, useActionState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { addTasksStorage, getAllTasksStorage } from '../../../utils/forStorage';
+import { StorageTasks } from '../../../utils/forStorage';
 import Tasks from '../../smart/Tasks/Tasks';
 import Form from '../../UI/Form/Form';
 import { TypeTask } from '../../../utils/types';
@@ -31,8 +31,8 @@ const TasksPage: FC = () => {
       id: userId,
       taskId: nanoId,
     };
-    const tasks = await getAllTasksStorage();
-    await addTasksStorage(newTask, tasks);
+    const tasks = await StorageTasks.getTasksStorage();
+    await StorageTasks.addTasks(newTask, tasks as TypeTask[]);
     formRef.current?.reset();
     return newTask;
   }
