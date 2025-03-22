@@ -12,7 +12,6 @@ type TypeFormData = {
 const TasksPage: FC = () => {
   const nanoId = nanoid(6);
   const { userId } = useParams();
-  const formRef = useRef<HTMLFormElement>(null);
   const [state, formAction] = useActionState<TypeTask>(handleBtnClick as any, {
     task: '',
     description: '',
@@ -33,7 +32,6 @@ const TasksPage: FC = () => {
     };
     const tasks = await StorageTasks.getTasksStorage();
     await StorageTasks.addTasks(newTask, tasks as TypeTask[]);
-    formRef.current?.reset();
     return newTask;
   }
   return (

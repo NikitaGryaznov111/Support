@@ -1,0 +1,11 @@
+@import '../../../styles/templateBase.scss';
+.modal {
+  transform: scale(0);
+  @include modal;
+}
+
+.modalActive {
+  transition: 0.5s;
+  transform: scale(1);
+  @include modal;
+}

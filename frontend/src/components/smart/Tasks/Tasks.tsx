@@ -5,8 +5,10 @@ import { TypeTask } from '../../../utils/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
+import Modal from '../../UI/Modal/Modal';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
+  const [modalActive, setModalActive] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
   const { userId } = useParams<string>();
@@ -26,21 +28,34 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     init();
   }, [toggle, userId]);
 
-  const handleDeletedCheckedTask = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    const ul = (e.target as HTMLButtonElement)
-      .previousElementSibling as HTMLUListElement;
-    const arrayLi: HTMLCollection = ul.children;
-    for (let li of arrayLi) {
+  // ДВЕ НИЖНИЕ ФУНКЦИИ ИМЕЮТ ПОХОЖИЙ КОД, ОПТИМИЗИРУЙ!!!
+
+  const handleDeletedCheckedTask = async (): Promise<void> => {
+    const ul = listTask.current;
+    const inputs = ul?.getElementsByTagName('input');
+    for (let input of inputs!) {
+      const li = input.closest('li');
       const taskId = (li as HTMLLIElement).dataset.taskid;
-      const inputChecked = li.firstChild as HTMLInputElement;
-      if (inputChecked.checked) {
+      if (input.checked) {
         await StorageTasks.deletedTask(taskId);
         await StorageTimeTask.deletedTime(taskId as string);
       }
     }
     setTasks(await StorageTasks.getTasksUser(userId));
+  };
+
+  const handleSaveTasksProject = () => {
+    const ul = listTask.current;
+    const inputs = ul?.getElementsByTagName('input');
+    for (let input of inputs!) {
+      const li = input.closest('li');
+      const taskId = (li as HTMLLIElement).dataset.taskid;
+      if (input.checked) {
+        setModalActive(!modalActive);
+        // добавлю в стор-массив все лишки
+        // при нажатии на кнопку будет открывать модадьное окно, где будут отображаться имена проектов и будет возможность либо создать новый проект и добавить туда выделенные задачи, либо либо добавить выделенные задачи в уже имеющийся проект
+      }
+    }
   };
   const updateToggle = () => setToggle(!toggle);
   return (
@@ -76,11 +91,15 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
               ))}
             </ul>
             <Button onClick={handleDeletedCheckedTask}>Удалить задачи</Button>
+            <Button onClick={handleSaveTasksProject}>
+              Добавить задачи в проект
+            </Button>
           </form>
         </div>
       ) : (
         <p>Задачи отсутствуют!</p>
       )}
+      <Modal modalActive={modalActive} />
     </>
   );
 };
