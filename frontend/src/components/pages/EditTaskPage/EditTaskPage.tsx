@@ -1,12 +1,9 @@
 import { FC, useActionState, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StorageTasks } from '../../../utils/forStorage';
-import { TypeTask } from '../../../utils/types';
+import { TypeTask, TypeFormData } from '../../../utils/types';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Form from '../../UI/Form/Form';
-type TypeFormData = {
-  get: (name: string) => string;
-};
 
 const EditTaskPage: FC = () => {
   const navigate = useNavigate();

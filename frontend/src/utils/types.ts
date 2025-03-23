@@ -52,3 +52,19 @@ export type TypeAuthUser = {
   user: TypeUser;
   validPassword?: boolean;
 };
+
+export type TypeProject = {
+  name: string;
+  projectId: string;
+  tasks: Array<HTMLLIElement>;
+};
+
+export type TypePropsModal = {
+  modalActive: boolean;
+  selectedTasksProject: HTMLLIElement[];
+  closeModal: () => void;
+};
+
+export type TypeFormData = {
+  get: (name: string) => string;
+};
