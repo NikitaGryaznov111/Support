@@ -11,6 +11,7 @@ import NavAuth from '../components/smart/Auth/NavAuth';
 import Login from '../components/smart/Auth/Login';
 import Registration from '../components/smart/Auth/Registration';
 import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
+import ProjectPage from '../components/pages/ProjectPage/ProjectPage';
 
 const routesConfig: TypeRoutesConfig[] = [
   {
@@ -60,6 +61,16 @@ const routesConfig: TypeRoutesConfig[] = [
       {
         path: '/:userId/tasks/:taskId',
         element: <TaskPage />,
+      },
+    ],
+  },
+  {
+    path: '/:userId/projects/:projectId',
+    element: <PrivateRouter />,
+    children: [
+      {
+        path: '/:userId/projects/:projectId',
+        element: <ProjectPage />,
       },
     ],
   },

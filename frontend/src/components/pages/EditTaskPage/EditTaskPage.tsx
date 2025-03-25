@@ -10,7 +10,7 @@ const EditTaskPage: FC = () => {
   const [task, setInput] = useState<TypeTask>();
   const { editTaskId, userId } = useParams();
   const [state, formAction] = useActionState<TypeTask>(handleSubmit as any, {
-    task: '',
+    taskName: '',
     description: '',
   });
 
@@ -23,7 +23,7 @@ const EditTaskPage: FC = () => {
 
   async function handleSubmit(prevState: TypeTask, formData: TypeFormData) {
     const updates: TypeTask = {
-      task: formData.get('task'),
+      taskName: formData.get('taskName'),
       description: formData.get('description'),
     };
     await StorageTasks.updateTask(editTaskId, updates);
@@ -35,7 +35,7 @@ const EditTaskPage: FC = () => {
       {task && (
         <Form
           formAction={formAction}
-          defaultValueName={task.task}
+          defaultValueName={task.taskName}
           defaultValueDescription={task.description}
           text={'Редактировать'}
         ></Form>

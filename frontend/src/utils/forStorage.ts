@@ -129,4 +129,9 @@ export abstract class StorageProjects {
       await localforage.setItem('projects', [project]);
     }
   }
+  static async getProject(projectId: string): Promise<TypeProject> {
+    const projects = await this.getProjects();
+    const project = projects.find((project) => project.projectId === projectId);
+    return project as TypeProject;
+  }
 }

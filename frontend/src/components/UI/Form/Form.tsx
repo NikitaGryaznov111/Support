@@ -15,7 +15,7 @@ const Form: FC<TypePropsForm> = ({
       <input
         className={styles.input}
         type="text"
-        name="task"
+        name="taskName"
         placeholder="Name task..."
         defaultValue={defaultValueName}
       />

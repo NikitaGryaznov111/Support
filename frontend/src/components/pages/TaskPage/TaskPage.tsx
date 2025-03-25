@@ -69,7 +69,7 @@ const TaskPage: FC = () => {
       <div className={styles.taskPage}>
         <div className={styles.taskPageHeader}>
           <div>
-            <h3>{task?.task}</h3>
+            <h3>{task?.taskName}</h3>
             <p>{task?.description}</p>
           </div>
           {time ? (

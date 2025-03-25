@@ -21,7 +21,7 @@ const Task: FC<TypeTaskProps> = ({
     const li = (e.target as HTMLButtonElement).closest('li') as HTMLLIElement;
     const taskId = li.dataset.taskid;
     await StorageTasks.deletedTask(taskId);
-    await StorageTimeTask.deletedTime(taskId as string);
+    await StorageTimeTask.deletedTime(taskId);
     updateToggle();
   };
   return (
@@ -35,7 +35,7 @@ const Task: FC<TypeTaskProps> = ({
       <Link to={`/${userId}/tasks/${task.taskId}`} className={styles.taskLink}>
         <h3 className={styles.taskHeader}>
           <span className={styles.taskIndex}>{index + 1}.</span>
-          <span>{task.task}</span>
+          <span>{task.taskName}</span>
         </h3>
         <p>{task.description}</p>
       </Link>

@@ -1,5 +1,5 @@
 export type TypeTask = {
-  task: string;
+  taskName: string;
   description: string;
   id?: string;
   taskId?: string;

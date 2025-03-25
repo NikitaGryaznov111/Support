@@ -13,19 +13,19 @@ const TasksPage: FC = () => {
   const nanoId = nanoid(6);
   const { userId } = useParams();
   const [state, formAction] = useActionState<TypeTask>(handleBtnClick as any, {
-    task: '',
+    taskName: '',
     description: '',
     id: userId,
     taskId: nanoId,
   });
 
   async function handleBtnClick(prevState: TypeTask, formData: TypeFormData) {
-    if (formData.get('task') === '') {
+    if (formData.get('taskName') === '') {
       alert('Введите название задачи!');
       return;
     }
     const newTask = {
-      task: formData.get('task'),
+      taskName: formData.get('taskName'),
       description: formData.get('description'),
       id: userId,
       taskId: nanoId,
