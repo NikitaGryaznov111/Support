@@ -9,10 +9,9 @@ import Modal from '../../UI/Modal/Modal';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
-  const [selectedTasksProject, setSelectedTasksProject] = useState<
-    HTMLLIElement[]
-  >([]);
-
+  const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
+    []
+  );
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
   const { userId } = useParams<string>();
@@ -49,17 +48,20 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   };
 
   const handleOpenModal = () => {
-    const arrayLi: HTMLLIElement[] = [];
+    const arrDataTask = [];
     const ul = listTask.current;
     const inputs = ul?.getElementsByTagName('input');
     for (let input of inputs!) {
       const li = input.closest('li');
+      const taskId = (li as HTMLLIElement).dataset.taskid;
+      const taskName = li?.getElementsByTagName('span')[1].textContent;
+      const description = li?.getElementsByTagName('p')[0].textContent;
       if (input.checked && li) {
         setModalActive(!modalActive);
-        arrayLi.push(li);
+        arrDataTask.push({ taskId, taskName, description });
       }
     }
-    setSelectedTasksProject(arrayLi);
+    setSelectedTasksProject(arrDataTask as any);
   };
   const updateToggle = () => setToggle(!toggle);
   const closeModal = () => setModalActive(!modalActive);

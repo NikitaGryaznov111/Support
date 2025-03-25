@@ -1,20 +1,18 @@
 import localforage from 'localforage';
-import { TypeTask, TypeTime } from './types';
+import { TypeProject, TypeTask, TypeTime } from './types';
 
 export abstract class StorageTasks {
-  static arrayTasksStorage: TypeTask[] | any[] = [];
-
   static async getTasksStorage(): Promise<TypeTask[] | null> {
     return await localforage.getItem('tasks');
   }
-  static async addTasks(newTask: TypeTask, tasks: TypeTask[]): Promise<void> {
-    if (!tasks) {
-      this.arrayTasksStorage.push(newTask);
-      await localforage.setItem('tasks', this.arrayTasksStorage);
-      return;
+  static async addTasks(newTask: TypeTask): Promise<void> {
+    const tasks = await this.getTasksStorage();
+
+    if (tasks) {
+      await localforage.setItem('tasks', [...tasks, newTask]);
+    } else {
+      await localforage.setItem('tasks', [newTask]);
     }
-    this.arrayTasksStorage = [...tasks, newTask];
-    await localforage.setItem('tasks', this.arrayTasksStorage);
   }
 
   static async getTasksUser(userId: TypeTask['id']): Promise<TypeTask[]> {
@@ -115,5 +113,20 @@ export abstract class StorageTimeTask {
       });
     }
     return fullTimeForTheUser;
+  }
+}
+
+export abstract class StorageProjects {
+  static async getProjects(): Promise<TypeProject[]> {
+    return (await localforage.getItem('projects')) as TypeProject[];
+  }
+  static async addProject(project: TypeProject): Promise<void> {
+    const projects = await this.getProjects();
+
+    if (projects) {
+      await localforage.setItem('projects', [...projects, project]);
+    } else {
+      await localforage.setItem('projects', [project]);
+    }
   }
 }

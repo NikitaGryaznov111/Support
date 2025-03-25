@@ -1,0 +1,33 @@
+@import '../../../styles/templateBase.scss';
+
+.taskItem {
+  @include flex-between;
+  @include listItem;
+}
+
+.taskWrapper {
+  flex-basis: 75%;
+}
+.taskLink {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+.taskCheckbox {
+  cursor: pointer;
+}
+.taskItem:last-child {
+  margin-bottom: 0px;
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+.taskHeader {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.taskIndex {
+  font-weight: 200;
+  margin-right: 4px;
+}

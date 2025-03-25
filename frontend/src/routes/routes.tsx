@@ -10,6 +10,7 @@ import PrivateRouter from '../components/smart/Auth/PrivateRouter';
 import NavAuth from '../components/smart/Auth/NavAuth';
 import Login from '../components/smart/Auth/Login';
 import Registration from '../components/smart/Auth/Registration';
+import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
 
 const routesConfig: TypeRoutesConfig[] = [
   {
@@ -33,6 +34,10 @@ const routesConfig: TypeRoutesConfig[] = [
           {
             path: '/:userId/tasks',
             element: <TasksPage />,
+          },
+          {
+            path: '/:userId/projects',
+            element: <ProjectsPage />,
           },
         ],
       },

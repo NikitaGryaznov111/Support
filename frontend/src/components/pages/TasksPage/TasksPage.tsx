@@ -1,4 +1,4 @@
-import { FC, useActionState, useRef } from 'react';
+import { FC, useActionState } from 'react';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { StorageTasks } from '../../../utils/forStorage';
@@ -30,8 +30,7 @@ const TasksPage: FC = () => {
       id: userId,
       taskId: nanoId,
     };
-    const tasks = await StorageTasks.getTasksStorage();
-    await StorageTasks.addTasks(newTask, tasks as TypeTask[]);
+    await StorageTasks.addTasks(newTask);
     return newTask;
   }
   return (

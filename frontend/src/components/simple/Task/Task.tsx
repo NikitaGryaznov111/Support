@@ -35,7 +35,7 @@ const Task: FC<TypeTaskProps> = ({
       <Link to={`/${userId}/tasks/${task.taskId}`} className={styles.taskLink}>
         <h3 className={styles.taskHeader}>
           <span className={styles.taskIndex}>{index + 1}.</span>
-          {task.task}
+          <span>{task.task}</span>
         </h3>
         <p>{task.description}</p>
       </Link>

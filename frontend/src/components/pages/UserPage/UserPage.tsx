@@ -35,7 +35,12 @@ const UserPage: FC = () => {
               <Button>Закрыть</Button>
             </Link>
           </div>
-          <Button>Проекты</Button>
+          <NavLink
+            className={({ isActive }) => (isActive ? `${styles.active}` : '')}
+            to={`/${userId}/projects`}
+          >
+            <Button>Проекты</Button>
+          </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? `${styles.active}` : '')}
             to={`/${userId}/tasks`}

@@ -56,12 +56,12 @@ export type TypeAuthUser = {
 export type TypeProject = {
   name: string;
   projectId: string;
-  tasks: Array<HTMLLIElement>;
+  tasks: Array<TypeTask>;
 };
 
 export type TypePropsModal = {
   modalActive: boolean;
-  selectedTasksProject: HTMLLIElement[];
+  selectedTasksProject: TypeTask[];
   closeModal: () => void;
 };
 

@@ -7,6 +7,7 @@ import {
   TypeProject,
   TypeFormData,
 } from '../../../utils/types';
+import { StorageProjects } from '../../../utils/forStorage';
 
 const Modal: FC<TypePropsModal> = ({
   modalActive,
@@ -20,17 +21,16 @@ const Modal: FC<TypePropsModal> = ({
     projectId,
     tasks: [],
   };
-  const handleSaveTasksInProject = (
+  const handleSaveTasksInProject = async (
     prevState: TypeProject,
     formData: TypeFormData
   ) => {
-    const savedProject: TypeProject = {
+    const project: TypeProject = {
       name: formData.get('nameProject'),
       projectId,
       tasks: selectedTasksProject,
     };
-
-    console.log(savedProject);
+    await StorageProjects.addProject(project);
   };
   const [state, formAction] = useActionState(
     handleSaveTasksInProject as any,

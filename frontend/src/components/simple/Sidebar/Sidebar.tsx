@@ -35,6 +35,12 @@ const Sidebar: FC = () => {
           >
             Мои задачи
           </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? `${styles.active}` : '')}
+            to={`/${userId}/projects`}
+          >
+            Мои проекты
+          </NavLink>
         </nav>
       </div>
       <Logout />
