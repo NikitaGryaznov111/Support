@@ -22,7 +22,7 @@ const Task: FC<TypeTaskProps> = ({
     const taskId = li.dataset.taskid;
     await StorageTasks.deletedTask(taskId);
     await StorageTimeTask.deletedTime(taskId);
-    updateToggle();
+    updateToggle!();
   };
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>

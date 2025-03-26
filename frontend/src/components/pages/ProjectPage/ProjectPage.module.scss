@@ -1,0 +1,12 @@
+@import '../../../styles/templateBase.scss';
+.projectPage {
+  @include wrapperPage;
+}
+.projectPageHeader {
+  @include flex-between;
+  margin-bottom: 25px;
+  & > h1 {
+    font-weight: bold;
+    font-size: 23px;
+  }
+}

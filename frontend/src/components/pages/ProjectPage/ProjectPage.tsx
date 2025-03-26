@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import {
-  StorageProjects,
-  StorageTasks,
-  StorageTimeTask,
-} from '../../../utils/forStorage';
+import { StorageProjects } from '../../../utils/forStorage';
 import { TypeProject } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
+import Task from '../../simple/Task/Task';
 import styles from './ProjectPage.module.scss';
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject>();
@@ -20,36 +17,27 @@ const ProjectPage = () => {
     };
     init();
   }, []);
-  const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const li = (e.target as HTMLButtonElement).closest('li') as HTMLLIElement;
-    const taskId = li.dataset.taskid;
-    await StorageTasks.deletedTask(taskId);
-    await StorageTimeTask.deletedTime(taskId);
-  };
+
   return (
     <div className="flex">
       <Sidebar />
-      <div>
-        <h1> {project?.name}</h1>
-        <ul>
-          {tasks?.map((task) => {
-            const { taskId, taskName, description } = task;
-            return (
-              <li key={taskId}>
-                <Link to={`/${userId}/tasks/${taskId}`}>
-                  <h2>{taskName}</h2>
-                  <p>{description}</p>
-                </Link>
-                <div className={styles.buttons}>
-                  <Link to={`/${userId}/tasks/editTask/${taskId}`}>
-                    <Button>Edit</Button>
-                  </Link>
-                  <Button onClick={handleDeletedTask}>Delete</Button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+      <div className={styles.projectPage}>
+        <div className={styles.projectPageHeader}>
+          <h1> {project?.name}</h1>
+          <Link to={'/'}>
+            <Button>Закрыть</Button>
+          </Link>
+        </div>
+        {tasks ? (
+          <ul>
+            <p className="text-base mb-[15px]">Задачи:</p>
+            {tasks?.map((task, index) => {
+              return <Task task={task} userId={userId} index={index} />;
+            })}
+          </ul>
+        ) : (
+          <p>Задач нет</p>
+        )}
       </div>
     </div>
   );

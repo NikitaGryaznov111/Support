@@ -45,11 +45,11 @@ const routesConfig: TypeRoutesConfig[] = [
     ],
   },
   {
-    path: '/:userId/tasks/editTask/:editTaskId',
+    path: '/:userId/tasks/editTask/:taskId',
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/tasks/editTask/:editTaskId',
+        path: '/:userId/tasks/editTask/:taskId',
         element: <EditTaskPage />,
       },
     ],

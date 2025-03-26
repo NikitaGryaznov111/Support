@@ -22,8 +22,8 @@ export type TypeTaskProps = {
   task: TypeTask;
   userId: string | undefined;
   index: number;
-  checkedAll: boolean;
-  updateToggle: () => void;
+  checkedAll?: boolean;
+  updateToggle?: () => void;
 };
 
 export type TypePropsForm = {
