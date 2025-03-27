@@ -9,7 +9,6 @@ import styles from './ProjectPage.module.scss';
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject>();
   const { userId, projectId } = useParams();
-
   const tasks = project?.tasks;
   useEffect(() => {
     const init = async () => {
@@ -32,7 +31,15 @@ const ProjectPage = () => {
           <ul>
             <p className="text-base mb-[15px]">Задачи:</p>
             {tasks?.map((task, index) => {
-              return <Task task={task} userId={userId} index={index} />;
+              return (
+                <Task
+                  key={task.taskId}
+                  task={task}
+                  userId={userId}
+                  index={index}
+                  projectId={projectId}
+                />
+              );
             })}
           </ul>
         ) : (

@@ -11,6 +11,7 @@ const Task: FC<TypeTaskProps> = ({
   index,
   checkedAll,
   updateToggle,
+  projectId,
 }: TypeTaskProps) => {
   const [checkedTask, setCheckedTask] = useState<boolean>(false);
   useEffect(() => {
@@ -24,6 +25,7 @@ const Task: FC<TypeTaskProps> = ({
     await StorageTimeTask.deletedTime(taskId);
     updateToggle!();
   };
+
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>
       <input
@@ -40,9 +42,16 @@ const Task: FC<TypeTaskProps> = ({
         <p>{task.description}</p>
       </Link>
       <div className={styles.buttons}>
-        <Link to={`/${userId}/tasks/editTask/${task.taskId}`}>
-          <Button>Edit</Button>
-        </Link>
+        {projectId ? (
+          <Link to={`/${userId}/projects/${projectId}/${task.taskId}`}>
+            <Button>Edit</Button>
+          </Link>
+        ) : (
+          <Link to={`/${userId}/tasks/editTask/${task.taskId}`}>
+            <Button>Edit</Button>
+          </Link>
+        )}
+
         <Button onClick={handleDeletedTask}>Delete</Button>
       </div>
     </li>
