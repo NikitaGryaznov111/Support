@@ -1,4 +1,4 @@
-import { FC, useActionState } from 'react';
+import { FC, useActionState, useContext } from 'react';
 import { nanoid } from 'nanoid';
 import Button from '../Button/Button';
 import styles from './Modal.module.scss';
@@ -8,13 +8,18 @@ import {
   TypeFormData,
 } from '../../../utils/types';
 import { StorageProjects } from '../../../utils/forStorage';
+import { useNavigate, useParams } from 'react-router-dom';
+import { MyContext } from '../../../routes/MyContext';
 
 const Modal: FC<TypePropsModal> = ({
   modalActive,
   selectedTasksProject,
   closeModal,
 }: TypePropsModal) => {
+  const { userId } = useParams();
+  const navigate = useNavigate();
   const projectId = nanoid(6);
+  const setAppStyles = useContext(MyContext);
 
   const initProject: TypeProject = {
     name: '',
@@ -30,7 +35,13 @@ const Modal: FC<TypePropsModal> = ({
       projectId,
       tasks: selectedTasksProject,
     };
-    await StorageProjects.addProject(project);
+    if (!project.name) {
+      alert('Пожалуйста введите название проекта');
+    } else {
+      await StorageProjects.addProject(project);
+      setAppStyles('');
+      navigate(`/${userId}/projects`);
+    }
   };
   const [state, formAction] = useActionState(
     handleSaveTasksInProject as any,

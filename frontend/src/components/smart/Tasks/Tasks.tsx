@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
 import { TypeTask } from '../../../utils/types';
@@ -6,6 +6,7 @@ import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
+import { MyContext } from '../../../routes/MyContext';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
@@ -33,6 +34,8 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
 
   // ДВЕ НИЖНИЕ ФУНКЦИИ ИМЕЮТ ПОХОЖИЙ КОД, ОПТИМИЗИРУЙ!!!
 
+  const setAppStyles = useContext(MyContext);
+
   const handleDeletedCheckedTask = async (): Promise<void> => {
     const ul = listTask.current;
     const inputs = ul?.getElementsByTagName('input');
@@ -57,6 +60,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
       const taskName = li?.getElementsByTagName('span')[1].textContent;
       const description = li?.getElementsByTagName('p')[0].textContent;
       if (input.checked && li) {
+        setAppStyles('AppModal');
         setModalActive(!modalActive);
         arrDataTask.push({ taskId, taskName, description });
       }
@@ -64,7 +68,10 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     setSelectedTasksProject(arrDataTask as any);
   };
   const updateToggle = () => setToggle(!toggle);
-  const closeModal = () => setModalActive(!modalActive);
+  const closeModal = () => {
+    setAppStyles('');
+    setModalActive(!modalActive);
+  };
   return (
     <>
       {tasks?.length ? (
