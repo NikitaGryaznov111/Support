@@ -1,3 +1,5 @@
+import { ActionFunction, LoaderFunction } from 'react-router-dom';
+
 export type TypeTask = {
   taskName: string;
   description: string;
@@ -37,8 +39,8 @@ export type TypePropsForm = {
 export type TypeRoutesConfig = {
   path: string;
   element: React.ReactElement;
-  loader?: () => any;
-  action?: () => any;
+  loader?: LoaderFunction;
+  action?: ActionFunction;
   children?: TypeRoutesConfig[];
   errorElement?: React.ReactElement;
 };

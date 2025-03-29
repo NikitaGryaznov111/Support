@@ -47,7 +47,7 @@ export abstract class StorageTasks {
     return task;
   }
 }
-
+// разберись со временем!
 export abstract class StorageTimeTask {
   static arrayTimes: TypeTime[] = [];
   static async getTimeStorage(): Promise<TypeTime[] | null> {
@@ -106,12 +106,14 @@ export abstract class StorageTimeTask {
     const timeStorage = await this.getTimeStorage();
     const tasks = tasksStorage!.filter((task) => task.id === userId);
     let fullTimeForTheUser: TypeTime[] = [];
-
-    for (let i = 0; i < tasks.length; i++) {
-      timeStorage!.map((time) => {
-        if (tasks[i].taskId === time.taskId) fullTimeForTheUser.push(time);
-      });
+    if (timeStorage) {
+      for (let i = 0; i < tasks.length; i++) {
+        timeStorage!.map((time) => {
+          if (tasks[i].taskId === time.taskId) fullTimeForTheUser.push(time);
+        });
+      }
     }
+
     return fullTimeForTheUser;
   }
 }

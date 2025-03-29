@@ -9,7 +9,6 @@ const EditTaskPage: FC = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<TypeTask>();
   const [projectTask, setProjectTask] = useState<TypeTask>();
-
   const { taskId, userId, projectId } = useParams();
   const [state, formAction] = useActionState<TypeTask>(handleSubmit as any, {
     taskName: '',
@@ -18,13 +17,12 @@ const EditTaskPage: FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      setTask(await StorageTasks.getTask(taskId));
-    };
-    init();
-  }, []);
-  useEffect(() => {
-    const init = async () => {
-      setProjectTask(await StorageProjects.getTask(projectId!, taskId!));
+      if (projectId) {
+        setProjectTask(await StorageProjects.getTask(projectId!, taskId!));
+        setTask(await StorageProjects.getTask(projectId!, taskId!));
+      } else {
+        setTask(await StorageTasks.getTask(taskId));
+      }
     };
     init();
   }, []);
@@ -34,12 +32,12 @@ const EditTaskPage: FC = () => {
       description: formData.get('description'),
     };
     if (projectTask) {
-      // обновить хранилище проекта
       await StorageProjects.updateTask(taskId!, projectId!, updates);
       navigate(`/${userId}/projects/${projectId}`);
+    } else {
+      await StorageTasks.updateTask(taskId, updates);
+      navigate(`/${userId}/tasks`);
     }
-    // await StorageTasks.updateTask(taskId, updates);
-    // navigate(`/${userId}/tasks`);
   }
   return (
     <div className="flex ">
