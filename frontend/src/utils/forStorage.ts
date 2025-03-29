@@ -156,4 +156,14 @@ export abstract class StorageProjects {
     await localforage.setItem('projects', projects);
     return task;
   }
+  static async deletedTask(projectId: string, taskId: string) {
+    const projects = await this.getProjects();
+    const project = projects.find((project) => project.projectId === projectId);
+    const { tasks } = project as TypeProject;
+    const undeletedTasks = tasks.filter((task) => task.taskId !== taskId);
+    // Object.assign()
+    // await localforage.setItem('')
+    project!.tasks = undeletedTasks;
+    await localforage.setItem('projects', projects);
+  }
 }

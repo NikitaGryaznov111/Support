@@ -26,6 +26,7 @@ export type TypeTaskProps = {
   index: number;
   checkedAll?: boolean;
   updateToggle?: () => void;
+  updateToggleProject?: () => void;
   projectId?: string;
 };
 

@@ -1,7 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
-import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
+import {
+  StorageProjects,
+  StorageTasks,
+  StorageTimeTask,
+} from '../../../utils/forStorage';
 import { TypeTaskProps } from '../../../utils/types';
 import styles from './Task.module.scss';
 
@@ -21,11 +25,15 @@ const Task: FC<TypeTaskProps> = ({
   const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const li = (e.target as HTMLButtonElement).closest('li') as HTMLLIElement;
     const taskId = li.dataset.taskid;
-    await StorageTasks.deletedTask(taskId);
-    await StorageTimeTask.deletedTime(taskId);
-    updateToggle!();
+    if (projectId) {
+      await StorageProjects.deletedTask(projectId, taskId!);
+      updateToggle!();
+    } else {
+      await StorageTasks.deletedTask(taskId);
+      await StorageTimeTask.deletedTime(taskId);
+      updateToggle!();
+    }
   };
-
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>
       <input

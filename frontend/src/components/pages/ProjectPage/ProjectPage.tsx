@@ -8,14 +8,17 @@ import Task from '../../simple/Task/Task';
 import styles from './ProjectPage.module.scss';
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject>();
+  const [toggle, setToggle] = useState<boolean>(true);
   const { userId, projectId } = useParams();
+  const updateToggle = () => setToggle(!toggle);
+
   const tasks = project?.tasks;
   useEffect(() => {
     const init = async () => {
       setProject(await StorageProjects.getProject(projectId!));
     };
     init();
-  }, []);
+  }, [toggle]);
 
   return (
     <div className="flex">
@@ -38,6 +41,7 @@ const ProjectPage = () => {
                   userId={userId}
                   index={index}
                   projectId={projectId}
+                  updateToggle={updateToggle}
                 />
               );
             })}
