@@ -1,4 +1,4 @@
-import { FC, useActionState, useContext } from 'react';
+import { FC, useActionState, useContext, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import Button from '../Button/Button';
 import styles from './Modal.module.scss';
@@ -10,22 +10,34 @@ import {
 import { StorageProjects } from '../../../utils/forStorage';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MyContext } from '../../../routes/MyContext';
+import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
 
 const Modal: FC<TypePropsModal> = ({
   modalActive,
   selectedTasksProject,
   closeModal,
 }: TypePropsModal) => {
+  const [projects, setProjects] = useState<TypeProject[]>();
+  const [switchCreatingProject, setSwitchCreatingProject] =
+    useState<boolean>(true);
+  const [switchCurrentProject, setSwitchCurrentProject] =
+    useState<boolean>(false);
   const { userId } = useParams();
   const navigate = useNavigate();
   const projectId = nanoid(6);
   const setAppStyles = useContext(MyContext);
-
   const initProject: TypeProject = {
     name: '',
     projectId,
     tasks: [],
   };
+
+  useEffect(() => {
+    const init = async () => {
+      setProjects(await StorageProjects.getProjects());
+    };
+    init();
+  }, []);
   const handleSaveTasksInProject = async (
     prevState: TypeProject,
     formData: TypeFormData
@@ -47,22 +59,51 @@ const Modal: FC<TypePropsModal> = ({
     handleSaveTasksInProject as any,
     initProject
   );
-
+  const close = () => {
+    closeModal();
+    setSwitchCreatingProject(true);
+    setSwitchCurrentProject(false);
+  };
+  const addTasksCurrentProject = () => {
+    setSwitchCurrentProject(true);
+  };
   return (
-    <form
-      action={formAction}
-      className={modalActive ? styles.modalActive : styles.modal}
-    >
-      <label htmlFor="nameProject">Название проекта:</label>
-      <input
-        type="text"
-        name="nameProject"
-        id="nameProject"
-        placeholder="Имя проекта"
+    <>
+      {projects && switchCreatingProject ? (
+        <form
+          action=""
+          className={modalActive ? styles.modalActive : styles.modal}
+        >
+          <Button onClick={addTasksCurrentProject}>
+            Добавить задачи в текущие проекты
+          </Button>
+          <Button onClick={() => setSwitchCreatingProject(false)}>
+            Создать новый проект
+          </Button>
+          <Button onClick={close}>Закрыть</Button>
+        </form>
+      ) : (
+        <form
+          action={formAction}
+          className={modalActive ? styles.modalActive : styles.modal}
+        >
+          <label htmlFor="nameProject">Название проекта:</label>
+          <input
+            type="text"
+            name="nameProject"
+            id="nameProject"
+            placeholder="Имя проекта"
+          />
+          <Button type="submit">Добавить в проект</Button>
+          <Button onClick={close}>Закрыть</Button>
+        </form>
+      )}
+      <CurrentProjects
+        modalActive={switchCurrentProject}
+        close={close}
+        projects={projects}
       />
-      <Button type="submit">Добавить в проект</Button>
-      <Button onClick={closeModal}>Закрыть</Button>
-    </form>
+    </>
   );
 };
 

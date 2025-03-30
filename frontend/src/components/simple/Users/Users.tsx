@@ -24,7 +24,11 @@ const Users: FC<TypeUsersProps> = ({ users }: TypeUsersProps) => {
   }, [search]);
   return (
     <div className={styles.users}>
-      <h1>Список пользователей:</h1>
+      <div className="flex justify-between">
+        <h1>Список пользователей:</h1>
+        <Search />
+      </div>
+
       {filteredUsers ? (
         <ul>
           {filteredUsers.map((user: TypeUser) => (
@@ -42,8 +46,6 @@ const Users: FC<TypeUsersProps> = ({ users }: TypeUsersProps) => {
           ))}
         </ul>
       )}
-
-      <Search />
     </div>
   );
 };
