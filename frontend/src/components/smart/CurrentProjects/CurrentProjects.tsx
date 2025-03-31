@@ -1,23 +1,40 @@
 import { FC, useState } from 'react';
 import styles from './CurrentProjects.module.scss';
 import Button from '../../UI/Button/Button';
-import { TypeProject } from '../../../utils/types';
-interface ICurrentProjects {
-  modalActive: boolean;
-  close: () => void;
-  projects?: TypeProject[];
-}
-const CurrentProjects: FC<ICurrentProjects> = ({
+import { TypeCurrentProjects } from '../../../utils/types';
+import { StorageProjects } from '../../../utils/forStorage';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+
+const CurrentProjects: FC<TypeCurrentProjects> = ({
   modalActive,
   close,
   projects,
+  selectedTasksProject,
 }) => {
+  const navigate: NavigateFunction = useNavigate();
+  const { userId } = useParams();
+  const addTask = async (projectId: string): Promise<void> => {
+    await StorageProjects.addTasksInProject(projectId, selectedTasksProject);
+    navigate(`/${userId}/projects/${projectId}`);
+    close();
+  };
   return (
     <>
       {projects && (
         <ul className={modalActive ? styles.modalActive : styles.modal}>
           {projects.map((project) => {
-            return <li key={project.projectId}>{project.name}</li>;
+            const { projectId, name } = project;
+            return (
+              <li key={projectId}>
+                <Button
+                  onClick={() => {
+                    addTask(projectId);
+                  }}
+                >
+                  {name}
+                </Button>
+              </li>
+            );
           })}
           <Button onClick={close}>Закрыть</Button>
         </ul>

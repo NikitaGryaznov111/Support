@@ -72,3 +72,10 @@ export type TypePropsModal = {
 export type TypeFormData = {
   get: (name: string) => string;
 };
+
+export type TypeCurrentProjects = {
+  modalActive: boolean;
+  close: () => void;
+  projects?: TypeProject[];
+  selectedTasksProject: TypeTask[];
+};

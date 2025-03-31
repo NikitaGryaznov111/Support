@@ -161,9 +161,18 @@ export abstract class StorageProjects {
     const project = projects.find((project) => project.projectId === projectId);
     const { tasks } = project as TypeProject;
     const undeletedTasks = tasks.filter((task) => task.taskId !== taskId);
-    // Object.assign()
-    // await localforage.setItem('')
     project!.tasks = undeletedTasks;
+    await localforage.setItem('projects', projects);
+  }
+
+  static async addTasksInProject(
+    projectId: string,
+    selectedTasksProject: TypeTask[]
+  ): Promise<void> {
+    const projects = await this.getProjects();
+    const project = projects.find((project) => project.projectId === projectId);
+    const { tasks } = project as TypeProject;
+    tasks.push(...selectedTasksProject);
     await localforage.setItem('projects', projects);
   }
 }

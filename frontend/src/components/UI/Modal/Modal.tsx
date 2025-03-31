@@ -8,7 +8,7 @@ import {
   TypeFormData,
 } from '../../../utils/types';
 import { StorageProjects } from '../../../utils/forStorage';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { MyContext } from '../../../routes/MyContext';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
 
@@ -23,8 +23,8 @@ const Modal: FC<TypePropsModal> = ({
   const [switchCurrentProject, setSwitchCurrentProject] =
     useState<boolean>(false);
   const { userId } = useParams();
-  const navigate = useNavigate();
-  const projectId = nanoid(6);
+  const navigate: NavigateFunction = useNavigate();
+  const projectId: string = nanoid(6);
   const setAppStyles = useContext(MyContext);
   const initProject: TypeProject = {
     name: '',
@@ -33,7 +33,7 @@ const Modal: FC<TypePropsModal> = ({
   };
 
   useEffect(() => {
-    const init = async () => {
+    const init = async (): Promise<void> => {
       setProjects(await StorageProjects.getProjects());
     };
     init();
@@ -41,7 +41,7 @@ const Modal: FC<TypePropsModal> = ({
   const handleSaveTasksInProject = async (
     prevState: TypeProject,
     formData: TypeFormData
-  ) => {
+  ): Promise<void> => {
     const project: TypeProject = {
       name: formData.get('nameProject'),
       projectId,
@@ -59,14 +59,12 @@ const Modal: FC<TypePropsModal> = ({
     handleSaveTasksInProject as any,
     initProject
   );
-  const close = () => {
+  const close = (): void => {
     closeModal();
     setSwitchCreatingProject(true);
     setSwitchCurrentProject(false);
   };
-  const addTasksCurrentProject = () => {
-    setSwitchCurrentProject(true);
-  };
+
   return (
     <>
       {projects && switchCreatingProject ? (
@@ -74,7 +72,7 @@ const Modal: FC<TypePropsModal> = ({
           action=""
           className={modalActive ? styles.modalActive : styles.modal}
         >
-          <Button onClick={addTasksCurrentProject}>
+          <Button onClick={() => setSwitchCurrentProject(true)}>
             Добавить задачи в текущие проекты
           </Button>
           <Button onClick={() => setSwitchCreatingProject(false)}>
@@ -102,6 +100,7 @@ const Modal: FC<TypePropsModal> = ({
         modalActive={switchCurrentProject}
         close={close}
         projects={projects}
+        selectedTasksProject={selectedTasksProject}
       />
     </>
   );
