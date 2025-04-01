@@ -11,6 +11,7 @@ import { StorageProjects } from '../../../utils/forStorage';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { MyContext } from '../../../routes/MyContext';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
+import FormAddingTasksProject from '../../simple/FormAddingTasksProject/FormAddingTasksProject';
 
 const Modal: FC<TypePropsModal> = ({
   modalActive,
@@ -18,8 +19,7 @@ const Modal: FC<TypePropsModal> = ({
   closeModal,
 }: TypePropsModal) => {
   const [projects, setProjects] = useState<TypeProject[]>();
-  const [switchCreatingProject, setSwitchCreatingProject] =
-    useState<boolean>(true);
+  const [switcher, setSwitcher] = useState<boolean>(true);
   const [switchCurrentProject, setSwitchCurrentProject] =
     useState<boolean>(false);
   const { userId } = useParams();
@@ -61,47 +61,45 @@ const Modal: FC<TypePropsModal> = ({
   );
   const close = (): void => {
     closeModal();
-    setSwitchCreatingProject(true);
+    setSwitcher(true);
     setSwitchCurrentProject(false);
   };
 
   return (
     <>
-      {projects && switchCreatingProject ? (
-        <form
-          action=""
-          className={modalActive ? styles.modalActive : styles.modal}
-        >
-          <Button onClick={() => setSwitchCurrentProject(true)}>
-            Добавить задачи в текущие проекты
-          </Button>
-          <Button onClick={() => setSwitchCreatingProject(false)}>
-            Создать новый проект
-          </Button>
-          <Button onClick={close}>Закрыть</Button>
-        </form>
+      {switchCurrentProject ? (
+        <CurrentProjects
+          close={close}
+          projects={projects}
+          selectedTasksProject={selectedTasksProject}
+        />
       ) : (
-        <form
-          action={formAction}
-          className={modalActive ? styles.modalActive : styles.modal}
-        >
-          <label htmlFor="nameProject">Название проекта:</label>
-          <input
-            type="text"
-            name="nameProject"
-            id="nameProject"
-            placeholder="Имя проекта"
-          />
-          <Button type="submit">Добавить в проект</Button>
-          <Button onClick={close}>Закрыть</Button>
-        </form>
+        <>
+          {projects && switcher ? (
+            <FormAddingTasksProject
+              setSwitchCurrentProject={setSwitchCurrentProject}
+              setSwitcher={setSwitcher}
+              modalActive={modalActive}
+              close={close}
+            />
+          ) : (
+            <form
+              action={formAction}
+              className={modalActive ? styles.modalActive : styles.modal}
+            >
+              <label htmlFor="nameProject">Название проекта:</label>
+              <input
+                type="text"
+                name="nameProject"
+                id="nameProject"
+                placeholder="Имя проекта"
+              />
+              <Button type="submit">Добавить в проект</Button>
+              <Button onClick={close}>Закрыть</Button>
+            </form>
+          )}
+        </>
       )}
-      <CurrentProjects
-        modalActive={switchCurrentProject}
-        close={close}
-        projects={projects}
-        selectedTasksProject={selectedTasksProject}
-      />
     </>
   );
 };

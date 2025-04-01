@@ -1,0 +1,28 @@
+@import '../../../styles/templateBase.scss';
+
+.modal {
+  transform: scale(0);
+  @include modal;
+}
+
+.modalActive {
+  transition: 0.5s;
+  transform: scale(1);
+  @include modal;
+
+  & > button:not(:first-child) {
+    transition: 0.6s;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.btn {
+  color: rgb(176, 232, 232);
+  transition: 0.2s;
+  font-size: 18px;
+  &:hover {
+    color: white;
+  }
+}

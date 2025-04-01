@@ -74,7 +74,6 @@ export type TypeFormData = {
 };
 
 export type TypeCurrentProjects = {
-  modalActive: boolean;
   close: () => void;
   projects?: TypeProject[];
   selectedTasksProject: TypeTask[];

@@ -7,6 +7,7 @@ import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import { MyContext } from '../../../routes/MyContext';
+import { nanoid } from 'nanoid';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
@@ -56,7 +57,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     const inputs = ul?.getElementsByTagName('input');
     for (let input of inputs!) {
       const li = input.closest('li');
-      const taskId = (li as HTMLLIElement).dataset.taskid;
+      const taskId = nanoid(6);
       const taskName = li?.getElementsByTagName('span')[1].textContent;
       const description = li?.getElementsByTagName('p')[0].textContent;
       if (input.checked && li) {

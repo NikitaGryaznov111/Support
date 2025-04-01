@@ -6,7 +6,6 @@ import { StorageProjects } from '../../../utils/forStorage';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 
 const CurrentProjects: FC<TypeCurrentProjects> = ({
-  modalActive,
   close,
   projects,
   selectedTasksProject,
@@ -21,7 +20,7 @@ const CurrentProjects: FC<TypeCurrentProjects> = ({
   return (
     <>
       {projects && (
-        <ul className={modalActive ? styles.modalActive : styles.modal}>
+        <ul className={styles.modalActive}>
           {projects.map((project) => {
             const { projectId, name } = project;
             return (
