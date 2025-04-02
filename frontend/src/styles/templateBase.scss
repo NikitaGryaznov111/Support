@@ -13,15 +13,15 @@
   padding: 5px 0;
 }
 @mixin modal {
-  width: 35vw;
+  width: 30vw;
   height: 35vh;
   position: fixed;
-  background: rgb(205, 231, 252);
+  background: rgb(123, 196, 255);
   top: 30%;
   left: 33%;
   z-index: 100000;
   transition: 0.5s;
-  background-color: rgb(8, 67, 168);
+  background-color: rgb(121, 179, 255);
   padding: 0px 30px;
   border-radius: 40px;
   display: flex;

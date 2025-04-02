@@ -1,26 +1,30 @@
 import { FC, useActionState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { TypeFormData, TypeProject, TypeTask } from '../../../utils/types';
 import { StorageProjects } from '../../../utils/forStorage';
 import Button from '../../UI/Button/Button';
-import styles from './FormCreatingProject.module.scss';
 import { nanoid } from 'nanoid';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { MyContext } from '../../../routes/MyContext';
+import styles from './FormCreatingProject.module.scss';
 
 interface Int {
   selectedTasksProject: TypeTask[];
   modalActive: boolean;
+  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
+  projects?: TypeProject[];
   close: () => void;
 }
 const FormCreatingProject: FC<Int> = ({
   selectedTasksProject,
   modalActive,
+  setSwitcher,
+  projects,
   close,
 }) => {
   const projectId: string = nanoid(6);
   const { userId } = useParams();
   const setAppStyles = useContext(MyContext);
-  const navigate: NavigateFunction = useNavigate();
+  const navigate = useNavigate();
 
   const initProject: TypeProject = {
     name: '',
@@ -31,7 +35,7 @@ const FormCreatingProject: FC<Int> = ({
   const handleSaveTasksInProject = async (
     prevState: TypeProject,
     formData: TypeFormData
-  ): Promise<void> => {
+  ) => {
     const project: TypeProject = {
       name: formData.get('nameProject'),
       projectId,
@@ -44,9 +48,10 @@ const FormCreatingProject: FC<Int> = ({
       setAppStyles('');
       navigate(`/${userId}/projects`);
     }
+    return project;
   };
   const [state, formAction] = useActionState(
-    handleSaveTasksInProject as any,
+    handleSaveTasksInProject,
     initProject
   );
   return (
@@ -54,6 +59,14 @@ const FormCreatingProject: FC<Int> = ({
       action={formAction}
       className={modalActive ? styles.modalActive : styles.modal}
     >
+      {projects && (
+        <button
+          className={styles.btnBack}
+          onClick={() => setSwitcher(true)}
+          title="Назад"
+        ></button>
+      )}
+
       <label htmlFor="nameProject">Название проекта:</label>
       <input
         type="text"

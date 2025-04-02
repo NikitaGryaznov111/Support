@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { TypePropsModal, TypeProject } from '../../../utils/types';
 import { StorageProjects } from '../../../utils/forStorage';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
-import FormAddingTasksProject from '../../simple/FormAddingTasksProject/FormAddingTasksProject';
+import AddingTasksProject from '../../simple/AddingTasksProject/AddingTasksProject';
 import FormCreatingProject from '../../smart/FormCreatingProject/FormCreatingProject';
 
 const Modal: FC<TypePropsModal> = ({
@@ -39,7 +39,7 @@ const Modal: FC<TypePropsModal> = ({
       ) : (
         <>
           {projects && switcher ? (
-            <FormAddingTasksProject
+            <AddingTasksProject
               setSwitchCurrentProject={setSwitchCurrentProject}
               setSwitcher={setSwitcher}
               modalActive={modalActive}
@@ -49,6 +49,8 @@ const Modal: FC<TypePropsModal> = ({
             <FormCreatingProject
               modalActive={modalActive}
               selectedTasksProject={selectedTasksProject}
+              setSwitcher={setSwitcher}
+              projects={projects}
               close={close}
             />
           )}

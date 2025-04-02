@@ -9,9 +9,7 @@ function App() {
   return (
     <MyContext.Provider value={setAppStyles}>
       <div className={`${appStyles}`}>
-        <div className="container">
-          <RouterProvider router={router}></RouterProvider>
-        </div>
+        <RouterProvider router={router}></RouterProvider>
       </div>
     </MyContext.Provider>
   );

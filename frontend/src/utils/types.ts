@@ -70,7 +70,7 @@ export type TypePropsModal = {
 };
 
 export type TypeFormData = {
-  get: (name: string) => string;
+  get: (name: string) => any;
 };
 
 export type TypeCurrentProjects = {
