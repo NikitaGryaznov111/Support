@@ -12,37 +12,44 @@ import Button from '../../UI/Button/Button';
 // ДОБАВЬ КНОПКИ И СДЕЛАЙ ЧЕКБОКСЫ
 const ProjectsPage: FC = () => {
   const [projects, setProjects] = useState<TypeProject[]>();
+  const [toggle, setToggle] = useState<boolean>(false);
   const { userId } = useParams();
   useEffect(() => {
     const init = async () => {
-      setProjects(await StorageProjects.getProjects());
+      setProjects(await StorageProjects.getProjectsUser(userId!));
     };
     init();
-  }, []);
-  // const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   const li = (e.target as HTMLButtonElement).closest('li') as HTMLLIElement;
-  //   const taskId = li.dataset.taskid;
-  //   await StorageTasks.deletedTask(taskId);
-  //   await StorageTimeTask.deletedTime(taskId);
-  // };
+  }, [userId, toggle]);
+  const handleDeletedProject = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const li = (e.target as HTMLButtonElement).closest('li');
+    const projectId = li!.dataset.projectid;
+    await StorageProjects.deletedProject(projectId!);
+    setToggle(!toggle);
+  };
   return (
     <>
-      {projects ? (
+      {projects?.length ? (
         <ul>
           {projects.map((project, index) => {
             const { projectId, name } = project;
             return (
-              <li key={projectId} className={styles.projectItem}>
+              <li
+                data-projectid={projectId}
+                key={projectId}
+                className={styles.projectItem}
+              >
                 <Link to={`/${userId}/projects/${projectId}`}>
                   <span>{index + 1}. </span>
                   <span className={styles.projectName}>{name}</span>
                 </Link>
-                {/* <div className={styles.buttons}>
+                <div className={styles.buttons}>
                   <Link to={`/${userId}/projects/editProject/${projectId}`}>
                     <Button>Edit</Button>
                   </Link>
-                  <Button onClick={handleDeletedTask}>Delete</Button>
-                </div> */}
+                  <Button onClick={handleDeletedProject}>Delete</Button>
+                </div>
               </li>
             );
           })}

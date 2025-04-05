@@ -13,11 +13,13 @@ const AddingTasksProject: FC<Int> = ({
   modalActive,
   close,
 }: Int) => {
+  const actionSwitch = (): void => {
+    setSwitchCurrentProject(true);
+    setSwitcher(false);
+  };
   return (
     <div className={modalActive ? styles.modalActive : styles.modal}>
-      <Button onClick={() => setSwitchCurrentProject(true)}>
-        Добавить задачи в текущие проекты
-      </Button>
+      <Button onClick={actionSwitch}>Добавить задачи в текущие проекты</Button>
       <Button onClick={() => setSwitcher(false)}>Создать новый проект</Button>
       <Button onClick={close}>Закрыть</Button>
     </div>

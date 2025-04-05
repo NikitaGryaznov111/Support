@@ -122,6 +122,13 @@ export abstract class StorageProjects {
   static async getProjects(): Promise<TypeProject[]> {
     return (await localforage.getItem('projects')) as TypeProject[];
   }
+  static async getProjectsUser(userId: string): Promise<TypeProject[]> {
+    const projects = await this.getProjects();
+    const projectsUser = projects.filter(
+      (project) => project.userId === userId
+    );
+    return projectsUser;
+  }
   static async addProject(project: TypeProject): Promise<void> {
     const projects = await this.getProjects();
 
@@ -174,5 +181,12 @@ export abstract class StorageProjects {
     const { tasks } = project as TypeProject;
     tasks.push(...selectedTasksProject);
     await localforage.setItem('projects', projects);
+  }
+  static async deletedProject(projectId: string): Promise<void> {
+    const projects = await this.getProjects();
+    const newProjects = projects.filter(
+      (project) => project.projectId !== projectId
+    );
+    await localforage.setItem('projects', newProjects);
   }
 }

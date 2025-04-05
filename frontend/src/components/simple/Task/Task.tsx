@@ -23,8 +23,8 @@ const Task: FC<TypeTaskProps> = ({
   }, [checkedAll]);
 
   const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const li = (e.target as HTMLButtonElement).closest('li') as HTMLLIElement;
-    const taskId = li.dataset.taskid;
+    const li = (e.target as HTMLButtonElement).closest('li');
+    const taskId = li!.dataset.taskid;
     if (projectId) {
       await StorageProjects.deletedTask(projectId, taskId!);
       updateToggle!();

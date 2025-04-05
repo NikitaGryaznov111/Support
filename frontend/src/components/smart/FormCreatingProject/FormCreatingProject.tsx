@@ -29,6 +29,7 @@ const FormCreatingProject: FC<Int> = ({
   const initProject: TypeProject = {
     name: '',
     projectId,
+    userId,
     tasks: [],
   };
 
@@ -39,6 +40,7 @@ const FormCreatingProject: FC<Int> = ({
     const project: TypeProject = {
       name: formData.get('nameProject'),
       projectId,
+      userId,
       tasks: selectedTasksProject,
     };
     if (!project.name) {

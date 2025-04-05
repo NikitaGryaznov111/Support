@@ -2,10 +2,28 @@
 
 .modalActive {
   @include modal;
+  justify-content: space-around;
+
   & button {
     transition: 0.6s;
     &:hover {
       color: white;
     }
   }
+  @include arrowBack;
+}
+
+.listProjects {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  width: 100%;
+  color: white;
+  margin-top: 40px;
+}
+.itemProjects {
+  display: flex;
+  column-gap: 7px;
+  width: 100%;
+  cursor: pointer;
 }

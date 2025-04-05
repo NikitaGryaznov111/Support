@@ -60,6 +60,7 @@ export type TypeAuthUser = {
 export type TypeProject = {
   name: string;
   projectId: string;
+  userId?: string;
   tasks: Array<TypeTask>;
 };
 
@@ -77,4 +78,6 @@ export type TypeCurrentProjects = {
   close: () => void;
   projects?: TypeProject[];
   selectedTasksProject: TypeTask[];
+  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
+  setSwitchCurrentProject: React.Dispatch<React.SetStateAction<boolean>>;
 };
