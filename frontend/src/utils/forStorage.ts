@@ -49,7 +49,6 @@ export abstract class StorageTasks {
 }
 // разберись со временем!
 export abstract class StorageTimeTask {
-  static arrayTimes: TypeTime[] = [];
   static async getTimeStorage(): Promise<TypeTime[] | null> {
     return await localforage.getItem('time');
   }
@@ -57,26 +56,87 @@ export abstract class StorageTimeTask {
     newTime: TypeTime,
     taskId: TypeTime['taskId']
   ): Promise<void> {
-    if (this.arrayTimes.length > 0) {
-      const timeStorage = await this.getTimeStorage();
+    const timeStorage = await this.getTimeStorage();
+
+    if (timeStorage) {
       for (let i = 0; i < timeStorage!.length; i++) {
         if (timeStorage![i].taskId === taskId) {
           timeStorage!.splice(i, 1, newTime);
           await localforage.setItem('time', timeStorage);
           break;
-        } else if (timeStorage![i].taskId !== taskId && newTime.minutes !== 3) {
-          await localforage.setItem('time', [...timeStorage!, newTime]);
+        } else {
+          const time = timeStorage.find((el) => el.taskId === taskId);
+          if (time) {
+            await localforage.setItem('time', [...timeStorage!]);
+          } else {
+            await localforage.setItem('time', [...timeStorage!, newTime]);
+          }
         }
       }
     } else {
-      this.arrayTimes.push(newTime);
-      await localforage.setItem('time', this.arrayTimes);
+      await localforage.setItem('time', [newTime]);
+    }
+  }
+  static async addTimeFromProject(
+    newTime: TypeTime,
+    taskId: TypeTime['taskId']
+  ): Promise<void> {
+    const timeStorage: TypeTime[] | null = await localforage.getItem(
+      'timeFromProject'
+    );
+
+    if (timeStorage) {
+      for (let i = 0; i < timeStorage!.length; i++) {
+        if (timeStorage![i].taskId === taskId) {
+          timeStorage!.splice(i, 1, newTime);
+          await localforage.setItem('timeFromProject', timeStorage);
+          break;
+        } else {
+          const time = timeStorage.find((el) => el.taskId === taskId);
+          if (time) {
+            await localforage.setItem('timeFromProject', [...timeStorage!]);
+          } else {
+            await localforage.setItem('timeFromProject', [
+              ...timeStorage!,
+              newTime,
+            ]);
+          }
+        }
+      }
+    } else {
+      await localforage.setItem('timeFromProject', [newTime]);
     }
   }
   static async getTime(
     taskId: TypeTime['taskId']
   ): Promise<TypeTime | undefined> {
     const timeStorage = await this.getTimeStorage();
+    const initialTime: TypeTime = {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      taskId,
+    };
+    try {
+      if (!timeStorage) {
+        return initialTime;
+      } else {
+        const time = timeStorage.find((time: TypeTime): boolean => {
+          return time.taskId === taskId;
+        });
+        return time || initialTime;
+      }
+    } catch (err) {
+      console.log('Error getTimeStorage: ', err);
+    }
+  }
+
+  static async getTimeFromProject(
+    taskId: TypeTime['taskId']
+  ): Promise<TypeTime | undefined> {
+    const timeStorage: TypeTime[] | null = await localforage.getItem(
+      'timeFromProject'
+    );
     const initialTime: TypeTime = {
       hours: 0,
       minutes: 0,
@@ -190,11 +250,3 @@ export abstract class StorageProjects {
     await localforage.setItem('projects', newProjects);
   }
 }
-
-const TEST = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve([1, 2, 3]);
-    }, 1000);
-  });
-};

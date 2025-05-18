@@ -10,6 +10,7 @@ import styles from './ProjectsPage.module.scss';
 import Button from '../../UI/Button/Button';
 
 // ДОБАВЬ КНОПКИ И СДЕЛАЙ ЧЕКБОКСЫ
+// ПОДУМАЙ ГДЕ ОПТИМИЗИРОВАТЬ КОД МЕМО И ИТД
 const ProjectsPage: FC = () => {
   const [projects, setProjects] = useState<TypeProject[]>();
   const [toggle, setToggle] = useState<boolean>(false);
@@ -46,9 +47,9 @@ const ProjectsPage: FC = () => {
                 </Link>
                 <div className={styles.buttons}>
                   <Link to={`/${userId}/projects/editProject/${projectId}`}>
-                    <Button>Edit</Button>
+                    <Button>Изменить</Button>
                   </Link>
-                  <Button onClick={handleDeletedProject}>Delete</Button>
+                  <Button onClick={handleDeletedProject}>Удалить</Button>
                 </div>
               </li>
             );

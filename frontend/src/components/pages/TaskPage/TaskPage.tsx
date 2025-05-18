@@ -1,13 +1,17 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask, TypeTime } from '../../../utils/types';
-import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
+import {
+  StorageProjects,
+  StorageTasks,
+  StorageTimeTask,
+} from '../../../utils/forStorage';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from './TaskPage.module.scss';
 
 const TaskPage: FC = () => {
-  const { taskId } = useParams();
+  const { taskId, projectId } = useParams();
   const [task, setTask] = useState<TypeTask>();
   const timerRef = useRef(null) as unknown as {
     current: number;
@@ -18,19 +22,29 @@ const TaskPage: FC = () => {
     minutes: 0,
     seconds: 0,
     taskId,
+    projectId,
   });
 
   useEffect(() => {
     const init = async () => {
-      setTask(await StorageTasks.getTask(taskId));
+      if (projectId) {
+        setTask(await StorageProjects.getTask(projectId!, taskId!));
+      } else {
+        setTask(await StorageTasks.getTask(taskId));
+      }
     };
     init();
   }, []);
 
   useEffect(() => {
     const init = async () => {
-      if (time.seconds === 0) {
+      if (time.seconds === 0 && !projectId) {
         const data = (await StorageTimeTask.getTime(taskId)) as TypeTime;
+        setTime(data);
+      } else if (time.seconds === 0 && projectId) {
+        const data = (await StorageTimeTask.getTimeFromProject(
+          taskId
+        )) as TypeTime;
         setTime(data);
       }
     };
@@ -38,10 +52,15 @@ const TaskPage: FC = () => {
   }, []);
   useEffect(() => {
     const init = async () => {
-      await StorageTimeTask.addTime(time, taskId);
+      if (projectId) {
+        await StorageTimeTask.addTimeFromProject(time, taskId);
+      } else {
+        await StorageTimeTask.addTime(time, taskId);
+      }
     };
     init();
   }, [time]);
+
   const handleBtnStartTime: React.MouseEventHandler<
     HTMLButtonElement
   > = async () => {
@@ -55,6 +74,7 @@ const TaskPage: FC = () => {
         minutes: (prevTime.minutes + Math.floor(prevTime.seconds / 59)) % 60,
         seconds: (prevTime.seconds + 1) % 60,
         taskId,
+        projectId: projectId ? projectId : null,
       }));
     }, 1000);
   };

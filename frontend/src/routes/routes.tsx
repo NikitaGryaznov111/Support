@@ -75,6 +75,16 @@ const routesConfig: TypeRoutesConfig[] = [
     ],
   },
   {
+    path: '/:userId/projects/:projectId/fromProject/:taskId',
+    element: <PrivateRouter />,
+    children: [
+      {
+        path: '/:userId/projects/:projectId/fromProject/:taskId',
+        element: <TaskPage />,
+      },
+    ],
+  },
+  {
     path: '/:userId/projects/:projectId',
     element: <PrivateRouter />,
     children: [

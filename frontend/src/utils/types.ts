@@ -11,6 +11,7 @@ export type TypeTime = {
   minutes: number;
   seconds: number;
   taskId?: string;
+  projectId?: string | null;
 };
 export type TypeUser = {
   _id?: string;

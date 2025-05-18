@@ -21,7 +21,7 @@ const Task: FC<TypeTaskProps> = ({
   useEffect(() => {
     checkedAll ? setCheckedTask(true) : setCheckedTask(false);
   }, [checkedAll]);
-
+  console.log(projectId);
   const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const li = (e.target as HTMLButtonElement).closest('li');
     const taskId = li!.dataset.taskid;
@@ -42,25 +42,41 @@ const Task: FC<TypeTaskProps> = ({
         checked={checkedTask}
         onChange={(e) => setCheckedTask((e.target.checked = !checkedTask))}
       />{' '}
-      <Link to={`/${userId}/tasks/${task.taskId}`} className={styles.taskLink}>
-        <h3 className={styles.taskHeader}>
-          <span className={styles.taskIndex}>{index + 1}.</span>
-          <span>{task.taskName}</span>
-        </h3>
-        <p>{task.description}</p>
-      </Link>
+      {projectId ? (
+        <Link
+          to={`/${userId}/projects/${projectId}/fromProject/${task.taskId}`}
+          className={styles.taskLink}
+        >
+          <h3 className={styles.taskHeader}>
+            <span className={styles.taskIndex}>{index + 1}.</span>
+            <span>{task.taskName}</span>
+          </h3>
+          <p>{task.description}</p>
+        </Link>
+      ) : (
+        <Link
+          to={`/${userId}/tasks/${task.taskId}`}
+          className={styles.taskLink}
+        >
+          <h3 className={styles.taskHeader}>
+            <span className={styles.taskIndex}>{index + 1}.</span>
+            <span>{task.taskName}</span>
+          </h3>
+          <p>{task.description}</p>
+        </Link>
+      )}
       <div className={styles.buttons}>
         {projectId ? (
           <Link to={`/${userId}/projects/${projectId}/${task.taskId}`}>
-            <Button>Edit</Button>
+            <Button>Изменить</Button>
           </Link>
         ) : (
           <Link to={`/${userId}/tasks/editTask/${task.taskId}`}>
-            <Button>Edit</Button>
+            <Button>Изменить</Button>
           </Link>
         )}
 
-        <Button onClick={handleDeletedTask}>Delete</Button>
+        <Button onClick={handleDeletedTask}>Удалить</Button>
       </div>
     </li>
   );

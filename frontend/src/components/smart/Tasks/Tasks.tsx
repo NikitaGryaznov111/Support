@@ -57,7 +57,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     const inputs = ul?.getElementsByTagName('input');
     for (let input of inputs!) {
       const li = input.closest('li');
-      const taskId = nanoid(6);
+      const taskId = li!.dataset.taskid;
       const taskName = li?.getElementsByTagName('span')[1].textContent;
       const description = li?.getElementsByTagName('p')[0].textContent;
       if (input.checked && li) {
