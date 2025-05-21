@@ -7,7 +7,6 @@ import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import { MyContext } from '../../../routes/MyContext';
-import { nanoid } from 'nanoid';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
@@ -16,8 +15,8 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   );
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
-  const { userId } = useParams<string>();
   const [toggle, setToggle] = useState<boolean>(true);
+  const { userId } = useParams<string>();
   const listTask = useRef<HTMLUListElement>(null);
   useEffect(() => {
     const init = async () => {
@@ -25,13 +24,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
       setTasks(await StorageTasks.getTasksUser(userId));
     };
     init();
-  }, [props.state]);
-  useEffect(() => {
-    const init = async () => {
-      setTasks(await StorageTasks.getTasksUser(userId));
-    };
-    init();
-  }, [toggle, userId]);
+  }, [props.state, userId]);
 
   // ДВЕ НИЖНИЕ ФУНКЦИИ ИМЕЮТ ПОХОЖИЙ КОД, ОПТИМИЗИРУЙ!!!
 
@@ -42,10 +35,10 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     const inputs = ul?.getElementsByTagName('input');
     for (let input of inputs!) {
       const li = input.closest('li');
-      const taskId = (li as HTMLLIElement).dataset.taskid;
+      const taskId = li!.dataset.taskid;
       if (input.checked) {
         await StorageTasks.deletedTask(taskId);
-        await StorageTimeTask.deletedTime(taskId as string);
+        await StorageTimeTask.deletedTime(taskId);
       }
     }
     setTasks(await StorageTasks.getTasksUser(userId));
@@ -54,12 +47,12 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const handleOpenModal = () => {
     const arrDataTask = [];
     const ul = listTask.current;
-    const inputs = ul?.getElementsByTagName('input');
-    for (let input of inputs!) {
+    const inputs = ul!.getElementsByTagName('input');
+    for (let input of inputs) {
       const li = input.closest('li');
       const taskId = li!.dataset.taskid;
-      const taskName = li?.getElementsByTagName('span')[1].textContent;
-      const description = li?.getElementsByTagName('p')[0].textContent;
+      const taskName = li!.getElementsByTagName('span')[1].textContent;
+      const description = li!.getElementsByTagName('p')[0].textContent;
       if (input.checked && li) {
         setAppStyles('AppModal');
         setModalActive(!modalActive);
@@ -76,23 +69,20 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   return (
     <>
       {tasks?.length ? (
-        <div className="mt-4">
-          <div className="flex justify-between">
+        <div className="mt-6">
+          <div className="flex justify-between mb-6">
             <span>Задачи:</span>
             <div className="flex gap-x-2">
-              <p>Общее время:</p>
+              <span>Общее время:</span>
               <AllTimeTasks />
             </div>
           </div>
-          <form>
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => setCheckedAll(!checkedAll)}
-              />{' '}
-              Все
-            </label>
-
+          <>
+            <input
+              type="checkbox"
+              onChange={() => setCheckedAll(!checkedAll)}
+            />{' '}
+            Все
             <ul ref={listTask} className="mb-4">
               {tasks?.map((task: TypeTask, index: number) => (
                 <Task
@@ -107,7 +97,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
             </ul>
             <Button onClick={handleDeletedCheckedTask}>Удалить задачи</Button>
             <Button onClick={handleOpenModal}>Добавить задачи в проект</Button>
-          </form>
+          </>
         </div>
       ) : (
         <p>Задачи отсутствуют!</p>

@@ -47,7 +47,6 @@ export abstract class StorageTasks {
     return task;
   }
 }
-// разберись со временем!
 export abstract class StorageTimeTask {
   static async getTimeStorage(): Promise<TypeTime[] | null> {
     return await localforage.getItem('time');
@@ -156,10 +155,24 @@ export abstract class StorageTimeTask {
       console.log('Error getTimeStorage: ', err);
     }
   }
-  static async deletedTime(taskId: TypeTime['taskId']): Promise<void> {
+  static async deletedTime(
+    taskId: TypeTime['taskId'],
+    projectId?: TypeTime['projectId']
+  ): Promise<void> {
+    const timeStorageFromProject: TypeTime[] | null = await localforage.getItem(
+      'timeFromProject'
+    );
     const timeStorage = await this.getTimeStorage();
-    const tasks = timeStorage!.filter((time) => time.taskId !== taskId);
-    localforage.setItem('time', tasks);
+
+    if (projectId && timeStorageFromProject) {
+      const tasks = timeStorageFromProject!.filter(
+        (time) => time.taskId !== taskId
+      );
+      localforage.setItem('timeFromProject', tasks);
+    } else if (!projectId && timeStorage) {
+      const tasks = timeStorage!.filter((time) => time.taskId !== taskId);
+      localforage.setItem('time', tasks);
+    }
   }
   static async getFullTimeUser(userId: TypeTask['id']): Promise<TypeTime[]> {
     const tasksStorage = await StorageTasks.getTasksStorage();
@@ -248,5 +261,15 @@ export abstract class StorageProjects {
       (project) => project.projectId !== projectId
     );
     await localforage.setItem('projects', newProjects);
+  }
+
+  static async updateProject(
+    projectId: TypeProject['projectId'],
+    updates: { name: string }
+  ) {
+    const projects = await this.getProjects();
+    const project = projects.find((project) => project.projectId === projectId);
+    Object.assign(project!, updates);
+    await localforage.setItem('projects', projects);
   }
 }

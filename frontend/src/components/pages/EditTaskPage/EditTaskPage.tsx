@@ -9,7 +9,7 @@ const EditTaskPage: FC = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<TypeTask>();
   const { taskId, userId, projectId } = useParams();
-  const [state, formAction] = useActionState<TypeTask>(handleSubmit as any, {
+  const [state, formAction] = useActionState<TypeTask>(handleForm as any, {
     taskName: '',
     description: '',
   });
@@ -24,7 +24,7 @@ const EditTaskPage: FC = () => {
     };
     init();
   }, []);
-  async function handleSubmit(prevState: TypeTask, formData: TypeFormData) {
+  async function handleForm(prevState: TypeTask, formData: TypeFormData) {
     const updates: TypeTask = {
       taskName: formData.get('taskName'),
       description: formData.get('description'),

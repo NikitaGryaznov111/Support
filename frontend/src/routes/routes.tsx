@@ -12,6 +12,7 @@ import Login from '../components/smart/Auth/Login';
 import Registration from '../components/smart/Auth/Registration';
 import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
 import ProjectPage from '../components/pages/ProjectPage/ProjectPage';
+import EditProjectPage from '../components/pages/EditProjectPage/EditProjectPage';
 
 const routesConfig: TypeRoutesConfig[] = [
   {
@@ -51,6 +52,16 @@ const routesConfig: TypeRoutesConfig[] = [
       {
         path: '/:userId/tasks/editTask/:taskId',
         element: <EditTaskPage />,
+      },
+    ],
+  },
+  {
+    path: '/:userId/projects/editProject/:projectId',
+    element: <PrivateRouter />,
+    children: [
+      {
+        path: '/:userId/projects/editProject/:projectId',
+        element: <EditProjectPage />,
       },
     ],
   },
