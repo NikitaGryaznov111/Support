@@ -5,7 +5,7 @@ import { TypeTime } from '../../../utils/types';
 import { getAllTimes } from '../../../utils/getAllTimes';
 
 const AllTimeTasks: FC = () => {
-  const { userId } = useParams<string>();
+  const { userId } = useParams<{ userId: string }>();
   const [allTimes, setAllTimes] = useState<TypeTime[]>([]);
 
   useEffect(() => {
@@ -13,9 +13,11 @@ const AllTimeTasks: FC = () => {
       setAllTimes(await StorageTimeTask.getFullTimeUser(userId));
     };
     init();
-  }, []);
-  const { hours, minutes, seconds } = getAllTimes(allTimes);
-
+  }, [userId]);
+  const totalSeconds = getAllTimes(allTimes);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
   return (
     <>
       {allTimes.length > 0 ? (

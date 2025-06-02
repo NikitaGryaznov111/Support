@@ -2,9 +2,6 @@ import localforage from 'localforage';
 import { TypeProject, TypeTask, TypeTime } from './types';
 // разбей на другие файлы
 export abstract class StorageTasks {
-  //    async get<T>(key:string):Promise<T | null>{
-  // return await localforage.getItem(key)
-  //   }
   static async getTasksStorage(): Promise<TypeTask[] | null> {
     return await localforage.getItem('tasks');
   }
