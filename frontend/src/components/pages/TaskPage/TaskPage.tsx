@@ -1,6 +1,6 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TypeTask, TypeTime } from '../../../utils/types';
+import { TypeTask, TypeTime, TypePath } from '../../../utils/types';
 import {
   StorageProjects,
   StorageTasks,
@@ -9,80 +9,80 @@ import {
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from './TaskPage.module.scss';
+import useTimer from '../../../hooks/useTimer';
 
 const TaskPage: FC = () => {
-  const { taskId, projectId } = useParams();
+  const { taskId, projectId } = useParams<TypePath>();
   const [task, setTask] = useState<TypeTask>();
-  const timerRef = useRef(null) as unknown as {
-    current: number;
-  };
-  const btnRef = useRef<HTMLButtonElement | null>(null);
+  const {
+    hours,
+    minutes,
+    seconds,
+    totalSeconds,
+    startTimer,
+    stopTimer,
+    setTimeFromTotal,
+    isRunning,
+  } = useTimer();
   const [time, setTime] = useState<TypeTime>({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    totalSeconds,
     taskId,
     projectId,
   });
-
   useEffect(() => {
-    const init = async () => {
-      if (projectId) {
-        setTask(await StorageProjects.getTask(projectId!, taskId!));
-      } else {
-        setTask(await StorageTasks.getTask(taskId));
+    const loadTask = async () => {
+      try {
+        if (projectId) {
+          setTask(await StorageProjects.getTask(projectId!, taskId!));
+        } else {
+          setTask(await StorageTasks.getTask(taskId));
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки задачи:', error);
       }
     };
-    init();
-  }, []);
 
-  useEffect(() => {
-    const init = async () => {
-      if (time.seconds === 0 && !projectId) {
-        const data = (await StorageTimeTask.getTime(taskId)) as TypeTime;
+    const loadTime = async () => {
+      if (!projectId) {
+        const data = await StorageTimeTask.getTime(taskId);
         setTime(data);
-      } else if (time.seconds === 0 && projectId) {
-        const data = (await StorageTimeTask.getTimeFromProject(
-          taskId
-        )) as TypeTime;
+      } else {
+        const data = await StorageTimeTask.getTimeFromProject(taskId);
         setTime(data);
       }
     };
-    init();
+
+    loadTask();
+    loadTime();
   }, []);
+
   useEffect(() => {
-    const init = async () => {
-      if (projectId) {
-        await StorageTimeTask.addTimeFromProject(time, taskId);
-      } else {
-        await StorageTimeTask.addTime(time, taskId);
-      }
-    };
-    init();
+    if (time?.totalSeconds) setTimeFromTotal(time.totalSeconds);
   }, [time]);
 
-  const handleBtnStartTime: React.MouseEventHandler<
-    HTMLButtonElement
-  > = async () => {
-    btnRef.current!.disabled = true;
-    timerRef.current = await setInterval(() => {
-      setTime((prevTime) => ({
-        hours:
-          prevTime.seconds / 59 === 1
-            ? prevTime.hours + Math.floor(prevTime.minutes / 59)
-            : prevTime.hours,
-        minutes: (prevTime.minutes + Math.floor(prevTime.seconds / 59)) % 60,
-        seconds: (prevTime.seconds + 1) % 60,
+  useEffect(() => {
+    const saveTime = async () => {
+      const dataToSave = {
+        totalSeconds,
         taskId,
-        projectId: projectId ? projectId : null,
-      }));
-    }, 1000);
+        projectId,
+      };
+      if (projectId) {
+        await StorageTimeTask.addTimeFromProject(dataToSave, taskId);
+      } else {
+        await StorageTimeTask.addTime(dataToSave, taskId);
+      }
+      setTime(dataToSave);
+    };
+    saveTime();
+  }, [totalSeconds]);
+
+  const handleBtnStartTime: React.MouseEventHandler<HTMLButtonElement> = () => {
+    startTimer();
   };
   const handleBtnStopTime: React.MouseEventHandler<HTMLButtonElement> = () => {
-    clearInterval(timerRef.current);
-    btnRef.current!.disabled = false;
+    stopTimer();
   };
-  const { hours, minutes, seconds } = time;
   return (
     <div className="flex ">
       <Sidebar />
@@ -103,10 +103,12 @@ const TaskPage: FC = () => {
           )}
         </div>
         <div className={styles.taskPageButtons}>
-          <Button onClick={handleBtnStartTime} ref={btnRef}>
+          <Button onClick={handleBtnStartTime} disabled={isRunning}>
             Start
           </Button>
-          <Button onClick={handleBtnStopTime}>Stop</Button>
+          <Button onClick={handleBtnStopTime} disabled={!isRunning}>
+            Stop
+          </Button>
         </div>
       </div>
     </div>

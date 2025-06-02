@@ -4,11 +4,8 @@ import { nanoid } from 'nanoid';
 import { StorageTasks } from '../../../utils/forStorage';
 import Tasks from '../../smart/Tasks/Tasks';
 import Form from '../../UI/Form/Form';
-import { TypeTask } from '../../../utils/types';
+import { TypeTask, TypeFormData } from '../../../utils/types';
 
-type TypeFormData = {
-  get: (name: string) => string;
-};
 const TasksPage: FC = () => {
   const nanoId = nanoid(6);
   const { userId } = useParams();
@@ -19,7 +16,10 @@ const TasksPage: FC = () => {
     taskId: nanoId,
   });
 
-  async function handleBtnClick(prevState: TypeTask, formData: TypeFormData) {
+  async function handleBtnClick(
+    prevState: TypeTask,
+    formData: TypeFormData
+  ): Promise<TypeTask | undefined> {
     if (formData.get('taskName') === '') {
       alert('Введите название задачи!');
       return;

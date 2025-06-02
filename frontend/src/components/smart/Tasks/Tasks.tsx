@@ -15,7 +15,6 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   );
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
-  const [toggle, setToggle] = useState<boolean>(true);
   const { userId } = useParams<string>();
   const listTask = useRef<HTMLUListElement>(null);
   useEffect(() => {
@@ -61,7 +60,9 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     }
     setSelectedTasksProject(arrDataTask as any);
   };
-  const updateToggle = () => setToggle(!toggle);
+  const updateTasks = async () => {
+    setTasks(await StorageTasks.getTasksUser(userId));
+  };
   const closeModal = () => {
     setAppStyles('');
     setModalActive(!modalActive);
@@ -91,7 +92,7 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
                   userId={userId}
                   index={index}
                   checkedAll={checkedAll}
-                  updateToggle={updateToggle}
+                  updateTasks={updateTasks}
                 />
               ))}
             </ul>

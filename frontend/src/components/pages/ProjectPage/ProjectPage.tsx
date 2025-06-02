@@ -10,16 +10,16 @@ const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject>();
   const [toggle, setToggle] = useState<boolean>(true);
   const { userId, projectId } = useParams();
-  const updateToggle = () => setToggle(!toggle);
 
   const tasks = project?.tasks;
+  console.log(tasks?.length);
   useEffect(() => {
     const init = async () => {
       setProject(await StorageProjects.getProject(projectId!));
     };
     init();
   }, [toggle]);
-
+  const updateToggle = () => setToggle(!toggle);
   return (
     <div className="flex">
       <Sidebar />
@@ -30,7 +30,9 @@ const ProjectPage = () => {
             <Button>Закрыть</Button>
           </Link>
         </div>
-        {tasks ? (
+        {!tasks ? (
+          <p>Задачи отсутствуют</p>
+        ) : (
           <ul>
             <p className="text-base mb-[15px]">Задачи:</p>
             {tasks?.map((task, index) => {
@@ -41,13 +43,11 @@ const ProjectPage = () => {
                   userId={userId}
                   index={index}
                   projectId={projectId}
-                  updateToggle={updateToggle}
+                  updateTasks={updateToggle}
                 />
               );
             })}
           </ul>
-        ) : (
-          <p>Задач нет</p>
         )}
       </div>
     </div>

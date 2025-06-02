@@ -7,9 +7,8 @@ export type TypeTask = {
   taskId?: string;
 };
 export type TypeTime = {
-  hours: number;
-  minutes: number;
-  seconds: number;
+  totalSeconds: number;
+
   taskId?: string;
   projectId?: string | null;
 };
@@ -26,7 +25,7 @@ export type TypeTaskProps = {
   userId: string | undefined;
   index: number;
   checkedAll?: boolean;
-  updateToggle?: () => void;
+  updateTasks?: () => void;
   updateToggleProject?: () => void;
   projectId?: string;
 };
@@ -50,6 +49,7 @@ export type TypePath = {
   userId?: string;
   editTaskId?: string;
   taskId?: string;
+  projectId?: string;
 };
 
 export type TypeAuthUser = {

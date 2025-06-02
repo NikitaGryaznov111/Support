@@ -14,9 +14,9 @@ const Task: FC<TypeTaskProps> = ({
   userId,
   index,
   checkedAll,
-  updateToggle,
+  updateTasks,
   projectId,
-}: TypeTaskProps) => {
+}) => {
   const [checkedTask, setCheckedTask] = useState<boolean>(false);
 
   useEffect(() => {
@@ -29,11 +29,11 @@ const Task: FC<TypeTaskProps> = ({
     if (projectId) {
       await StorageProjects.deletedTask(projectId, taskId!);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      updateToggle!();
+      updateTasks!();
     } else {
       await StorageTasks.deletedTask(taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      updateToggle!();
+      updateTasks!();
     }
   };
   return (
