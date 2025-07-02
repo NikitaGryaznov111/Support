@@ -20,14 +20,20 @@ const Task: FC<TypeTaskProps> = ({
   const [checkedTask, setCheckedTask] = useState<boolean>(false);
 
   useEffect(() => {
-    checkedAll ? setCheckedTask(true) : setCheckedTask(false);
+    if (checkedAll) {
+      setCheckedTask(true);
+    } else {
+      setCheckedTask(false);
+    }
   }, [checkedAll]);
 
   const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const li = (e.target as HTMLButtonElement).closest('li');
-    const taskId = li!.dataset.taskid;
+    if (!li) return;
+    const taskId = li.dataset.taskid;
+    if (!taskId) return;
     if (projectId) {
-      await StorageProjects.deletedTask(projectId, taskId!);
+      await StorageProjects.deletedTask(projectId, taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
       updateTasks!();
     } else {
@@ -36,36 +42,34 @@ const Task: FC<TypeTaskProps> = ({
       updateTasks!();
     }
   };
+  const taskPath: string = projectId
+    ? `/${userId}/projects/${projectId}/fromProject/${task.taskId}`
+    : `/${userId}/tasks/${task.taskId}`;
+
+  const editTaskPath: string = projectId
+    ? `/${userId}/projects/${projectId}/${task.taskId}`
+    : `/${userId}/tasks/editTask/${task.taskId}`;
+
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>
       <input
         className={styles.taskCheckbox}
         type="checkbox"
         checked={checkedTask}
-        onChange={(e) => setCheckedTask((e.target.checked = !checkedTask))}
+        onChange={(e) => setCheckedTask(e.target.checked)}
       />
-      <Link
-        to={
-          projectId
-            ? `/${userId}/projects/${projectId}/fromProject/${task.taskId}`
-            : `/${userId}/tasks/${task.taskId}`
-        }
-        className={styles.taskLink}
-      >
-        <h3 className={styles.taskHeader}>
-          <span className={styles.taskIndex}>{index + 1}.</span>
-          <span>{task.taskName}</span>
-        </h3>
-        <p>{task.description}</p>
+      <Link to={taskPath} className={styles.taskLink}>
+        <div>
+          {' '}
+          <h3 className={styles.taskHeader}>
+            <span className={styles.taskIndex}>{index + 1}.</span>
+            <span>{task.taskName}</span>
+          </h3>
+          <p>{task.description}</p>
+        </div>
       </Link>
       <div className={styles.buttons}>
-        <Link
-          to={
-            projectId
-              ? `/${userId}/projects/${projectId}/${task.taskId}`
-              : `/${userId}/tasks/editTask/${task.taskId}`
-          }
-        >
+        <Link to={editTaskPath}>
           <Button>Изменить</Button>
         </Link>
         <Button onClick={handleDeletedTask}>Удалить</Button>

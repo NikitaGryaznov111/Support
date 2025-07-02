@@ -15,7 +15,7 @@ const useTimer = (): UseTimerResult => {
   const [totalSeconds, setTotalSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  let timeRef = useRef<number>(0);
+  const timeRef = useRef<number>(0);
 
   const tick = () => {
     setTotalSeconds((prev) => prev + 1);

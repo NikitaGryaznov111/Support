@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import { TypeProject, TypeTask, TypeTime } from './types';
-// разбей на другие файлы
+// разбей на логику
 export abstract class StorageTasks {
   static async getTasksStorage(): Promise<TypeTask[] | null> {
     return await localforage.getItem('tasks');
@@ -58,7 +58,7 @@ export abstract class StorageTimeTask {
     newTime: TypeTime,
     taskId: TypeTime['taskId']
   ): Promise<void> {
-    let timeStorage = await this.getTimeStorage();
+    const timeStorage = await this.getTimeStorage();
 
     if (timeStorage) {
       const index = timeStorage?.findIndex((el) => el.taskId === taskId);
@@ -170,7 +170,7 @@ export abstract class StorageTimeTask {
     const tasksStorage = await StorageTasks.getTasksStorage();
     const timeStorage = await this.getTimeStorage();
     const tasks = tasksStorage!.filter((task) => task.id === userId);
-    let fullTimeForTheUser: TypeTime[] = [];
+    const fullTimeForTheUser: TypeTime[] = [];
     if (timeStorage) {
       for (let i = 0; i < tasks.length; i++) {
         timeStorage!.map((time) => {

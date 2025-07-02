@@ -1,4 +1,11 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
 import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
 import { TypeTask } from '../../../utils/types';
@@ -7,6 +14,7 @@ import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import { MyContext } from '../../../routes/MyContext';
+import getCheckedTask from './Tasks.helpers';
 
 const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
@@ -25,41 +33,28 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
     init();
   }, [props.state, userId]);
 
-  // ДВЕ НИЖНИЕ ФУНКЦИИ ИМЕЮТ ПОХОЖИЙ КОД, ОПТИМИЗИРУЙ!!!
-
   const setAppStyles = useContext(MyContext);
 
   const handleDeletedCheckedTask = async (): Promise<void> => {
-    const ul = listTask.current;
-    const inputs = ul?.getElementsByTagName('input');
-    for (let input of inputs!) {
-      const li = input.closest('li');
-      const taskId = li!.dataset.taskid;
-      if (input.checked) {
-        await StorageTasks.deletedTask(taskId);
-        await StorageTimeTask.deletedTime(taskId);
-      }
+    const checkedTask = getCheckedTask(listTask);
+    if (!checkedTask) return;
+    for (const { taskId } of checkedTask) {
+      await StorageTasks.deletedTask(taskId);
+      await StorageTimeTask.deletedTime(taskId);
     }
     setTasks(await StorageTasks.getTasksUser(userId));
   };
 
   const handleOpenModal = () => {
-    const arrDataTask = [];
-    const ul = listTask.current;
-    const inputs = ul!.getElementsByTagName('input');
-    for (let input of inputs) {
-      const li = input.closest('li');
-      const taskId = li!.dataset.taskid;
-      const taskName = li!.getElementsByTagName('span')[1].textContent;
-      const description = li!.getElementsByTagName('p')[0].textContent;
-      if (input.checked && li) {
-        setAppStyles('AppModal');
-        setModalActive(!modalActive);
-        arrDataTask.push({ taskId, taskName, description });
-      }
+    const checkedTask = getCheckedTask(listTask);
+    if (!checkedTask) return;
+    if (checkedTask.length > 0) {
+      setAppStyles('AppModal');
+      setModalActive(!modalActive);
+      setSelectedTasksProject(checkedTask as SetStateAction<TypeTask[]>);
     }
-    setSelectedTasksProject(arrDataTask as any);
   };
+
   const updateTasks = async () => {
     setTasks(await StorageTasks.getTasksUser(userId));
   };
