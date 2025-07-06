@@ -8,7 +8,6 @@ export type TypeTask = {
 };
 export type TypeTime = {
   totalSeconds: number;
-
   taskId?: string;
   projectId?: string | null;
 };

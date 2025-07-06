@@ -1,57 +1,26 @@
 import localforage from 'localforage';
 import { TypeTask, TypeTime } from '../types';
+import { upsertTimeEntry } from './storage.helpers';
 
 export abstract class StorageTimeTask {
-  static async addTime(
-    newTime: TypeTime,
-    taskId: TypeTime['taskId']
-  ): Promise<void> {
+  static async addTime(newTime: TypeTime, taskId: string): Promise<void> {
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
-
-    if (timeStorage) {
-      const index = timeStorage?.findIndex((el) => el.taskId === taskId);
-      if (index > -1) {
-        timeStorage[index] = newTime;
-      } else {
-        timeStorage.push(newTime);
-      }
-      await localforage.setItem('time', timeStorage);
-    } else {
-      await localforage.setItem('time', [newTime]);
-    }
-  }
-  static async addTimeFromProject(
-    newTime: TypeTime,
-    taskId: TypeTime['taskId']
-  ): Promise<void> {
-    const timeStorage = await localforage.getItem<TypeTime[]>(
+    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
       'timeFromProject'
     );
-    if (timeStorage?.length === 0) {
-      await localforage.setItem('timeFromProject', [newTime]);
-    }
-    if (timeStorage) {
-      for (let i = 0; i < timeStorage!.length; i++) {
-        if (timeStorage![i].taskId === taskId) {
-          timeStorage!.splice(i, 1, newTime);
-          await localforage.setItem('timeFromProject', timeStorage);
-          break;
-        } else {
-          const time = timeStorage.find((el) => el.taskId === taskId);
-          if (time) {
-            await localforage.setItem('timeFromProject', [...timeStorage!]);
-          } else {
-            await localforage.setItem('timeFromProject', [
-              ...timeStorage!,
-              newTime,
-            ]);
-          }
-        }
-      }
+    const { projectId } = newTime;
+    if (!projectId) {
+      upsertTimeEntry(timeStorage, 'time', newTime, taskId);
     } else {
-      await localforage.setItem('timeFromProject', [newTime]);
+      upsertTimeEntry(
+        timeStorageFromProject,
+        'timeFromProject',
+        newTime,
+        taskId
+      );
     }
   }
+
   static async getTime(taskId: TypeTime['taskId']): Promise<TypeTime> {
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
     const initialTime: TypeTime = {

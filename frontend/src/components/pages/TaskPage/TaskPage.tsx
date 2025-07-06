@@ -65,11 +65,8 @@ const TaskPage: FC = () => {
         taskId,
         projectId,
       };
-      if (projectId) {
-        await StorageTimeTask.addTimeFromProject(dataToSave, taskId);
-      } else {
-        await StorageTimeTask.addTime(dataToSave, taskId);
-      }
+      await StorageTimeTask.addTime(dataToSave, taskId!);
+
       setTime(dataToSave);
     };
     saveTime();
