@@ -1,42 +1,35 @@
-import { FC, useActionState } from 'react';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { StorageTasks } from '../../../utils/forStorage';
 import Tasks from '../../smart/Tasks/Tasks';
 import Form from '../../UI/Form/Form';
-import { TypeTask, TypeFormData } from '../../../utils/types';
+import { TypeTask } from '../../../utils/types';
+import { StorageTasks } from '../../../utils/storage/storageTasks';
 
 const TasksPage: FC = () => {
-  const nanoId = nanoid(6);
   const { userId } = useParams();
-  const [state, formAction] = useActionState<TypeTask>(handleBtnClick as any, {
-    taskName: '',
-    description: '',
-    id: userId,
-    taskId: nanoId,
-  });
+  const [task, setTask] = useState<TypeTask[]>([]);
 
-  async function handleBtnClick(
-    prevState: TypeTask,
-    formData: TypeFormData
-  ): Promise<TypeTask | undefined> {
-    if (formData.get('taskName') === '') {
+  async function handleBtnClick(formData: FormData): Promise<void> {
+    const taskName = formData.get('taskName') as string;
+    const description = formData.get('description') as string;
+    if (!taskName.trim()) {
       alert('Введите название задачи!');
       return;
     }
     const newTask = {
-      taskName: formData.get('taskName'),
-      description: formData.get('description'),
+      taskName,
+      description,
       id: userId,
-      taskId: nanoId,
+      taskId: nanoid(6),
     };
     await StorageTasks.addTasks(newTask);
-    return newTask;
+    setTask(() => [newTask]);
   }
   return (
     <div className="[&>form]:p-0 mb-1.5">
-      <Form formAction={formAction} text="Добавить задачу"></Form>
-      <Tasks state={state} />
+      <Form formAction={handleBtnClick} text="Добавить задачу"></Form>
+      <Tasks task={task} />
     </div>
   );
 };

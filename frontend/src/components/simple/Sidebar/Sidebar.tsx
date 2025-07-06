@@ -4,7 +4,7 @@ import styles from './Sidebar.module.scss';
 import Logout from '../../smart/Auth/Logout';
 
 const Sidebar: FC = () => {
-  const [userId, setUserId] = useState<String>();
+  const [userId, setUserId] = useState<string>();
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (userId) {

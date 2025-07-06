@@ -31,7 +31,7 @@ export type TypeTaskProps = {
 };
 
 export type TypePropsForm = {
-  formAction: () => void;
+  formAction?: (formData: FormData) => Promise<void>;
   defaultValueName?: string;
   defaultValueDescription?: string;
   text: string;

@@ -1,13 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TypeProject } from '../../../utils/types';
-import {
-  StorageProjects,
-  StorageTasks,
-  StorageTimeTask,
-} from '../../../utils/forStorage';
+
 import styles from './ProjectsPage.module.scss';
 import Button from '../../UI/Button/Button';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
 
 // ДОБАВЬ КНОПКИ И СДЕЛАЙ ЧЕКБОКСЫ
 // ПОДУМАЙ ГДЕ ОПТИМИЗИРОВАТЬ КОД МЕМО И ИТД

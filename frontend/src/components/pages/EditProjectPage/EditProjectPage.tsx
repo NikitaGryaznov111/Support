@@ -3,8 +3,8 @@ import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from '../../UI/Form/Form.module.scss';
 import { TypeFormData } from '../../../utils/types';
-import { StorageProjects } from '../../../utils/forStorage';
 import { useNavigate, useParams } from 'react-router-dom';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
 
 const EditProjectPage = () => {
   const [state, formAction] = useActionState(handleForm as any, {

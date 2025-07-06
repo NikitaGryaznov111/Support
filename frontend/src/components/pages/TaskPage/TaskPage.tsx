@@ -1,15 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask, TypeTime, TypePath } from '../../../utils/types';
-import {
-  StorageProjects,
-  StorageTasks,
-  StorageTimeTask,
-} from '../../../utils/forStorage';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from './TaskPage.module.scss';
 import useTimer from '../../../hooks/useTimer';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
+import { StorageTasks } from '../../../utils/storage/storageTasks';
+import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 
 const TaskPage: FC = () => {
   const { taskId, projectId } = useParams<TypePath>();

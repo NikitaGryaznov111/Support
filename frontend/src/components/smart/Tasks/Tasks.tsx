@@ -1,13 +1,5 @@
-import {
-  FC,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { StorageTasks, StorageTimeTask } from '../../../utils/forStorage';
 import { TypeTask } from '../../../utils/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
@@ -15,8 +7,10 @@ import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import { MyContext } from '../../../routes/MyContext';
 import getCheckedTask from './Tasks.helpers';
+import { StorageTasks } from '../../../utils/storage/storageTasks';
+import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 
-const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
+const Tasks = (props: { task: TypeTask[] }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
     []
@@ -27,11 +21,12 @@ const Tasks: FC<{ state: TypeTask }> = (props: { state: TypeTask }) => {
   const listTask = useRef<HTMLUListElement>(null);
   useEffect(() => {
     const init = async () => {
-      if (!tasks?.length) setCheckedAll(false);
       setTasks(await StorageTasks.getTasksUser(userId));
+      if (!tasks) return;
+      if (tasks.length) setCheckedAll(false);
     };
     init();
-  }, [props.state, userId]);
+  }, [props.task, userId]);
 
   const setAppStyles = useContext(MyContext);
 

@@ -1,13 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
-import {
-  StorageProjects,
-  StorageTasks,
-  StorageTimeTask,
-} from '../../../utils/forStorage';
 import { TypeTaskProps } from '../../../utils/types';
 import styles from './Task.module.scss';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
+import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
+import { StorageTasks } from '../../../utils/storage/storageTasks';
 
 const Task: FC<TypeTaskProps> = ({
   task,

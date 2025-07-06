@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
 import { TypeCurrentProjects } from '../../../utils/types';
-import { StorageProjects } from '../../../utils/forStorage';
 
 import styles from './CurrentProjects.module.scss';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
 
 const CurrentProjects: FC<TypeCurrentProjects> = ({
   close,

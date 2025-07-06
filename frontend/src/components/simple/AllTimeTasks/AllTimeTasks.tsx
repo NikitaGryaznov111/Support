@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { StorageTimeTask } from '../../../utils/forStorage';
 import { FC, useEffect, useState } from 'react';
 import { TypeTime } from '../../../utils/types';
 import { getAllTimes } from '../../../utils/getAllTimes';
+import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 
 const AllTimeTasks: FC = () => {
   const { userId } = useParams<{ userId: string }>();

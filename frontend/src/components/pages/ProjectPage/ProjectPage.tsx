@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import { StorageProjects } from '../../../utils/forStorage';
 import { TypeProject } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
 import Task from '../../simple/Task/Task';
 import styles from './ProjectPage.module.scss';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject>();
   const [toggle, setToggle] = useState<boolean>(true);

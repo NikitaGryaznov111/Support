@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { TypePropsModal, TypeProject } from '../../../utils/types';
-import { StorageProjects } from '../../../utils/forStorage';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
 import AddingTasksProject from '../../simple/AddingTasksProject/AddingTasksProject';
 import FormCreatingProject from '../../smart/FormCreatingProject/FormCreatingProject';
 import { useParams } from 'react-router-dom';
+import { StorageProjects } from '../../../utils/storage/storageProjects';
 
 const Modal: FC<TypePropsModal> = ({
   modalActive,
