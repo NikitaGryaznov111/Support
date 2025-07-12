@@ -1,3 +1,4 @@
+import { ChangeEvent, FormEvent } from 'react';
 import { ActionFunction, LoaderFunction } from 'react-router-dom';
 
 export type TypeTask = {
@@ -21,19 +22,21 @@ export type TypeUser = {
 
 export type TypeTaskProps = {
   task: TypeTask;
-  userId: string | undefined;
   index: number;
+  userId: string | undefined;
   checkedAll?: boolean;
-  updateTasks?: () => void;
-  updateToggleProject?: () => void;
+  loadProject?: () => void;
+  loadTasks?: () => void;
   projectId?: string;
 };
 
 export type TypePropsForm = {
-  formAction?: (formData: FormData) => Promise<void>;
-  defaultValueName?: string;
-  defaultValueDescription?: string;
+  formAction: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  valueName?: string;
+  valueDescription?: string;
   text: string;
+  onChangeTaskName: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChangeDescription: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type TypeRoutesConfig = {

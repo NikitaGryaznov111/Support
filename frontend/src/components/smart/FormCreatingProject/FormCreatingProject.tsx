@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TypeFormData, TypeProject, TypeTask } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
 import { nanoid } from 'nanoid';
-import { MyContext } from '../../../routes/MyContext';
+import { MyContext } from '../../../context/appStylesContext';
 import styles from './FormCreatingProject.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 

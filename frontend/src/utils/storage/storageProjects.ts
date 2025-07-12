@@ -83,11 +83,16 @@ export abstract class StorageProjects {
     projectId: TypeProject['projectId'],
     updates: { name: string }
   ) {
-    const projects = await localforage.getItem<TypeProject[]>('projects');
-    const project = projects!.find(
-      (project) => project.projectId === projectId
-    );
-    Object.assign(project!, updates);
-    await localforage.setItem('projects', projects);
+    try {
+      const projects = await localforage.getItem<TypeProject[]>('projects');
+      if (!projects) throw new Error('Проекты не найдены в хранилище');
+      const index = projects.findIndex((proj) => proj.projectId === projectId);
+      if (index === -1) throw new Error(`Проект c id ${projectId} не найден`);
+      const { name } = updates;
+      projects[index].name = name;
+      await localforage.setItem('projects', projects);
+    } catch (error) {
+      console.error('Ошибка при обновлении проекта:', error);
+    }
   }
 }

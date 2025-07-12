@@ -3,31 +3,37 @@ import styles from './Form.module.scss';
 import { TypePropsForm } from '../../../utils/types';
 const Form: FC<TypePropsForm> = ({
   formAction,
-  defaultValueName,
-  defaultValueDescription,
+  valueName,
+  valueDescription,
   text,
+  onChangeTaskName,
+  onChangeDescription,
 }) => {
   return (
-    <form className={styles.form} action={formAction}>
-      <label className={styles.label} htmlFor="task">
+    <form className={styles.form} onSubmit={formAction}>
+      <label className={styles.label} htmlFor="taskName">
         Название задачи:
       </label>
       <input
+        id="taskName"
         className={styles.input}
         type="text"
         name="taskName"
         placeholder="Name task..."
-        defaultValue={defaultValueName}
+        value={valueName}
+        onChange={onChangeTaskName}
       />
       <label className={styles.label} htmlFor="description">
         Описание задачи:
       </label>
       <input
+        id="description"
         className={styles.input}
         type="text"
         name="description"
         placeholder="Task description..."
-        defaultValue={defaultValueDescription}
+        value={valueDescription}
+        onChange={onChangeDescription}
       />
       <button className={styles.button} type="submit">
         {text}

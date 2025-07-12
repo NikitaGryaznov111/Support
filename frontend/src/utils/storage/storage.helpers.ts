@@ -6,7 +6,7 @@ export const upsertTimeEntry = async (
   storeKey: string,
   newTime: TypeTime,
   taskId: string
-) => {
+): Promise<void> => {
   if (storage) {
     const index = storage?.findIndex((el) => el.taskId === taskId);
     if (index > -1) {

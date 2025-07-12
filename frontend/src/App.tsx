@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/routes';
 import { useState } from 'react';
-import { MyContext } from './routes/MyContext';
+import { MyContext } from './context/appStylesContext';
 import './styles/AppModal.scss';
 function App() {
   const [appStyles, setAppStyles] = useState<string>('');

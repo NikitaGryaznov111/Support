@@ -9,16 +9,13 @@
 // .taskWrapper {
 //   flex-basis: 75%;
 // }
-// .taskLink {
-//   flex-grow: 1;
-//   margin-left: 15px;
-// }
-// .taskCheckbox {
-//   cursor: pointer;
-// }
-// .taskItem:last-child {
-//   margin-bottom: 0px;
-// }
+.taskLink {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+.taskCheckbox {
+  cursor: pointer;
+}
 .buttons {
   display: flex;
   gap: 10px;
@@ -31,4 +28,9 @@
 .taskIndex {
   font-weight: 200;
   margin-right: 4px;
+}
+.checkboxAll {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

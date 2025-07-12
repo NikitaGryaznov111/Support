@@ -1,27 +1,26 @@
-import { useActionState } from 'react';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from '../../UI/Form/Form.module.scss';
-import { TypeFormData } from '../../../utils/types';
-import { useNavigate, useParams } from 'react-router-dom';
+import { TypePath } from '../../../utils/types';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 
 const EditProjectPage = () => {
-  const [state, formAction] = useActionState(handleForm as any, {
-    name: '',
-  });
-  const { projectId, userId } = useParams();
+  const { projectId, userId } = useParams<TypePath>();
   const navigate = useNavigate();
+
   async function handleForm(
-    prevState: { name: string },
-    formData: TypeFormData
+    e: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const newName = formData.get('projectName');
+
     if (newName === '') {
       alert('Введите новое название проекта');
     } else {
       const updates = {
-        name: newName,
+        name: newName as string,
       };
       await StorageProjects.updateProject(projectId!, updates);
       navigate(`/${userId}/projects`);
@@ -30,10 +29,15 @@ const EditProjectPage = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <form className={styles.form} action={formAction}>
-        <label className={styles.label} htmlFor="project">
-          Название проекта:
-        </label>
+      <form className={styles.form} onSubmit={handleForm}>
+        <div className="flex justify-between items-center">
+          <label className={styles.label} htmlFor="project">
+            Название проекта:
+          </label>
+          <Link to={'/'}>
+            <Button>Закрыть</Button>
+          </Link>
+        </div>
         <input
           className={`${styles.input} mt-3 mb-3`}
           type="text"
@@ -48,9 +52,6 @@ const EditProjectPage = () => {
           onClick={() => navigate(`/${userId}/projects`)}
         />
       </form>
-      {/* <Link to={'/'}>
-        <Button>Закрыть</Button>
-      </Link> */}
     </div>
   );
 };

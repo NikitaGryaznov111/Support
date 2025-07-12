@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
 import { TypeTaskProps } from '../../../utils/types';
@@ -6,25 +6,17 @@ import styles from './Task.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
+import Checkbox from '../../UI/Checkbox/Checkbox';
 
 const Task: FC<TypeTaskProps> = ({
   task,
   userId,
   index,
   checkedAll,
-  updateTasks,
+  loadProject,
   projectId,
+  loadTasks,
 }) => {
-  const [checkedTask, setCheckedTask] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (checkedAll) {
-      setCheckedTask(true);
-    } else {
-      setCheckedTask(false);
-    }
-  }, [checkedAll]);
-
   const handleDeletedTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const li = (e.target as HTMLButtonElement).closest('li');
     if (!li) return;
@@ -33,11 +25,11 @@ const Task: FC<TypeTaskProps> = ({
     if (projectId) {
       await StorageProjects.deletedTask(projectId, taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      updateTasks!();
+      loadProject!();
     } else {
       await StorageTasks.deletedTask(taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      updateTasks!();
+      loadTasks!();
     }
   };
   const taskPath: string = projectId
@@ -50,12 +42,7 @@ const Task: FC<TypeTaskProps> = ({
 
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>
-      <input
-        className={styles.taskCheckbox}
-        type="checkbox"
-        checked={checkedTask}
-        onChange={(e) => setCheckedTask(e.target.checked)}
-      />
+      <Checkbox checkedAll={checkedAll} />
       <Link to={taskPath} className={styles.taskLink}>
         <div>
           {' '}

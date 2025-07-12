@@ -1,18 +1,24 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import Tasks from '../../smart/Tasks/Tasks';
 import Form from '../../UI/Form/Form';
-import { TypeTask } from '../../../utils/types';
+import { TypePath, TypeTask } from '../../../utils/types';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 
 const TasksPage: FC = () => {
-  const { userId } = useParams();
-  const [task, setTask] = useState<TypeTask[]>([]);
+  const { userId } = useParams<TypePath>();
+  const [task, setTask] = useState<TypeTask | null>(null);
+  const [taskName, setTaskName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
-  async function handleBtnClick(formData: FormData): Promise<void> {
-    const taskName = formData.get('taskName') as string;
-    const description = formData.get('description') as string;
+  async function handleBtnClick(e: FormEvent<HTMLFormElement>): Promise<void> {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const getName = formData.get('taskName') as string;
+    const getDescription = formData.get('description') as string;
+    setTaskName(getName);
+    setDescription(getDescription);
     if (!taskName.trim()) {
       alert('Введите название задачи!');
       return;
@@ -24,11 +30,24 @@ const TasksPage: FC = () => {
       taskId: nanoid(6),
     };
     await StorageTasks.addTasks(newTask);
-    setTask(() => [newTask]);
+    setTask(newTask);
+    setTaskName('');
+    setDescription('');
   }
   return (
     <div className="[&>form]:p-0 mb-1.5">
-      <Form formAction={handleBtnClick} text="Добавить задачу"></Form>
+      <Form
+        formAction={handleBtnClick}
+        text="Добавить задачу"
+        onChangeTaskName={(e: ChangeEvent<HTMLInputElement>) =>
+          setTaskName(e.target.value)
+        }
+        onChangeDescription={(e: ChangeEvent<HTMLInputElement>) =>
+          setDescription(e.target.value)
+        }
+        valueName={taskName}
+        valueDescription={description}
+      ></Form>
       <Tasks task={task} />
     </div>
   );

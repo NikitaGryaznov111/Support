@@ -1,23 +1,31 @@
-import { SetStateAction, useContext, useEffect, useRef, useState } from 'react';
+import {
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
-import { TypeTask } from '../../../utils/types';
+import { TypePath, TypeTask } from '../../../utils/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
-import { MyContext } from '../../../routes/MyContext';
 import getCheckedTask from './Tasks.helpers';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
+import { MyContext } from '../../../context/appStylesContext';
 
-const Tasks = (props: { task: TypeTask[] }) => {
+// НАДО МЕМОИЗИРОВАТЬ МОДАЛКУ ПРИ КЛИКЕ НА "ВСЕ"
+const Tasks = (props: { task: TypeTask | null }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
     []
   );
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
-  const { userId } = useParams<string>();
+  const { userId } = useParams<TypePath>();
   const listTask = useRef<HTMLUListElement>(null);
   useEffect(() => {
     const init = async () => {
@@ -50,9 +58,10 @@ const Tasks = (props: { task: TypeTask[] }) => {
     }
   };
 
-  const updateTasks = async () => {
+  const loadTasks = useCallback(async () => {
     setTasks(await StorageTasks.getTasksUser(userId));
-  };
+  }, [userId]);
+
   const closeModal = () => {
     setAppStyles('');
     setModalActive(!modalActive);
@@ -72,8 +81,9 @@ const Tasks = (props: { task: TypeTask[] }) => {
             <input
               type="checkbox"
               onChange={() => setCheckedAll(!checkedAll)}
+              className="mb-5"
             />{' '}
-            Все
+            Выбрать все задачи
             <ul ref={listTask} className="mb-4">
               {tasks?.map((task: TypeTask, index: number) => (
                 <Task
@@ -82,7 +92,7 @@ const Tasks = (props: { task: TypeTask[] }) => {
                   userId={userId}
                   index={index}
                   checkedAll={checkedAll}
-                  updateTasks={updateTasks}
+                  loadTasks={loadTasks}
                 />
               ))}
             </ul>
