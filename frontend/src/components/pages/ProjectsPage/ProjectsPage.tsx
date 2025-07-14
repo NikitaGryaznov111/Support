@@ -1,17 +1,18 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { TypeProject } from '../../../utils/types';
+import { TypePath, TypeProject } from '../../../utils/types';
 import styles from './ProjectsPage.module.scss';
 import Button from '../../UI/Button/Button';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import Checkbox from '../../UI/Checkbox/Checkbox';
+import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 
-// ДОБАВЬ КНОПКИ И СДЕЛАЙ ЧЕКБОКСЫ
+// ДОБАВЬ КНОПКУ УДАЛЕНИЯ ВЫБРАННЫХ ПРОЕКТОВ
 const ProjectsPage: FC = () => {
   const [projects, setProjects] = useState<TypeProject[]>();
   const [toggle, setToggle] = useState<boolean>(false);
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
-  const { userId } = useParams();
+  const { userId } = useParams<TypePath>();
 
   useEffect(() => {
     const init = async () => {
@@ -27,17 +28,14 @@ const ProjectsPage: FC = () => {
     await StorageProjects.deletedProject(projectId!);
     setToggle(!toggle);
   };
+  const handleCheckboxAll = (): void => {
+    setCheckedAll(!checkedAll);
+  };
   return (
     <>
       {projects?.length ? (
         <div>
-          {' '}
-          <input
-            type="checkbox"
-            onChange={() => setCheckedAll(!checkedAll)}
-            className={styles.checkboxAll}
-          />{' '}
-          Выбрать все проекты
+          <CheckboxAll handleCheckboxAll={handleCheckboxAll} />
           <ul>
             {projects.map((project, index) => {
               const { projectId, name } = project;

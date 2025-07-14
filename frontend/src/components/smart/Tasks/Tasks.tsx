@@ -16,6 +16,7 @@ import getCheckedTask from './Tasks.helpers';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { MyContext } from '../../../context/appStylesContext';
+import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 
 // НАДО МЕМОИЗИРОВАТЬ МОДАЛКУ ПРИ КЛИКЕ НА "ВСЕ"
 const Tasks = (props: { task: TypeTask | null }) => {
@@ -58,13 +59,16 @@ const Tasks = (props: { task: TypeTask | null }) => {
     }
   };
 
-  const loadTasks = useCallback(async () => {
+  const loadTasks = useCallback(async (): Promise<void> => {
     setTasks(await StorageTasks.getTasksUser(userId));
   }, [userId]);
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setAppStyles('');
     setModalActive(!modalActive);
+  };
+  const handleCheckboxAll = (): void => {
+    setCheckedAll(!checkedAll);
   };
   return (
     <>
@@ -78,12 +82,7 @@ const Tasks = (props: { task: TypeTask | null }) => {
             </div>
           </div>
           <>
-            <input
-              type="checkbox"
-              onChange={() => setCheckedAll(!checkedAll)}
-              className="mb-5"
-            />{' '}
-            Выбрать все задачи
+            <CheckboxAll handleCheckboxAll={handleCheckboxAll} />
             <ul ref={listTask} className="mb-4">
               {tasks?.map((task: TypeTask, index: number) => (
                 <Task

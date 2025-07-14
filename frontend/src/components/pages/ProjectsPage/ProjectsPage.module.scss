@@ -30,7 +30,12 @@
   margin-right: 4px;
 }
 .checkboxAll {
-  cursor: pointer;
   margin-top: 10px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  & > input {
+    cursor: pointer;
+  }
 }
