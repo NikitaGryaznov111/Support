@@ -82,7 +82,10 @@ const Tasks = (props: { task: TypeTask | null }) => {
             </div>
           </div>
           <>
-            <CheckboxAll handleCheckboxAll={handleCheckboxAll} />
+            <CheckboxAll
+              handleCheckboxAll={handleCheckboxAll}
+              text="Выбрать все задачи"
+            />
             <ul ref={listTask} className="mb-4">
               {tasks?.map((task: TypeTask, index: number) => (
                 <Task
