@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { TypePropsModal, TypeProject } from '../../../utils/types';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
 import AddingTasksProject from '../../simple/AddingTasksProject/AddingTasksProject';
@@ -18,16 +18,16 @@ const Modal: FC<TypePropsModal> = ({
   const { userId } = useParams();
   useEffect(() => {
     const init = async (): Promise<void> => {
-      setProjects(await StorageProjects.getProjectsUser(userId!));
+      if (userId) setProjects(await StorageProjects.getProjectsUser(userId));
     };
     init();
-  }, []);
+  }, [userId]);
   const close = (): void => {
     closeModal();
     setSwitcher(true);
     setSwitchCurrentProject(false);
   };
-  console.log(switcher);
+  console.log('render modal');
   return (
     <>
       {switchCurrentProject ? (
@@ -62,4 +62,4 @@ const Modal: FC<TypePropsModal> = ({
   );
 };
 
-export default Modal;
+export default React.memo(Modal);

@@ -18,8 +18,8 @@ import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { MyContext } from '../../../context/appStylesContext';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 
-// НАДО МЕМОИЗИРОВАТЬ МОДАЛКУ ПРИ КЛИКЕ НА "ВСЕ"
-const Tasks = (props: { task: TypeTask | null }) => {
+// НАДО МЕМОИЗИРОВАТЬ МОДАЛКУ ПРИ КЛИКЕ НА "ВСЕ" - при нажатии на handleCheckboxAll и повторном рендере у меня не должны меняться свойства, передаваемые в Modal - подумай над этим
+const Tasks = ({ task }: { task: TypeTask | null }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
     []
@@ -28,47 +28,48 @@ const Tasks = (props: { task: TypeTask | null }) => {
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
   const { userId } = useParams<TypePath>();
   const listTask = useRef<HTMLUListElement>(null);
-  useEffect(() => {
-    const init = async () => {
-      setTasks(await StorageTasks.getTasksUser(userId));
-      if (!tasks) return;
-      if (tasks.length) setCheckedAll(false);
-    };
-    init();
-  }, [props.task, userId]);
-
   const setAppStyles = useContext(MyContext);
 
-  const handleDeletedCheckedTask = async (): Promise<void> => {
-    const checkedTask = getCheckedTask(listTask);
-    if (!checkedTask) return;
-    for (const { taskId } of checkedTask) {
-      await StorageTasks.deletedTask(taskId);
-      await StorageTimeTask.deletedTime(taskId);
-    }
-    setTasks(await StorageTasks.getTasksUser(userId));
-  };
-
-  const handleOpenModal = () => {
-    const checkedTask = getCheckedTask(listTask);
-    if (!checkedTask) return;
-    if (checkedTask.length > 0) {
-      setAppStyles('AppModal');
-      setModalActive(!modalActive);
-      setSelectedTasksProject(checkedTask as SetStateAction<TypeTask[]>);
-    }
-  };
+  console.log('render tasks');
 
   const loadTasks = useCallback(async (): Promise<void> => {
     setTasks(await StorageTasks.getTasksUser(userId));
   }, [userId]);
 
-  const closeModal = (): void => {
-    setAppStyles('');
-    setModalActive(!modalActive);
+  useEffect(() => {
+    const init = async () => {
+      await loadTasks();
+      if (!tasks) return;
+      if (tasks.length) setCheckedAll(false);
+    };
+    init();
+  }, [task, userId]);
+
+  const handleDeletedCheckedTask = async (): Promise<void> => {
+    const checkedTask = getCheckedTask(listTask);
+    if (!checkedTask || checkedTask.length === 0) return;
+    for (const { taskId } of checkedTask) {
+      await StorageTasks.deletedTask(taskId);
+      await StorageTimeTask.deletedTime(taskId);
+    }
+    await loadTasks();
   };
+  // мемоизировать:
+  const handleOpenModal = useCallback(() => {
+    const checkedTask = getCheckedTask(listTask);
+    if (!checkedTask || checkedTask.length === 0) return;
+    setAppStyles('AppModal');
+    setModalActive((prev) => !prev);
+    setSelectedTasksProject(checkedTask as SetStateAction<TypeTask[]>);
+  }, [setAppStyles]);
+  // мемоизировать:
+  const closeModal = useCallback((): void => {
+    setAppStyles('');
+    setModalActive((prev) => !prev);
+  }, [setAppStyles]);
+
   const handleCheckboxAll = (): void => {
-    setCheckedAll(!checkedAll);
+    setCheckedAll((prev) => !prev);
   };
   return (
     <>
