@@ -20,14 +20,12 @@ export abstract class StorageTasks {
       return tasks;
     }
   }
-  static async getTask(
-    taskId: TypeTask['taskId']
-  ): Promise<TypeTask | undefined> {
+  static async getTask(taskId: TypeTask['taskId']): Promise<TypeTask> {
     const tasksStorage = await localforage.getItem<TypeTask[]>('tasks');
     const task = tasksStorage!.find((task: TypeTask): boolean => {
       return task.taskId === taskId;
     });
-    return task;
+    return task as TypeTask;
   }
   static async deletedTask(taskId: TypeTask['taskId']) {
     const tasksStorage = await localforage.getItem<TypeTask[]>('tasks');

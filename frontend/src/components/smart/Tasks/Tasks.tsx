@@ -18,7 +18,6 @@ import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { MyContext } from '../../../context/appStylesContext';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 
-// НАДО МЕМОИЗИРОВАТЬ МОДАЛКУ ПРИ КЛИКЕ НА "ВСЕ" - при нажатии на handleCheckboxAll и повторном рендере у меня не должны меняться свойства, передаваемые в Modal - подумай над этим
 const Tasks = ({ task }: { task: TypeTask | null }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
@@ -54,7 +53,6 @@ const Tasks = ({ task }: { task: TypeTask | null }) => {
     }
     await loadTasks();
   };
-  // мемоизировать:
   const handleOpenModal = useCallback(() => {
     const checkedTask = getCheckedTask(listTask);
     if (!checkedTask || checkedTask.length === 0) return;
@@ -62,7 +60,6 @@ const Tasks = ({ task }: { task: TypeTask | null }) => {
     setModalActive((prev) => !prev);
     setSelectedTasksProject(checkedTask as SetStateAction<TypeTask[]>);
   }, [setAppStyles]);
-  // мемоизировать:
   const closeModal = useCallback((): void => {
     setAppStyles('');
     setModalActive((prev) => !prev);

@@ -5,7 +5,6 @@ import Sidebar from '../../simple/Sidebar/Sidebar';
 import Form from '../../UI/Form/Form';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
-// РАЗБЕРИСЬ, ПУСТОЕ ИМЯ И ОПИСАНИЕ ЗАДАЧИ!!!
 const EditTaskPage: FC = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<TypeTask>();
@@ -15,33 +14,39 @@ const EditTaskPage: FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      if (projectId) {
-        setTask(await StorageProjects.getTask(projectId!, taskId!));
+      if (projectId && taskId) {
+        const fetchedTask = await StorageProjects.getTask(projectId, taskId);
+        setTask(fetchedTask);
+        setTaskName(fetchedTask.taskName);
+        setDescription(fetchedTask.description);
       } else {
-        setTask(await StorageTasks.getTask(taskId));
+        const fetchedTask = await StorageTasks.getTask(taskId);
+        setTask(fetchedTask);
+        setTaskName(fetchedTask.taskName);
+        setDescription(fetchedTask.description);
       }
     };
     init();
-  }, []);
+  }, [taskId, projectId]);
   async function handleForm(
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const updates = {
-      taskName: formData.get('taskName'),
-      description: formData.get('description'),
-    } as TypeTask;
-    setTaskName(updates.taskName);
-    setDescription(updates.description);
-    if (projectId) {
-      await StorageProjects.updateTask(taskId!, projectId!, updates);
+      taskName: formData.get('taskName') as string,
+      description: formData.get('description') as string,
+    };
+
+    if (projectId && taskId) {
+      await StorageProjects.updateTask(taskId, projectId, updates);
       navigate(`/${userId}/projects/${projectId}`);
     } else {
       await StorageTasks.updateTask(taskId, updates);
       navigate(`/${userId}/tasks`);
     }
   }
+
   return (
     <div className="flex ">
       <Sidebar />
