@@ -12,18 +12,20 @@ const TasksPage: FC = () => {
   const [taskName, setTaskName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  async function handleBtnClick(e: FormEvent<HTMLFormElement>): Promise<void> {
+  const handleBtnClick = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const getName = formData.get('taskName') as string;
     const getDescription = formData.get('description') as string;
     setTaskName(getName);
     setDescription(getDescription);
-    if (!taskName.trim()) {
+    if (!getName.trim()) {
       alert('Введите название задачи!');
       return;
     }
-    const newTask = {
+    const newTask: TypeTask = {
       taskName,
       description,
       id: userId,
@@ -33,7 +35,7 @@ const TasksPage: FC = () => {
     setTask(newTask);
     setTaskName('');
     setDescription('');
-  }
+  };
   return (
     <div className="[&>form]:p-0 mb-1.5">
       <Form

@@ -1,6 +1,7 @@
 @import '../../../styles/templateBase.scss';
 @import '../../../styles/variables.scss';
-.button {
+.button,
+.link {
   border: 1px solid #e4e4e4;
   border-radius: 2px;
   background: linear-gradient(to bottom, #fafafa 0, #f2f2f2 100%);
@@ -9,4 +10,10 @@
   &:hover {
     background: transparent;
   }
+}
+.active {
+  background: transparent;
+  color: gray !important;
+  box-shadow: inset 0px 0px 5px #c1c1c1;
+  margin-bottom: 15px;
 }

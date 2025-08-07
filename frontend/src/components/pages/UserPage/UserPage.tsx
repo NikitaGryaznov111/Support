@@ -1,54 +1,58 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, NavLink, Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { TypeUser } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
 import Sidebar from '../../simple/Sidebar/Sidebar';
+import { getUser } from './UserPage.helpers';
 import styles from './UserPage.module.scss';
-import AuthServices from '../../../api/AuthServices';
-
-const getUser = async (userId: string): Promise<TypeUser> => {
-  const users = await AuthServices.getUsers();
-  return users.find(
-    (person: TypeUser): boolean => person.userId === userId
-  ) as TypeUser;
-};
 const UserPage: FC = () => {
   const [user, setUser] = useState<TypeUser>();
-  const { userId } = useParams();
-
+  const { userId } = useParams<string>();
+  const [load, setLoad] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     const init = async () => {
-      setUser(await getUser(userId as string));
+      try {
+        if (userId) setUser(await getUser(userId));
+        setError(false);
+      } catch (error) {
+        console.error('Failed to load user:', error);
+        setError(true);
+      } finally {
+        setLoad(false);
+      }
     };
     init();
   }, [userId]);
   return (
     <div className="flex">
       <Sidebar />
-      {!user ? (
-        <p>Загрузка пользователя с id:{userId}</p>
-      ) : (
+      {load ? (
+        <p className={styles.loadUser}>Загрузка...</p>
+      ) : error ? (
+        <p className={styles.errorUser}>
+          Ошибка получения информации о пользователе{' '}
+        </p>
+      ) : user ? (
         <div className={styles.userPage}>
           <div className={styles.userPageHeader}>
             <h1>{user.name}</h1>
-            <Link to={'/'}>
-              <Button>Закрыть</Button>
-            </Link>
+            <Button to="/" as="link">
+              Закрыть
+            </Button>
           </div>
-          <NavLink
-            className={({ isActive }) => (isActive ? `${styles.active}` : '')}
-            to={`/${userId}/projects`}
-          >
-            <Button>Проекты</Button>
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? `${styles.active}` : '')}
-            to={`/${userId}/tasks`}
-          >
-            <Button>Задачи</Button>
-          </NavLink>
+          <div className={styles.navLinks}>
+            <Button to="projects" as="navLink">
+              Проекты
+            </Button>
+            <Button to="tasks" as="navLink">
+              Задачи
+            </Button>
+          </div>
           <Outlet />
         </div>
+      ) : (
+        <p className={styles.notUser}>Пользователь не найден {'('}</p>
       )}
     </div>
   );

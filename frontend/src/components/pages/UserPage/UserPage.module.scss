@@ -5,11 +5,13 @@
 .userPageHeader {
   @include flex-between;
 }
-.active {
-  & > button {
-    background: transparent;
-    color: gray !important;
-    box-shadow: inset 0px 0px 5px #c1c1c1;
-    margin-bottom: 15px;
-  }
+.navLinks {
+  margin-bottom: 15px;
+}
+
+.loadUser,
+.errorUser,
+.notUser {
+  padding: 4px 0 0 10px;
+  font-size: 20px;
 }
