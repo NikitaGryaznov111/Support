@@ -1,18 +1,18 @@
 import { FC } from 'react';
 import Button from '../../UI/Button/Button';
 import styles from './AddingTasksProject.module.scss';
-interface Int {
+interface AddingTasksProjectProps {
   setSwitchCurrentProject: React.Dispatch<React.SetStateAction<boolean>>;
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
   modalActive: boolean;
   close: () => void;
 }
-const AddingTasksProject: FC<Int> = ({
+const AddingTasksProject: FC<AddingTasksProjectProps> = ({
   setSwitchCurrentProject,
   setSwitcher,
   modalActive,
   close,
-}: Int) => {
+}) => {
   const actionSwitch = (): void => {
     setSwitchCurrentProject(true);
     setSwitcher(false);

@@ -1,64 +1,59 @@
-import { FC, useActionState, useContext } from 'react';
+import { FC, FormEvent, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TypeFormData, TypeProject, TypeTask } from '../../../utils/types';
+import { TypeProject, TypeTask } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
 import { nanoid } from 'nanoid';
-import { MyContext } from '../../../context/appStylesContext';
+import { MyContext } from '../../../context/AppStylesContext';
 import styles from './FormCreatingProject.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
-
-interface Int {
+interface IProps {
   selectedTasksProject: TypeTask[];
   modalActive: boolean;
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
   projects?: TypeProject[];
   close: () => void;
 }
-const FormCreatingProject: FC<Int> = ({
+const FormCreatingProject: FC<IProps> = ({
   selectedTasksProject,
   modalActive,
   setSwitcher,
   projects,
   close,
 }) => {
-  const projectId: string = nanoid(6);
+  const [loading, setLoading] = useState<boolean>(false);
   const { userId } = useParams();
   const setAppStyles = useContext(MyContext);
   const navigate = useNavigate();
 
-  const initProject: TypeProject = {
-    name: '',
-    projectId,
-    userId,
-    tasks: [],
-  };
-
-  const handleSaveTasksInProject = async (
-    prevState: TypeProject,
-    formData: TypeFormData
-  ) => {
+  const handleSaveTasksInProject = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const project: TypeProject = {
-      name: formData.get('nameProject'),
-      projectId,
+      name: formData.get('nameProject') as string,
+      projectId: nanoid(6),
       userId,
       tasks: selectedTasksProject,
     };
     if (!project.name) {
       alert('Пожалуйста введите название проекта');
-    } else {
+      return;
+    }
+    setLoading(true);
+    try {
       await StorageProjects.addProject(project);
       setAppStyles('');
       navigate(`/${userId}/projects`);
+    } catch (error) {
+      console.error('Ошибка при создании проекта:', error);
+      alert('Не удалось создать проект. Пожалуйста, попробуйте снова.');
+    } finally {
+      setLoading(false);
     }
-    return project;
   };
-  const [state, formAction] = useActionState(
-    handleSaveTasksInProject,
-    initProject
-  );
+
   return (
     <form
-      action={formAction}
+      onSubmit={handleSaveTasksInProject}
       className={modalActive ? styles.modalActive : styles.modal}
     >
       {projects && (
@@ -66,6 +61,7 @@ const FormCreatingProject: FC<Int> = ({
           className={styles.btnBack}
           onClick={() => setSwitcher(true)}
           title="Назад"
+          aria-label="Вернуться к предыдущему шагу"
         ></button>
       )}
 
@@ -76,7 +72,9 @@ const FormCreatingProject: FC<Int> = ({
         id="nameProject"
         placeholder="Имя проекта"
       />
-      <Button type="submit">Добавить в проект</Button>
+      <Button type="submit">
+        {loading ? 'Создание проекта' : 'Добавить в проект'}
+      </Button>
       <Button onClick={close}>Закрыть</Button>
     </form>
   );

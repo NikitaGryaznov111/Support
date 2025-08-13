@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
 import Checkbox from '../../UI/Checkbox/Checkbox';
-import styles from './ProjectItem.module.scss';
 import Button from '../../UI/Button/Button';
-import React, { FC } from 'react';
 import { TypeProject } from '../../../utils/types';
+import styles from './ProjectItem.module.scss';
 
-interface IProjectItemProps {
+interface IProps {
   checkedAll: boolean;
   userId: string | undefined;
   index: number;
@@ -13,27 +13,29 @@ interface IProjectItemProps {
   projectId: string;
   handleDeletedProject: (e: string) => Promise<void>;
 }
-const ProjectItem: FC<IProjectItemProps> = ({
+const ProjectItem = ({
   checkedAll,
   userId,
   index,
   project,
   projectId,
   handleDeletedProject,
-}) => {
+}: IProps) => {
   const { name } = project;
-  console.log('render ProjectItem');
   return (
     <li data-projectid={projectId} className={styles.projectItem}>
       <Checkbox checkedAll={checkedAll} />
-      <Link to={`/${userId}/projects/${projectId}`} className={styles.taskLink}>
+      <Link
+        to={`/${userId ?? 'unknown'}/projects/${projectId}`}
+        className={styles.taskLink}
+      >
         <span>{index + 1}. </span>
         <span className={styles.projectName}>{name}</span>
       </Link>
       <div className={styles.buttons}>
-        <Link to={`/${userId}/projects/editProject/${projectId}`}>
-          <Button>Изменить</Button>
-        </Link>
+        <Button to={`/${userId}/projects/editProject/${projectId}`} as="link">
+          Изменить
+        </Button>
         <Button onClick={() => handleDeletedProject(projectId)}>Удалить</Button>
       </div>
     </li>

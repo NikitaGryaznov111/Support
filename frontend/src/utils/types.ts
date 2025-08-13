@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { ActionFunction, LoaderFunction } from 'react-router-dom';
 
 export type TypeTask = {
@@ -11,6 +11,7 @@ export type TypeTime = {
   totalSeconds: number;
   taskId?: string;
   projectId?: string | null;
+  userId?: string;
 };
 export type TypeUser = {
   _id?: string;
@@ -24,7 +25,7 @@ export type TypeTaskProps = {
   task: TypeTask;
   index: number;
   userId: string | undefined;
-  checkedAll?: boolean;
+  checkedAll: boolean;
   loadProject?: () => void;
   loadTasks?: () => void;
   projectId?: string;
@@ -75,12 +76,4 @@ export type TypePropsModal = {
 
 export type TypeFormData = {
   get: (name: string) => string;
-};
-
-export type TypeCurrentProjects = {
-  close: () => void;
-  projects?: TypeProject[];
-  selectedTasksProject: TypeTask[];
-  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
-  setSwitchCurrentProject: React.Dispatch<React.SetStateAction<boolean>>;
 };

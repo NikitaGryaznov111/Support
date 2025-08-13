@@ -30,7 +30,7 @@ const Modal: FC<TypePropsModal> = ({
   console.log('render modal');
   return (
     <>
-      {switchCurrentProject ? (
+      {switchCurrentProject && projects ? (
         <CurrentProjects
           close={close}
           projects={projects}

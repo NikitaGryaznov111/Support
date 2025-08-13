@@ -15,7 +15,7 @@ import Modal from '../../UI/Modal/Modal';
 import getCheckedTask from './Tasks.helpers';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
-import { MyContext } from '../../../context/appStylesContext';
+import { MyContext } from '../../../context/AppStylesContext';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 
 const Tasks = ({ task }: { task: TypeTask | null }) => {
@@ -28,8 +28,6 @@ const Tasks = ({ task }: { task: TypeTask | null }) => {
   const { userId } = useParams<TypePath>();
   const listTask = useRef<HTMLUListElement>(null);
   const setAppStyles = useContext(MyContext);
-
-  console.log('render tasks');
 
   const loadTasks = useCallback(async (): Promise<void> => {
     setTasks(await StorageTasks.getTasksUser(userId));
@@ -85,7 +83,7 @@ const Tasks = ({ task }: { task: TypeTask | null }) => {
               text="Выбрать все задачи"
             />
             <ul ref={listTask} className="mb-4">
-              {tasks?.map((task: TypeTask, index: number) => (
+              {tasks.map((task: TypeTask, index: number) => (
                 <Task
                   key={task.taskId}
                   task={task}

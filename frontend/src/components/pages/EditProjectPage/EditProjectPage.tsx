@@ -1,13 +1,29 @@
+import { useEffect, useState } from 'react';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
-import styles from '../../UI/Form/Form.module.scss';
 import { TypePath } from '../../../utils/types';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
+import styles from '../../UI/Form/Form.module.scss';
 
 const EditProjectPage = () => {
+  const [value, setValue] = useState<string>('');
   const { projectId, userId } = useParams<TypePath>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getProjectName = async () => {
+      if (projectId) {
+        try {
+          const project = await StorageProjects.getProject(projectId);
+          setValue(project.name);
+        } catch (error) {
+          console.error('Ошибка загрузки проекта:', error);
+        }
+      }
+    };
+    getProjectName();
+  }, [projectId]);
 
   async function handleForm(
     e: React.FormEvent<HTMLFormElement>
@@ -22,8 +38,11 @@ const EditProjectPage = () => {
       const updates = {
         name: newName as string,
       };
-      await StorageProjects.updateProject(projectId!, updates);
-      navigate(`/${userId}/projects`);
+
+      if (projectId) {
+        await StorageProjects.updateProject(projectId, updates);
+        navigate(`/${userId}/projects`);
+      }
     }
   }
   return (
@@ -34,15 +53,16 @@ const EditProjectPage = () => {
           <label className={styles.label} htmlFor="project">
             Название проекта:
           </label>
-          <Link to={'/'}>
-            <Button>Закрыть</Button>
-          </Link>
+          <Button to={`/${userId}/projects`} as="link">
+            Закрыть
+          </Button>
         </div>
         <input
           className={`${styles.input} mt-3 mb-3`}
           type="text"
           id="project"
-          placeholder="Name project..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
           name="projectName"
         />
         <Button children="Редактировать" type="submit" />

@@ -3,7 +3,7 @@ import { TypeUser } from '../../../utils/types';
 import Users from '../../simple/Users/Users';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import AuthServices from '../../../api/AuthServices';
-
+import styles from './MainPage.module.scss';
 const MainPage: FC = () => {
   const [users, setUsers] = useState<TypeUser[]>();
 
@@ -17,7 +17,11 @@ const MainPage: FC = () => {
   return (
     <div className="flex">
       <Sidebar />
-      {users ? <Users users={users} /> : <p>Заргузка пользователей...</p>}
+      {users ? (
+        <Users users={users} />
+      ) : (
+        <p className={styles.loadUsers}>Загрузка всех пользователей...</p>
+      )}
     </div>
   );
 };

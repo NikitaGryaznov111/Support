@@ -28,7 +28,7 @@ const UserPage: FC = () => {
     <div className="flex">
       <Sidebar />
       {load ? (
-        <p className={styles.loadUser}>Загрузка...</p>
+        <p className={styles.loadUser}>Загрузка страницы...</p>
       ) : error ? (
         <p className={styles.errorUser}>
           Ошибка получения информации о пользователе{' '}

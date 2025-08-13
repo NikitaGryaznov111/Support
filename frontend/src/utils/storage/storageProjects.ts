@@ -27,6 +27,11 @@ export abstract class StorageProjects {
     if (!project) throw new Error('Проект не найден');
     return project;
   }
+  static async getTasks(projectId: string): Promise<TypeTask[]> {
+    const project = await this.getProject(projectId);
+    const { tasks } = project;
+    return tasks;
+  }
   static async getTask(projectId: string, taskId: string): Promise<TypeTask> {
     const project = await this.getProject(projectId);
     const { tasks } = project;

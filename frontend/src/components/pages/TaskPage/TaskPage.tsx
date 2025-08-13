@@ -10,7 +10,7 @@ import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 
 const TaskPage: FC = () => {
-  const { taskId, projectId } = useParams<TypePath>();
+  const { taskId, projectId, userId } = useParams<TypePath>();
   const [task, setTask] = useState<TypeTask>();
   const {
     hours,
@@ -64,6 +64,7 @@ const TaskPage: FC = () => {
         totalSeconds,
         taskId,
         projectId,
+        userId,
       };
       await StorageTimeTask.addTime(dataToSave, taskId!);
 

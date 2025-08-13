@@ -1,6 +1,7 @@
 import { FC, RefObject } from 'react';
-import styles from './Button.module.scss';
 import { Link, NavLink } from 'react-router-dom';
+import styles from './Button.module.scss';
+
 type Props = {
   children: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -40,6 +41,7 @@ const Button: FC<Props> = ({
       );
     }
   }
+
   return (
     <button
       ref={ref}

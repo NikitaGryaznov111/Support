@@ -84,18 +84,11 @@ export abstract class StorageTimeTask {
     }
   }
   static async getFullTimeUser(userId: TypeTask['id']): Promise<TypeTime[]> {
-    const tasksStorage = await localforage.getItem<TypeTask[]>('tasks');
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
-    const tasks = tasksStorage!.filter((task) => task.id === userId);
-    const fullTimeForTheUser: TypeTime[] = [];
-    if (timeStorage) {
-      for (let i = 0; i < tasks.length; i++) {
-        timeStorage!.map((time) => {
-          if (tasks[i].taskId === time.taskId) fullTimeForTheUser.push(time);
-        });
-      }
+    if (!timeStorage) {
+      throw new Error('Ошибка получения общего времени задач');
     }
-
-    return fullTimeForTheUser;
+    const timeTasksUser = timeStorage.filter((time) => time.userId === userId);
+    return timeTasksUser;
   }
 }

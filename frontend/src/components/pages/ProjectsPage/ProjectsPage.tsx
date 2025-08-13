@@ -6,7 +6,6 @@ import { StorageProjects } from '../../../utils/storage/storageProjects';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 import getCheckedProjects from './ProjectsPage.helpers';
 import ProjectItem from '../../simple/ProjectItem/ProjectItem';
-
 const ProjectsPage: FC = () => {
   const [projects, setProjects] = useState<TypeProject[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
@@ -14,7 +13,11 @@ const ProjectsPage: FC = () => {
   const listProjects = useRef<HTMLUListElement>(null);
   useEffect(() => {
     const init = async () => {
-      setProjects(await StorageProjects.getProjectsUser(userId!));
+      try {
+        if (userId) setProjects(await StorageProjects.getProjectsUser(userId));
+      } catch (error) {
+        console.error('Ошибка получения проектов пользователя:', error);
+      }
     };
     init();
   }, [userId]);
@@ -31,10 +34,13 @@ const ProjectsPage: FC = () => {
   const handleDeletedCheckedProject = useCallback(async () => {
     const checkedProjects = getCheckedProjects(listProjects);
     if (!checkedProjects) return;
-    for (const { projectId } of checkedProjects) {
+    const projectIds = checkedProjects.map((p) => p.projectId);
+    for (const projectId of projectIds) {
       await StorageProjects.deletedProject(projectId);
-      setProjects((prev) => prev?.filter((p) => p.projectId !== projectId));
     }
+    setProjects(
+      (prev) => prev?.filter((p) => !projectIds.includes(p.projectId)) || []
+    );
   }, []);
   return (
     <>

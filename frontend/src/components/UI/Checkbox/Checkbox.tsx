@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './Checkbox.module.scss';
 
-const Checkbox: FC<{ checkedAll?: boolean }> = ({ checkedAll }) => {
+const Checkbox: FC<{ checkedAll: boolean }> = ({ checkedAll }) => {
   const [checked, setChecked] = useState<boolean>(false);
   useEffect(() => {
     if (checkedAll) {

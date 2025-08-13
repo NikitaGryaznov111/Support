@@ -1,12 +1,18 @@
 import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
-import { TypeCurrentProjects } from '../../../utils/types';
-
-import styles from './CurrentProjects.module.scss';
+import { TypeProject, TypeTask } from '../../../utils/types';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
+import styles from './CurrentProjects.module.scss';
 
-const CurrentProjects: FC<TypeCurrentProjects> = ({
+type CurrentProjectsProps = {
+  close: () => void;
+  projects: TypeProject[];
+  selectedTasksProject: TypeTask[];
+  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
+  setSwitchCurrentProject: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const CurrentProjects: FC<CurrentProjectsProps> = ({
   close,
   projects,
   selectedTasksProject,
@@ -14,7 +20,7 @@ const CurrentProjects: FC<TypeCurrentProjects> = ({
   setSwitcher,
 }) => {
   const navigate = useNavigate();
-  const { userId } = useParams();
+  const { userId } = useParams<string>();
   const addTask = async (projectId: string): Promise<void> => {
     await StorageProjects.addTasksInProject(projectId, selectedTasksProject);
     navigate(`/${userId}/projects/${projectId}`);
@@ -32,6 +38,7 @@ const CurrentProjects: FC<TypeCurrentProjects> = ({
             className={styles.btnBack}
             onClick={actionSwitch}
             title="Назад"
+            aria-label="Вернуться к предыдущему шагу"
           ></button>
           <ul className={styles.listProjects}>
             {projects.map((project, index) => {
