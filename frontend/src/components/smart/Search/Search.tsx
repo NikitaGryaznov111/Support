@@ -4,20 +4,20 @@ import { useAppDispatch } from '../../../store/store';
 import { setText } from '../../../store/parts/searchSlice';
 
 const Search: FC = () => {
-  const [val, setVal] = useState<string>('');
+  const [user, setUser] = useState<string>('');
   const dispatch = useAppDispatch();
   const handleInputChange =
     () => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setVal(event.target.value);
+      setUser(event.target.value);
     };
   useEffect(() => {
-    dispatch(setText(val));
-  }, [val]);
+    dispatch(setText(user));
+  }, [user]);
   return (
     <form className={styles.form}>
       <div className={styles.inputContainer}>
         <input
-          value={val}
+          value={user}
           onChange={handleInputChange()}
           type="text"
           className={styles.text}

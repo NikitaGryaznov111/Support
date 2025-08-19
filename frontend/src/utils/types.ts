@@ -1,5 +1,4 @@
 import { ChangeEvent } from 'react';
-import { ActionFunction, LoaderFunction } from 'react-router-dom';
 
 export type TypeTask = {
   taskName: string;
@@ -27,7 +26,7 @@ export type TypeTaskProps = {
   userId: string | undefined;
   checkedAll: boolean;
   loadProject?: () => void;
-  loadTasks?: () => void;
+  loadTasks: () => void;
   projectId?: string;
 };
 
@@ -40,14 +39,6 @@ export type TypePropsForm = {
   onChangeDescription: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export type TypeRoutesConfig = {
-  path: string;
-  element: React.ReactElement;
-  loader?: LoaderFunction;
-  action?: ActionFunction;
-  children?: TypeRoutesConfig[];
-  errorElement?: React.ReactElement;
-};
 export type TypePath = {
   userId?: string;
   editTaskId?: string;

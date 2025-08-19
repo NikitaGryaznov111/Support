@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-interface UseTimerResult {
+interface IUseTimerResult {
   hours: number;
   minutes: number;
   seconds: number;
@@ -11,7 +11,7 @@ interface UseTimerResult {
   isRunning: boolean;
 }
 
-const useTimer = (): UseTimerResult => {
+const useTimer = (): IUseTimerResult => {
   const [totalSeconds, setTotalSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 

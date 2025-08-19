@@ -1,3 +1,3 @@
 import React, { createContext } from 'react';
 
-export const MyContext: React.Context<any> = createContext('');
+export const AppStyleContext: React.Context<any> = createContext('');

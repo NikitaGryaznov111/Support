@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TypeProject, TypeTask } from '../../../utils/types';
 import Button from '../../UI/Button/Button';
 import { nanoid } from 'nanoid';
-import { MyContext } from '../../../context/AppStylesContext';
+import { AppStyleContext } from '../../../context/AppStylesContext';
 import styles from './FormCreatingProject.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 interface IProps {
@@ -22,7 +22,7 @@ const FormCreatingProject: FC<IProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { userId } = useParams();
-  const setAppStyles = useContext(MyContext);
+  const setAppStyles = useContext(AppStyleContext);
   const navigate = useNavigate();
 
   const handleSaveTasksInProject = async (e: FormEvent<HTMLFormElement>) => {
@@ -50,20 +50,20 @@ const FormCreatingProject: FC<IProps> = ({
       setLoading(false);
     }
   };
-
   return (
     <form
       onSubmit={handleSaveTasksInProject}
       className={modalActive ? styles.modalActive : styles.modal}
     >
-      {projects && (
+      {projects?.length ? (
         <button
           className={styles.btnBack}
           onClick={() => setSwitcher(true)}
           title="Назад"
           aria-label="Вернуться к предыдущему шагу"
+          type="button"
         ></button>
-      )}
+      ) : null}
 
       <label htmlFor="nameProject">Название проекта:</label>
       <input

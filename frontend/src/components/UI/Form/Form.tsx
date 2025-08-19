@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import styles from './Form.module.scss';
 import { TypePropsForm } from '../../../utils/types';
-const Form: FC<TypePropsForm> = ({
+const Form = ({
   formAction,
   valueName,
   valueDescription,
   text,
   onChangeTaskName,
   onChangeDescription,
-}) => {
+}: TypePropsForm) => {
   return (
     <form className={styles.form} onSubmit={formAction}>
       <label className={styles.label} htmlFor="taskName">
@@ -22,6 +21,7 @@ const Form: FC<TypePropsForm> = ({
         placeholder="Name task..."
         value={valueName}
         onChange={onChangeTaskName}
+        required
       />
       <label className={styles.label} htmlFor="description">
         Описание задачи:

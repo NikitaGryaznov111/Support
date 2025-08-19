@@ -1,5 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { TypeRoutesConfig } from '../utils/types';
+import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import MainPage from '../components/pages/MainPage/MainPage';
 import UserPage from '../components/pages/UserPage/UserPage';
 import TasksPage from '../components/pages/TasksPage/TasksPage';
@@ -13,114 +12,130 @@ import Registration from '../components/smart/Auth/Registration';
 import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
 import ProjectPage from '../components/pages/ProjectPage/ProjectPage';
 import EditProjectPage from '../components/pages/EditProjectPage/EditProjectPage';
+import Redirect from '../components/simple/Redirect/Redirect';
+import { ROUTES } from './routes.config';
 
-const routesConfig: TypeRoutesConfig[] = [
+const routes: RouteObject[] = [
   {
-    path: '/',
+    path: ROUTES.error,
+    element: <Error />,
+  },
+  {
+    path: ROUTES.navAuth,
+    element: <NavAuth />,
+  },
+  {
+    path: ROUTES.login,
+    element: <Login />,
+  },
+  {
+    path: ROUTES.registration,
+    element: <Registration />,
+  },
+  {
+    path: ROUTES.root,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/',
+        path: ROUTES.root,
         element: <MainPage />,
       },
     ],
   },
   {
-    path: '/:userId',
+    path: ROUTES.user,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId',
+        path: ROUTES.user,
         element: <UserPage />,
         children: [
           {
-            path: '/:userId/tasks',
+            path: ROUTES.tasks,
             element: <TasksPage />,
           },
+
           {
-            path: '/:userId/projects',
+            path: ROUTES.projects,
             element: <ProjectsPage />,
           },
         ],
       },
     ],
   },
+
   {
-    path: '/:userId/tasks/editTask/:taskId',
+    path: '/:userId/tasks/editTask',
+    element: <Redirect />,
+  },
+  {
+    path: '/:userId/projects/editProject',
+    element: <Redirect />,
+  },
+  {
+    path: '/:userId/projects/:projectId/fromProject',
+    element: <Redirect />,
+  },
+  {
+    path: ROUTES.editTask,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/tasks/editTask/:taskId',
+        path: ROUTES.editTask,
         element: <EditTaskPage />,
       },
     ],
   },
   {
-    path: '/:userId/projects/editProject/:projectId',
+    path: ROUTES.editProject,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/projects/editProject/:projectId',
+        path: ROUTES.editProject,
         element: <EditProjectPage />,
       },
     ],
   },
   {
-    path: '/:userId/projects/:projectId/:taskId',
+    path: ROUTES.editTaskInProject,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/projects/:projectId/:taskId',
+        path: ROUTES.editTaskInProject,
         element: <EditTaskPage />,
       },
     ],
   },
   {
-    path: '/:userId/tasks/:taskId',
+    path: ROUTES.task,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/tasks/:taskId',
+        path: ROUTES.task,
         element: <TaskPage />,
       },
     ],
   },
   {
-    path: '/:userId/projects/:projectId/fromProject/:taskId',
+    path: ROUTES.taskInProject,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/projects/:projectId/fromProject/:taskId',
+        path: ROUTES.taskInProject,
         element: <TaskPage />,
       },
     ],
   },
   {
-    path: '/:userId/projects/:projectId',
+    path: ROUTES.project,
     element: <PrivateRouter />,
     children: [
       {
-        path: '/:userId/projects/:projectId',
+        path: ROUTES.project,
         element: <ProjectPage />,
       },
     ],
   },
-  {
-    path: '*',
-    element: <Error />,
-  },
-  {
-    path: '/navigationAuth',
-    element: <NavAuth />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/registration',
-    element: <Registration />,
-  },
 ];
 
-export const router = createBrowserRouter(routesConfig);
+export const router = createBrowserRouter(routes);

@@ -36,6 +36,7 @@ const TasksPage: FC = () => {
     setTaskName('');
     setDescription('');
   };
+
   return (
     <div className="[&>form]:p-0 mb-1.5">
       <Form

@@ -1,11 +1,12 @@
+@import '../../../styles/variables.scss';
+
 @font-face {
   font-family: 'Evolventa';
   src: url('../../../assets/fonts/CrossdresserFutoPopGothic-q28Gr.ttf');
 }
-@import '../../../styles/variables.scss';
 .wrap {
   min-height: 100vh;
-  background-color: rgb(3, 37, 96);
+  background-color: $bgColorSideBar;
   padding-top: 10px;
   color: $colorTextSidebar;
   min-width: 160px;

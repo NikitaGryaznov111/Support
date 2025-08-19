@@ -54,9 +54,9 @@ const Task: FC<TypeTaskProps> = ({
         </div>
       </Link>
       <div className={styles.buttons}>
-        <Link to={editTaskPath}>
-          <Button>Изменить</Button>
-        </Link>
+        <Button to={editTaskPath} as="link">
+          Изменить
+        </Button>
         <Button onClick={handleDeletedTask}>Удалить</Button>
       </div>
     </li>

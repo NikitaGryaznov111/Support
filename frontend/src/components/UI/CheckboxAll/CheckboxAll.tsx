@@ -1,10 +1,9 @@
-import { FC } from 'react';
 import styles from './CheckboxAll.module.scss';
-interface ICheckboxAllProps {
+interface IProps {
   handleCheckboxAll: () => void;
   text: string;
 }
-const CheckboxAll: FC<ICheckboxAllProps> = ({ handleCheckboxAll, text }) => {
+const CheckboxAll = ({ handleCheckboxAll, text }: IProps) => {
   return (
     <div className={styles.checkboxAll}>
       <input type="checkbox" id="checkbox" onChange={handleCheckboxAll} />

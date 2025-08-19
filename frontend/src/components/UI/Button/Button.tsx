@@ -1,8 +1,8 @@
-import { FC, RefObject } from 'react';
+import { RefObject } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styles from './Button.module.scss';
 
-type Props = {
+interface IProps {
   children: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   ref?: RefObject<HTMLButtonElement | null>;
@@ -10,16 +10,8 @@ type Props = {
   disabled?: boolean;
   as?: 'link' | 'navLink';
   to?: string;
-};
-const Button: FC<Props> = ({
-  children,
-  onClick,
-  ref,
-  type,
-  disabled,
-  as,
-  to,
-}) => {
+}
+const Button = ({ children, onClick, ref, type, disabled, as, to }: IProps) => {
   if (to) {
     if (as === 'link') {
       return (

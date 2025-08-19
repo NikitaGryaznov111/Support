@@ -1,45 +1,38 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import { TypeUser } from '../../../utils/types';
-import styles from './Users.module.scss';
 import Search from '../../smart/Search/Search';
-import { useAppSelector } from '../../../store/store';
-type TypeUsersProps = {
-  users: TypeUser[];
-};
+import styles from './Users.module.scss';
 
-const Users: FC<TypeUsersProps> = ({ users }: TypeUsersProps) => {
-  const [filteredUsers, setFilteredUsers] = useState<TypeUser[]>();
-  const search = useAppSelector((state) => state.search);
+interface TIProps {
+  users: TypeUser[];
+}
+const Users = ({ users }: TIProps) => {
+  const [filteredUsers, setFilteredUsers] = useState<TypeUser[]>([]);
+  const searchUser = useAppSelector((state) => state.search);
 
   useEffect(() => {
-    if (search) {
+    if (searchUser) {
       const newUsers = users.filter((user) =>
-        user.name.toLowerCase().startsWith(search.toLowerCase())
+        user.name.toLowerCase().includes(searchUser.toLowerCase())
       );
       setFilteredUsers(newUsers);
     } else {
       setFilteredUsers(users);
     }
-  }, [search]);
+  }, [searchUser, users]);
   return (
     <div className={styles.users}>
       <div className="flex justify-between">
         <h1>Список пользователей:</h1>
         <Search />
       </div>
-
-      {filteredUsers ? (
-        <ul>
-          {filteredUsers.map((user: TypeUser) => (
-            <li className={styles.usersItem} key={user._id}>
-              <Link to={`/${user.userId}`}>{user.name}</Link>
-            </li>
-          ))}
-        </ul>
+      {!filteredUsers.length ? (
+        <p className="text-xl">Данный пользователь не найден</p>
       ) : (
         <ul>
-          {users.map((user: TypeUser) => (
+          {filteredUsers.map((user: TypeUser) => (
             <li className={styles.usersItem} key={user._id}>
               <Link to={`/${user.userId}`}>{user.name}</Link>
             </li>

@@ -1,0 +1,16 @@
+export const ROUTES = {
+  root: '/',
+  user: '/:userId',
+  tasks: 'tasks',
+  task: '/:userId/tasks/:taskId',
+  projects: 'projects',
+  project: '/:userId/projects/:projectId',
+  editTask: '/:userId/tasks/editTask/:taskId',
+  editTaskInProject: '/:userId/projects/:projectId/:taskId',
+  taskInProject: '/:userId/projects/:projectId/fromProject/:taskId',
+  editProject: '/:userId/projects/editProject/:projectId',
+  error: '*',
+  navAuth: '/navigationAuth',
+  login: '/login',
+  registration: '/registration',
+} as const;
