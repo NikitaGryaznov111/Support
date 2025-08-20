@@ -28,7 +28,7 @@ const ProjectsPage: FC = () => {
   };
 
   const handleDeletedProject = useCallback(async (projectId: string) => {
-    await StorageTimeTask.delTimeWhenDelProject(projectId);
+    await StorageTimeTask.delTimeWhenDelProject([projectId]);
     await StorageProjects.deletedProject(projectId);
     setProjects((prev) => prev?.filter((p) => p.projectId !== projectId));
   }, []);
@@ -37,6 +37,7 @@ const ProjectsPage: FC = () => {
     const checkedProjects = getCheckedProjects(listProjects);
     if (!checkedProjects) return;
     const projectIds = checkedProjects.map((p) => p.projectId);
+    await StorageTimeTask.delTimeWhenDelProject(projectIds);
     for (const projectId of projectIds) {
       await StorageProjects.deletedProject(projectId);
     }
