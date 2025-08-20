@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import AuthServices from '../../../api/AuthServices';
 import styles from './AuthStyles.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const Registration = () => {
     email: '',
     password: '',
   });
-  const handleSubmitEvent = async (event: any) => {
+  const handleSubmitEvent = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newUser: AxiosResponse<TypeAuthUser> | null =
       await AuthServices.registerUser(input);
@@ -27,7 +27,7 @@ const Registration = () => {
     }
   };
 
-  const handleInput = (event: any) => {
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === 'name') {
       setInput({ ...input, name: value });

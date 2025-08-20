@@ -1,6 +1,7 @@
 import localforage from 'localforage';
 import { TypeTask, TypeTime } from '../types';
 import { upsertTimeEntry } from './storage.helpers';
+import { StorageProjects } from './storageProjects';
 
 export abstract class StorageTimeTask {
   static async addTime(newTime: TypeTime, taskId: string): Promise<void> {
@@ -86,9 +87,22 @@ export abstract class StorageTimeTask {
   static async getFullTimeUser(userId: TypeTask['id']): Promise<TypeTime[]> {
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
     if (!timeStorage) {
-      throw new Error('Ошибка получения общего времени задач');
+      return [];
     }
     const timeTasksUser = timeStorage.filter((time) => time.userId === userId);
     return timeTasksUser;
+  }
+
+  static async delTimeWhenDelProject(projectId: string): Promise<void> {
+    const project = await StorageProjects.getProject(projectId);
+    const { tasks } = project;
+    const timeStorage = await localforage.getItem<TypeTime[]>(
+      'timeFromProject'
+    );
+    const taskId = tasks.map((task) => task.taskId);
+    const newTimeStorage = timeStorage?.filter(
+      (time) => !taskId.includes(time.taskId)
+    );
+    localforage.setItem('timeFromProject', newTimeStorage);
   }
 }

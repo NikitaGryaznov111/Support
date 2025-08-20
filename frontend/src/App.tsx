@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/routes';
 import { useState } from 'react';
 import { AppStyleContext } from './context/AppStylesContext';
-import './styles/AppModal.scss';
+import './styles/UI.scss';
 function App() {
   const [appStyles, setAppStyles] = useState<string>('');
 

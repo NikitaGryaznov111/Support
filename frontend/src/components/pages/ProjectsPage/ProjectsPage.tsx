@@ -6,6 +6,7 @@ import { StorageProjects } from '../../../utils/storage/storageProjects';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 import getCheckedProjects from './ProjectsPage.helpers';
 import ProjectItem from '../../simple/ProjectItem/ProjectItem';
+import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 const ProjectsPage: FC = () => {
   const [projects, setProjects] = useState<TypeProject[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
@@ -27,6 +28,7 @@ const ProjectsPage: FC = () => {
   };
 
   const handleDeletedProject = useCallback(async (projectId: string) => {
+    await StorageTimeTask.delTimeWhenDelProject(projectId);
     await StorageProjects.deletedProject(projectId);
     setProjects((prev) => prev?.filter((p) => p.projectId !== projectId));
   }, []);

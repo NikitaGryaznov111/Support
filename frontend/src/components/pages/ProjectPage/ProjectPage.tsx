@@ -74,13 +74,13 @@ const ProjectPage = () => {
               {tasks.map((task, index) => {
                 return (
                   <Task
-                    key={task.taskId}
+                    key={task.taskId! + index}
                     task={task}
                     userId={userId}
                     index={index}
                     projectId={projectId}
-                    loadProject={loadProject}
                     checkedAll={checkedAll}
+                    loadTasks={loadTasks}
                   />
                 );
               })}

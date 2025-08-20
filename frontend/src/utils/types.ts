@@ -25,7 +25,6 @@ export type TypeTaskProps = {
   index: number;
   userId: string | undefined;
   checkedAll: boolean;
-  loadProject?: () => void;
   loadTasks: () => void;
   projectId?: string;
 };

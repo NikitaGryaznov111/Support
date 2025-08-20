@@ -11,7 +11,7 @@ interface IProps {
   index: number;
   project: TypeProject;
   projectId: string;
-  handleDeletedProject: (e: string) => Promise<void>;
+  handleDeletedProject: (projectId: string) => Promise<void>;
 }
 const ProjectItem = ({
   checkedAll,

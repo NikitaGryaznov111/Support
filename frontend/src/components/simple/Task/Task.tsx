@@ -13,7 +13,6 @@ const Task: FC<TypeTaskProps> = ({
   userId,
   index,
   checkedAll,
-  loadProject,
   projectId,
   loadTasks,
 }) => {
@@ -25,11 +24,11 @@ const Task: FC<TypeTaskProps> = ({
     if (projectId) {
       await StorageProjects.deletedTask(projectId, taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      loadProject!();
+      loadTasks();
     } else {
       await StorageTasks.deletedTask(taskId);
       await StorageTimeTask.deletedTime(taskId, projectId);
-      loadTasks!();
+      loadTasks();
     }
   };
   const taskPath: string = projectId
