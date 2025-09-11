@@ -1,10 +1,10 @@
 import localforage from 'localforage';
-import { TypeTime } from '../types';
+import { TypeTime, TypeTotalSeconds } from '../types';
 
-export const upsertTimeEntry = async (
-  storage: TypeTime[] | null,
+export const helperTimeUpdate = async (
+  storage: TypeTime[] | TypeTotalSeconds[],
   storeKey: string,
-  newTime: TypeTime,
+  newTime: TypeTime | TypeTotalSeconds,
   taskId: string
 ): Promise<void> => {
   if (storage) {
@@ -18,4 +18,63 @@ export const upsertTimeEntry = async (
   } else {
     await localforage.setItem(storeKey, [newTime]);
   }
+};
+
+export const helperAddStartTime = async (
+  storage: TypeTime[],
+  taskId: string,
+  timeStart: number,
+  storeKey: string
+) => {
+  const newTimeStorage = storage.map((time) => {
+    if (time.taskId === taskId) {
+      return {
+        ...time,
+        timeStart: timeStart / 1000,
+      };
+    }
+    return time;
+  });
+  localforage.setItem(storeKey, newTimeStorage);
+};
+
+export const helperResetStartTime = async (
+  storage: TypeTime[],
+  taskId: string,
+  storeKey: string
+) => {
+  const newTimeStorage = storage.map((time) => {
+    if (time.taskId === taskId) {
+      return {
+        ...time,
+        timeStart: 0,
+      };
+    }
+    return time;
+  });
+  localforage.setItem(storeKey, newTimeStorage);
+};
+
+export const helperFindStartTime = async (
+  storage: TypeTime[],
+  taskId: string
+): Promise<number> => {
+  const time = storage.find((time: TypeTime): boolean => {
+    return time.taskId === taskId;
+  });
+  const timeStart = time?.timeStart;
+  if (!timeStart) {
+    return 0;
+  }
+  return timeStart;
+};
+
+export const helperFindTotalSeconds = async (
+  storage: TypeTime[],
+  taskId: string
+): Promise<number> => {
+  const time = storage!.find((el) => el.taskId === taskId);
+  if (!time) return 0;
+  const totalSeconds = time.totalSeconds;
+  return totalSeconds;
 };

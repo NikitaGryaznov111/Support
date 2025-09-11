@@ -1,7 +1,5 @@
-import { nanoid } from 'nanoid';
-
 interface IArrDataTask {
-  taskId: string;
+  taskId: string | undefined;
   taskName: string | null;
   description: string | null;
 }
@@ -18,7 +16,7 @@ export default function getCheckedTask(
   for (const input of inputs) {
     const li = input.closest('li');
     if (!li) return;
-    const taskId = nanoid(6);
+    const taskId = li.dataset.taskid;
     const taskName = li.getElementsByTagName('span')[1].textContent;
     const description = li.getElementsByTagName('p')[0].textContent;
     if (input.checked && li) {

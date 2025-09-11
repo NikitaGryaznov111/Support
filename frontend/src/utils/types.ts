@@ -8,9 +8,15 @@ export type TypeTask = {
 };
 export type TypeTime = {
   totalSeconds: number;
-  taskId?: string;
-  projectId?: string | null;
+  taskId: string | undefined;
+  projectId?: string | undefined;
   userId?: string;
+  timeStart?: number | null;
+};
+export type TypeTotalSeconds = {
+  totalSeconds: number;
+  taskId: string | undefined;
+  projectId?: string | undefined;
 };
 export type TypeUser = {
   _id?: string;

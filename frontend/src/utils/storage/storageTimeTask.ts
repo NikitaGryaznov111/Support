@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import { TypeTask, TypeTime } from '../types';
-import { upsertTimeEntry } from './storage.helpers';
+import { helperTimeUpdate } from './storage.helpers';
 
 export abstract class StorageTimeTask {
   static async addTime(newTime: TypeTime, taskId: string): Promise<void> {
@@ -10,10 +10,10 @@ export abstract class StorageTimeTask {
     );
     const { projectId } = newTime;
     if (!projectId) {
-      upsertTimeEntry(timeStorage, 'time', newTime, taskId);
+      helperTimeUpdate(timeStorage!, 'time', newTime, taskId);
     } else {
-      upsertTimeEntry(
-        timeStorageFromProject,
+      helperTimeUpdate(
+        timeStorageFromProject!,
         'timeFromProject',
         newTime,
         taskId

@@ -8,6 +8,8 @@ import useTimer from '../../../hooks/useTimer';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
+import usePersistentTimer from '../../../hooks/usePersistentTimer';
+import { StorageTotalSeconds } from '../../../utils/storage/storageTotalSeconds';
 
 const TaskPage: FC = () => {
   const { taskId, projectId, userId } = useParams<TypePath>();
@@ -23,62 +25,129 @@ const TaskPage: FC = () => {
     setTimeFromTotal,
     isRunning,
   } = useTimer();
+
+  const {
+    saveStartTimerStorage,
+    getTimeAfterStart,
+    getStartTimerStorage,
+    resetStartTimerStorage,
+  } = usePersistentTimer();
   const [time, setTime] = useState<TypeTime>({
     totalSeconds,
     taskId,
     projectId,
+    userId,
+    timeStart: undefined,
   });
   useEffect(() => {
+    if (!taskId) {
+      console.error('ID задачи отсутствует!');
+      return;
+    }
     const loadTask = async () => {
       try {
         if (projectId) {
-          setTask(await StorageProjects.getTask(projectId!, taskId!));
+          setTask(await StorageProjects.getTask(projectId, taskId));
         } else {
           setTask(await StorageTasks.getTask(taskId));
         }
       } catch (error) {
-        console.error('Ошибка загрузки задачи:', error);
+        console.error('Ошибка загрузки задачи из хранилища:', error);
       }
     };
 
     const loadTime = async () => {
-      if (!projectId) {
-        const data = await StorageTimeTask.getTime(taskId);
-        setTime(data);
-      } else {
-        const data = await StorageTimeTask.getTimeFromProject(taskId);
-        setTime(data);
+      try {
+        if (!projectId) {
+          const data = await StorageTimeTask.getTime(taskId);
+          setTime(data);
+        } else {
+          const data = await StorageTimeTask.getTimeFromProject(taskId);
+          setTime(data);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки времени из хранилища:', error);
       }
     };
-
     loadTask();
     loadTime();
   }, []);
 
   useEffect(() => {
-    if (time?.totalSeconds) setTimeFromTotal(time.totalSeconds);
-  }, [time]);
+    const startPermTimer = async () => {
+      try {
+        const startTime = await getStartTimerStorage(taskId!, projectId!);
+        if (startTime) {
+          startTimer();
+        }
+      } catch (error) {
+        console.error(
+          'Ошибка загрузки времени нажатия на кнопку старт из хранилища:',
+          error
+        );
+      }
+    };
+    startPermTimer();
+  }, []);
 
   useEffect(() => {
-    const saveTime = async () => {
-      const dataToSave = {
-        totalSeconds,
-        taskId,
-        projectId,
-        userId,
-      };
-      await StorageTimeTask.addTime(dataToSave, taskId!);
+    const init = async () => {
+      const timeAfterStart = getTimeAfterStart(Date.now());
+      const timeStart = await getStartTimerStorage(taskId!, projectId!);
+      const totalSecStartStorage = await StorageTotalSeconds.findTotalSeconds(
+        taskId!,
+        projectId!
+      );
+      if (timeStart) {
+        setTimeFromTotal(totalSecStartStorage + timeAfterStart);
+      } else {
+        setTimeFromTotal(time.totalSeconds);
+      }
+    };
+    init();
+  }, [time.timeStart]);
 
-      setTime(dataToSave);
+  // Слишком часто сохраняет, надо будет изменить! Через setTimeout?
+  useEffect(() => {
+    const saveTime = async () => {
+      try {
+        const dataToSave = {
+          totalSeconds,
+          taskId,
+          projectId,
+          userId,
+          timeStart: await getStartTimerStorage(taskId!, projectId!),
+        };
+        await StorageTimeTask.addTime(dataToSave, taskId!);
+
+        setTime(dataToSave);
+      } catch (error) {
+        console.error('Ошибка сохранения времени в хранилище:', error);
+      }
     };
     saveTime();
   }, [totalSeconds]);
 
-  const handleBtnStartTime: React.MouseEventHandler<HTMLButtonElement> = () => {
-    startTimer();
+  const handleBtnStartTime: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    try {
+      const totalSeconds = time.totalSeconds;
+      await StorageTotalSeconds.saveTotalSeconds({
+        totalSeconds,
+        taskId,
+        projectId,
+      });
+      saveStartTimerStorage(taskId!, projectId!);
+      startTimer();
+    } catch (error) {
+      console.error('Ошибка при запуске таймера:', error);
+    }
   };
+
   const handleBtnStopTime: React.MouseEventHandler<HTMLButtonElement> = () => {
     stopTimer();
+    resetStartTimerStorage(taskId!, projectId!);
   };
   return (
     <div className="flex ">
@@ -103,9 +172,7 @@ const TaskPage: FC = () => {
           <Button onClick={handleBtnStartTime} disabled={isRunning}>
             Start
           </Button>
-          <Button onClick={handleBtnStopTime} disabled={!isRunning}>
-            Stop
-          </Button>
+          <Button onClick={handleBtnStopTime}>Stop</Button>
         </div>
       </div>
     </div>
