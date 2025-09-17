@@ -1,4 +1,4 @@
-@import '../../../styles/templateBase.scss';
+@use '../../../styles/templateBase.scss' as *;
 
 .modal {
   transform: scale(0);

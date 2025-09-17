@@ -1,5 +1,5 @@
-@import '../../../styles/templateBase.scss';
-@import '../../../styles/variables.scss';
+@use '../../../styles/templateBase.scss' as *;
+@use '../../../styles/variables.scss' as *;
 .button,
 .link {
   border: 1px solid #e4e4e4;

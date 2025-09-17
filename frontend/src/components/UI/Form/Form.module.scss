@@ -1,5 +1,5 @@
-@import '../../../styles/variables.scss';
-@import '../../../styles/templateBase.scss';
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/templateBase.scss' as *;
 
 .form {
   @include wrapperPage;

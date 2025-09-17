@@ -1,4 +1,4 @@
-@import '../../../styles/templateBase.scss';
+@use '../../../styles/templateBase.scss' as *;
 
 .projectItem {
   @include flex-between;
@@ -6,9 +6,6 @@
   margin-bottom: 15px;
 }
 
-// .taskWrapper {
-//   flex-basis: 75%;
-// }
 .taskLink {
   flex-grow: 1;
   margin-left: 15px;
