@@ -11,15 +11,12 @@ app.use('/api', router);
 const PORT = process.env.PORT || 7000;
 const start = async () => {
   try {
-    await mongoose.connect(process.env.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.DB_URL);
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Error starting server', error);
+    console.log('Error starting server', error);
   }
 };
 
