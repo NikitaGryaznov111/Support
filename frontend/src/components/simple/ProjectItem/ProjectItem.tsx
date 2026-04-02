@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import Checkbox from '../../UI/Checkbox/Checkbox';
 import Button from '../../UI/Button/Button';
-import { TypeProject } from '../../../utils/types';
+import { TypeProject } from '../../../types/types';
 import styles from './ProjectItem.module.scss';
 
 interface IProps {
@@ -33,7 +33,7 @@ const ProjectItem = ({
         <span className={styles.projectName}>{name}</span>
       </Link>
       <div className={styles.buttons}>
-        <Button to={`/${userId}/projects/editProject/${projectId}`} as="link">
+        <Button to={`/${userId}/projects/${projectId}/edit`} as="link">
           Изменить
         </Button>
         <Button onClick={() => handleDeletedProject(projectId)}>Удалить</Button>

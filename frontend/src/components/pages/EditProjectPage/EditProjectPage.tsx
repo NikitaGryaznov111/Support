@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
-import { TypePath } from '../../../utils/types';
+import { TypePath } from '../../../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import styles from '../../UI/Form/Form.module.scss';
@@ -26,7 +26,7 @@ const EditProjectPage = () => {
   }, [projectId]);
 
   async function handleForm(
-    e: React.FormEvent<HTMLFormElement>
+    e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import { TypePath, TypeProject, TypeTask } from '../../../utils/types';
+import { TypePath, TypeProject, TypeTask } from '../../../types/types';
 import Button from '../../UI/Button/Button';
 import Task from '../../simple/Task/Task';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
@@ -70,6 +70,7 @@ const ProjectPage = () => {
             />
 
             <ul ref={listTask} className="mb-[14px]">
+              {/* TODO Что за p внутри ul*/}
               <p className="text-base mb-[15px]">Задачи:</p>
               {tasks.map((task, index) => {
                 return (

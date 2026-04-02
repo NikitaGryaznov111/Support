@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { TypeTime, TypeTotalSeconds } from '../types';
+import { TypeTime, TypeTotalSeconds } from '../../types/types';
 import {
   helperTimeUpdate,
   helperAddStartTime,
@@ -17,16 +17,15 @@ export abstract class StorageTotalSeconds {
   }
   static async addStartTimeFromProject(
     timeStart: number,
-    taskId: string
+    taskId: string,
   ): Promise<void> {
-    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorageFromProject =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     await helperAddStartTime(
       timeStorageFromProject!,
       taskId,
       timeStart,
-      'timeFromProject'
+      'timeFromProject',
     );
   }
   static async resetStartTime(taskId: string): Promise<void> {
@@ -34,13 +33,12 @@ export abstract class StorageTotalSeconds {
     await helperResetStartTime(timeStorage!, taskId, 'time');
   }
   static async resetStartTimeFromProject(taskId: string): Promise<void> {
-    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorageFromProject =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     await helperResetStartTime(
       timeStorageFromProject!,
       taskId,
-      'timeFromProject'
+      'timeFromProject',
     );
   }
   static async findStartTime(taskId: string): Promise<number | undefined> {
@@ -49,19 +47,17 @@ export abstract class StorageTotalSeconds {
     return await helperFindStartTime(timeStorage, taskId);
   }
   static async findStartTimeFromProject(
-    taskId: string
+    taskId: string,
   ): Promise<number | undefined> {
-    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorageFromProject =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     if (!timeStorageFromProject) return;
     return await helperFindStartTime(timeStorageFromProject, taskId);
   }
 
   static async saveTotalSeconds(data: TypeTotalSeconds): Promise<void> {
-    const totalSecondsStorage = await localforage.getItem<TypeTotalSeconds[]>(
-      'totalSeconds'
-    );
+    const totalSecondsStorage =
+      await localforage.getItem<TypeTotalSeconds[]>('totalSeconds');
     const totalSecondsStorageFromProject = await localforage.getItem<
       TypeTotalSeconds[]
     >('totalSecondsFromProject');
@@ -71,24 +67,23 @@ export abstract class StorageTotalSeconds {
         totalSecondsStorage!,
         'totalSeconds',
         data,
-        taskId!
+        taskId!,
       );
     } else {
       await helperTimeUpdate(
         totalSecondsStorageFromProject!,
         'totalSecondsFromProject',
         data,
-        taskId!
+        taskId!,
       );
     }
   }
   static async findTotalSeconds(
     taskId: string,
-    projectId: string
+    projectId: string,
   ): Promise<number> {
-    const totalSecondsStorage = await localforage.getItem<TypeTotalSeconds[]>(
-      'totalSeconds'
-    );
+    const totalSecondsStorage =
+      await localforage.getItem<TypeTotalSeconds[]>('totalSeconds');
     const totalSecondsStorageFromProject = await localforage.getItem<
       TypeTotalSeconds[]
     >('totalSecondsFromProject');

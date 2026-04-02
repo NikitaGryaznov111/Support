@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TypePath, TypeProject } from '../../../utils/types';
+import { TypePath, TypeProject } from '../../../types/types';
 import Button from '../../UI/Button/Button';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
@@ -42,7 +42,7 @@ const ProjectsPage: FC = () => {
       await StorageProjects.deletedProject(projectId);
     }
     setProjects(
-      (prev) => prev?.filter((p) => !projectIds.includes(p.projectId)) || []
+      (prev) => prev?.filter((p) => !projectIds.includes(p.projectId)) || [],
     );
   }, []);
   return (

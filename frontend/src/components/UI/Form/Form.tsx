@@ -1,5 +1,5 @@
 import styles from './Form.module.scss';
-import { TypePropsForm } from '../../../utils/types';
+import { TypePropsForm } from '../../../types/types';
 const Form = ({
   formAction,
   valueName,

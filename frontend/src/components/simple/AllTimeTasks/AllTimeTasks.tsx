@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
-import { TypeTime } from '../../../utils/types';
-import { getAllTimes } from '../../../utils/getAllTimes';
+import { TypeTime } from '../../../types/types';
+import { getAllTimes } from '../../../utils/dateTime/getAllTimes';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 
 const AllTimeTasks: FC = () => {

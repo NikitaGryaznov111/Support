@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
-import { TypeProject, TypeTask } from '../../../utils/types';
+import { TypeProject, TypeTask } from '../../../types/types';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import styles from './CurrentProjects.module.scss';
 

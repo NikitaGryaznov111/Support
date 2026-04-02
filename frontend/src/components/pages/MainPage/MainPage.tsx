@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { TypeUser } from '../../../utils/types';
+import { TypeUser } from '../../../types/types';
 import Users from '../../simple/Users/Users';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import AuthServices from '../../../api/AuthServices';

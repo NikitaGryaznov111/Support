@@ -1,13 +1,12 @@
 import localforage from 'localforage';
-import { TypeTask, TypeTime } from '../types';
+import { TypeTask, TypeTime } from '../../types/types';
 import { helperTimeUpdate } from './storage.helpers';
 
 export abstract class StorageTimeTask {
   static async addTime(newTime: TypeTime, taskId: string): Promise<void> {
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
-    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorageFromProject =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     const { projectId } = newTime;
     if (!projectId) {
       helperTimeUpdate(timeStorage!, 'time', newTime, taskId);
@@ -16,7 +15,7 @@ export abstract class StorageTimeTask {
         timeStorageFromProject!,
         'timeFromProject',
         newTime,
-        taskId
+        taskId,
       );
     }
   }
@@ -42,11 +41,10 @@ export abstract class StorageTimeTask {
   }
 
   static async getTimeFromProject(
-    taskId: TypeTime['taskId']
+    taskId: TypeTime['taskId'],
   ): Promise<TypeTime> {
-    const timeStorage = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorage =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     const initialTime: TypeTime = {
       totalSeconds: 0,
       taskId,
@@ -66,16 +64,15 @@ export abstract class StorageTimeTask {
   }
   static async deletedTime(
     taskId: TypeTime['taskId'],
-    projectId?: TypeTime['projectId']
+    projectId?: TypeTime['projectId'],
   ): Promise<void> {
-    const timeStorageFromProject = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorageFromProject =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     const timeStorage = await localforage.getItem<TypeTime[]>('time');
 
     if (projectId && timeStorageFromProject) {
       const tasks = timeStorageFromProject!.filter(
-        (time) => time.taskId !== taskId
+        (time) => time.taskId !== taskId,
       );
       localforage.setItem('timeFromProject', tasks);
     } else if (!projectId && timeStorage) {
@@ -93,11 +90,10 @@ export abstract class StorageTimeTask {
   }
 
   static async delTimeWhenDelProject(projectIds: string[]): Promise<void> {
-    const timeStorage = await localforage.getItem<TypeTime[]>(
-      'timeFromProject'
-    );
+    const timeStorage =
+      await localforage.getItem<TypeTime[]>('timeFromProject');
     const newTimeStorage = timeStorage?.filter(
-      (time) => !projectIds.includes(time.projectId!)
+      (time) => !projectIds.includes(time.projectId!),
     );
     localforage.setItem('timeFromProject', newTimeStorage);
   }

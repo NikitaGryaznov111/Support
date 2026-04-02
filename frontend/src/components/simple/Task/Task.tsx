@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../UI/Button/Button';
-import { TypeTaskProps } from '../../../utils/types';
+import { TypeTaskProps } from '../../../types/types';
 import styles from './Task.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
@@ -32,19 +32,18 @@ const Task: FC<TypeTaskProps> = ({
     }
   };
   const taskPath: string = projectId
-    ? `/${userId}/projects/${projectId}/fromProject/${task.taskId}`
+    ? `/${userId}/projects/${projectId}/${task.taskId}`
     : `/${userId}/tasks/${task.taskId}`;
 
   const editTaskPath: string = projectId
     ? `/${userId}/projects/${projectId}/${task.taskId}`
-    : `/${userId}/tasks/editTask/${task.taskId}`;
+    : `/${userId}/tasks/${task.taskId}/edit`;
 
   return (
     <li data-taskid={task.taskId} className={styles.taskItem}>
       <Checkbox checkedAll={checkedAll} />
       <Link to={taskPath} className={styles.taskLink}>
         <div>
-          {' '}
           <h3 className={styles.taskHeader}>
             <span className={styles.taskIndex}>{index + 1}.</span>
             <span>{task.taskName}</span>

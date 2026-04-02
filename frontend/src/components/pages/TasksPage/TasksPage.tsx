@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import Tasks from '../../smart/Tasks/Tasks';
 import Form from '../../UI/Form/Form';
-import { TypePath, TypeTask } from '../../../utils/types';
+import { TypePath, TypeTask } from '../../../types/types';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 
 const TasksPage: FC = () => {
@@ -13,7 +13,7 @@ const TasksPage: FC = () => {
   const [description, setDescription] = useState<string>('');
 
   const handleBtnClick = async (
-    e: FormEvent<HTMLFormElement>
+    e: FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

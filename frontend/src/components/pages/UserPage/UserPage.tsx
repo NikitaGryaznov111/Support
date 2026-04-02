@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { TypeUser } from '../../../utils/types';
+import { TypeUser } from '../../../types/types';
 import Button from '../../UI/Button/Button';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import { getUser } from './UserPage.helpers';

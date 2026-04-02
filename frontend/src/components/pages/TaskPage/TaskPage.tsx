@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TypeTask, TypeTime, TypePath } from '../../../utils/types';
+import { TypeTask, TypeTime, TypePath } from '../../../types/types';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../UI/Button/Button';
 import styles from './TaskPage.module.scss';
@@ -83,7 +83,7 @@ const TaskPage: FC = () => {
       } catch (error) {
         console.error(
           'Ошибка загрузки времени нажатия на кнопку старт из хранилища:',
-          error
+          error,
         );
       }
     };
@@ -96,7 +96,7 @@ const TaskPage: FC = () => {
       const timeStart = await getStartTimerStorage(taskId!, projectId!);
       const totalSecStartStorage = await StorageTotalSeconds.findTotalSeconds(
         taskId!,
-        projectId!
+        projectId!,
       );
       if (timeStart) {
         setTimeFromTotal(totalSecStartStorage + timeAfterStart);

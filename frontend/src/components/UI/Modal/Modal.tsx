@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TypePropsModal, TypeProject, TypePath } from '../../../utils/types';
+import { TypePropsModal, TypeProject, TypePath } from '../../../types/types';
 import CurrentProjects from '../../smart/CurrentProjects/CurrentProjects';
 import AddingTasksProject from '../../simple/AddingTasksProject/AddingTasksProject';
 import FormCreatingProject from '../../smart/FormCreatingProject/FormCreatingProject';

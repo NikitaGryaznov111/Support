@@ -1,12 +1,12 @@
 import localforage from 'localforage';
-import { TypeProject, TypeTask } from '../types';
+import { TypeProject, TypeTask } from '../../types/types';
 
 export abstract class StorageProjects {
   static async getProjectsUser(userId: string): Promise<TypeProject[]> {
     const projects = await localforage.getItem<TypeProject[]>('projects');
     if (!projects) return [];
     const projectsUser = projects.filter(
-      (project) => project.userId === userId
+      (project) => project.userId === userId,
     );
     return projectsUser;
   }
@@ -22,7 +22,7 @@ export abstract class StorageProjects {
   static async getProject(projectId: string): Promise<TypeProject> {
     const projects = await localforage.getItem<TypeProject[]>('projects');
     const project = projects!.find(
-      (project) => project.projectId === projectId
+      (project) => project.projectId === projectId,
     );
     if (!project) throw new Error('Проект не найден');
     return project;
@@ -41,11 +41,11 @@ export abstract class StorageProjects {
   static async updateTask(
     taskId: string,
     projectId: string,
-    updates: TypeTask
+    updates: TypeTask,
   ): Promise<TypeTask> {
     const projects = await localforage.getItem<TypeProject[]>('projects');
     const project = projects!.find(
-      (project) => project.projectId === projectId
+      (project) => project.projectId === projectId,
     );
     const { tasks } = project as TypeProject;
 
@@ -66,11 +66,11 @@ export abstract class StorageProjects {
 
   static async addTasksInProject(
     projectId: string,
-    selectedTasksProject: TypeTask[]
+    selectedTasksProject: TypeTask[],
   ): Promise<void> {
     const projects = await localforage.getItem<TypeProject[]>('projects');
     const project = projects!.find(
-      (project) => project.projectId === projectId
+      (project) => project.projectId === projectId,
     );
     const { tasks } = project as TypeProject;
     tasks.push(...selectedTasksProject);
@@ -79,14 +79,14 @@ export abstract class StorageProjects {
   static async deletedProject(projectId: string): Promise<void> {
     const projects = await localforage.getItem<TypeProject[]>('projects');
     const newProjects = projects!.filter(
-      (project) => project.projectId !== projectId
+      (project) => project.projectId !== projectId,
     );
     await localforage.setItem('projects', newProjects);
   }
 
   static async updateProject(
     projectId: TypeProject['projectId'],
-    updates: { name: string }
+    updates: { name: string },
   ) {
     try {
       const projects = await localforage.getItem<TypeProject[]>('projects');

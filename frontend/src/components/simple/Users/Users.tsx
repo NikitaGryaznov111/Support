@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/store';
 import { Link } from 'react-router-dom';
-import { TypeUser } from '../../../utils/types';
+import { TypeUser } from '../../../types/types';
 import Search from '../../smart/Search/Search';
 import styles from './Users.module.scss';
 
@@ -15,7 +15,7 @@ const Users = ({ users }: TIProps) => {
   useEffect(() => {
     if (searchUser) {
       const newUsers = users.filter((user) =>
-        user.name.toLowerCase().includes(searchUser.toLowerCase())
+        user.name.toLowerCase().includes(searchUser.toLowerCase()),
       );
       setFilteredUsers(newUsers);
     } else {

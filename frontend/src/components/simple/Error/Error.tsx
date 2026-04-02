@@ -1,7 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import styles from './Error.module.scss';
-import { FC } from 'react';
-const Error: FC = () => {
+const Error = () => {
   const params = useParams();
   return (
     <div className={styles.error}>

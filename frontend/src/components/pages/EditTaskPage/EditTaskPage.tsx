@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TypePath, TypeTask } from '../../../utils/types';
+import { TypePath, TypeTask } from '../../../types/types';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import Form from '../../UI/Form/Form';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
@@ -29,7 +29,7 @@ const EditTaskPage: FC = () => {
     init();
   }, [taskId, projectId]);
   async function handleForm(
-    e: React.FormEvent<HTMLFormElement>
+    e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

@@ -1,6 +1,6 @@
 import { FC, FormEvent, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TypeProject, TypeTask } from '../../../utils/types';
+import { TypeProject, TypeTask } from '../../../types/types';
 import Button from '../../UI/Button/Button';
 import { nanoid } from 'nanoid';
 import { AppStyleContext } from '../../../context/AppStylesContext';

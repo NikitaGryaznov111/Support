@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TypeUser } from '../utils/types';
+import { TypeUser } from '../types/types';
 export default class AuthServices {
   static async getUsers(): Promise<TypeUser[]> {
     return await axios

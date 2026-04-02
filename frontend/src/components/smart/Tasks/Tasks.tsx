@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { TypePath, TypeTask } from '../../../utils/types';
+import { TypePath, TypeTask } from '../../../types/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
 import Button from '../../UI/Button/Button';
@@ -21,7 +21,7 @@ import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
 const Tasks = ({ task }: { task: TypeTask | null }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [selectedTasksProject, setSelectedTasksProject] = useState<TypeTask[]>(
-    []
+    [],
   );
   const [tasks, setTasks] = useState<TypeTask[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(false);

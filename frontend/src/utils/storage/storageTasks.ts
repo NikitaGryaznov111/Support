@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { TypeTask } from '../types';
+import { TypeTask } from '../../types/types';
 
 export abstract class StorageTasks {
   static async addTasks(newTask: TypeTask): Promise<void> {
@@ -34,7 +34,7 @@ export abstract class StorageTasks {
   }
   static async updateTask(
     taskId: TypeTask['taskId'],
-    updates: TypeTask
+    updates: TypeTask,
   ): Promise<TypeTask | undefined> {
     const tasksStorage = await localforage.getItem<TypeTask[]>('tasks');
     const task = tasksStorage!.find((task: TypeTask): boolean => {

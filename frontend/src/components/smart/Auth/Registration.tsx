@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import AuthServices from '../../../api/AuthServices';
 import styles from './AuthStyles.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { TypeAuthUser } from '../../../utils/types';
+import { TypeAuthUser } from '../../../types/types';
 import { AxiosResponse } from 'axios';
 const Registration = () => {
   const navigate = useNavigate();
