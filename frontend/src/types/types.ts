@@ -18,6 +18,7 @@ export type TypeTotalSeconds = {
   taskId: string | undefined;
   projectId?: string | undefined;
 };
+// TODO Пересмотри этот тип
 export type TypeUser = {
   _id?: string;
   name: string;

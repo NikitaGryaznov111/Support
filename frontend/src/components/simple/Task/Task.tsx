@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import { TypeTaskProps } from '../../../types/types';
 import styles from './Task.module.scss';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
-import Checkbox from '../../UI/Checkbox/Checkbox';
+import Checkbox from '../../ui/Checkbox/Checkbox';
 
 const Task: FC<TypeTaskProps> = ({
   task,

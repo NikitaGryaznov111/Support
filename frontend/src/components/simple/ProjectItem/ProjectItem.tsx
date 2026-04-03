@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import Checkbox from '../../UI/Checkbox/Checkbox';
-import Button from '../../UI/Button/Button';
+import Checkbox from '../../ui/Checkbox/Checkbox';
+import Button from '../../ui/Button/Button';
 import { TypeProject } from '../../../types/types';
 import styles from './ProjectItem.module.scss';
 

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TypePath, TypeTask } from '../../../types/types';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import Form from '../../UI/Form/Form';
+import Form from '../../ui/Form/Form';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 const EditTaskPage: FC = () => {

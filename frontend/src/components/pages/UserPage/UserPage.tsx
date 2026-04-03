@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { TypeUser } from '../../../types/types';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import { getUser } from './UserPage.helpers';
 import styles from './UserPage.module.scss';

@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask, TypeTime, TypePath } from '../../../types/types';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import styles from './TaskPage.module.scss';
 import useTimer from '../../../hooks/useTimer';
 import { StorageProjects } from '../../../utils/storage/storageProjects';

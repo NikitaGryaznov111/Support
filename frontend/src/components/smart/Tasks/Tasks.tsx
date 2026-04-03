@@ -10,13 +10,13 @@ import { useParams } from 'react-router-dom';
 import { TypePath, TypeTask } from '../../../types/types';
 import Task from '../../simple/Task/Task';
 import AllTimeTasks from '../../simple/AllTimeTasks/AllTimeTasks';
-import Button from '../../UI/Button/Button';
-import Modal from '../../UI/Modal/Modal';
+import Button from '../../ui/Button/Button';
+import Modal from '../../ui/Modal/Modal';
 import getCheckedTask from './Tasks.helpers';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import { AppStyleContext } from '../../../context/AppStylesContext';
-import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
+import CheckboxAll from '../../ui/CheckboxAll/CheckboxAll';
 
 const Tasks = ({ task }: { task: TypeTask | null }) => {
   const [modalActive, setModalActive] = useState<boolean>(false);

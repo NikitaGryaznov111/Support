@@ -7,12 +7,12 @@ import EditTaskPage from '../components/pages/EditTaskPage/EditTaskPage';
 import TaskPage from '../components/pages/TaskPage/TaskPage';
 import NavAuth from '../components/smart/Auth/NavAuth';
 import Login from '../components/smart/Auth/Login';
-import Registration from '../components/smart/Auth/Registration';
 import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
 import ProjectPage from '../components/pages/ProjectPage/ProjectPage';
 import EditProjectPage from '../components/pages/EditProjectPage/EditProjectPage';
 import { ROUTES } from './routes.config';
 import { requireAuth } from '../utils/auth/requireAuth';
+import { RegistrationPage } from '@/components/pages/registration/registration.page';
 // TODO Продолжи
 const routes: RouteObject[] = [
   {
@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
   },
   {
     path: ROUTES.registration,
-    element: <Registration />,
+    element: <RegistrationPage />,
   },
   {
     path: ROUTES.root,

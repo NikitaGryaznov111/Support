@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import styles from './AddingTasksProject.module.scss';
 interface AddingTasksProjectProps {
   setSwitchCurrentProject: React.Dispatch<React.SetStateAction<boolean>>;

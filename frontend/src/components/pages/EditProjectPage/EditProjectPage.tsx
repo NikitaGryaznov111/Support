@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../../simple/Sidebar/Sidebar';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import { TypePath } from '../../../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StorageProjects } from '../../../utils/storage/storageProjects';

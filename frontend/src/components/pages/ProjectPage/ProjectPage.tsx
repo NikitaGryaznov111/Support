@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../../simple/Sidebar/Sidebar';
 import { TypePath, TypeProject, TypeTask } from '../../../types/types';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import Task from '../../simple/Task/Task';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import getCheckedTask from '../../smart/Tasks/Tasks.helpers';
-import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
+import CheckboxAll from '../../ui/CheckboxAll/CheckboxAll';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import styles from './ProjectPage.module.scss';
 

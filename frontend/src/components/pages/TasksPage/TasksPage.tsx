@@ -2,7 +2,7 @@ import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import Tasks from '../../smart/Tasks/Tasks';
-import Form from '../../UI/Form/Form';
+import Form from '../../ui/Form/Form';
 import { TypePath, TypeTask } from '../../../types/types';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
 

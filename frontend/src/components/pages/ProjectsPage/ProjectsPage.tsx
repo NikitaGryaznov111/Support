@@ -1,9 +1,9 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypePath, TypeProject } from '../../../types/types';
-import Button from '../../UI/Button/Button';
+import Button from '../../ui/Button/Button';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
-import CheckboxAll from '../../UI/CheckboxAll/CheckboxAll';
+import CheckboxAll from '../../ui/CheckboxAll/CheckboxAll';
 import getCheckedProjects from './ProjectsPage.helpers';
 import ProjectItem from '../../simple/ProjectItem/ProjectItem';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
