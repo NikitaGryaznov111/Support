@@ -30,42 +30,42 @@ const routes: RouteObject[] = [
   {
     path: ROUTES.root,
     element: <MainPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.editTask,
     element: <EditTaskPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.editProject,
     element: <EditProjectPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.editTaskInProject,
     element: <EditTaskPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.task,
     element: <TaskPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.taskInProject,
     element: <TaskPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.project,
     element: <ProjectPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
   },
   {
     path: ROUTES.user,
     element: <UserPage />,
-    loader: requireAuth,
+    // loader: requireAuth,
     children: [
       {
         path: ROUTES.tasks,

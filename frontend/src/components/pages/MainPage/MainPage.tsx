@@ -1,27 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import { TypeUser } from '../../../types/types';
-import Users from '../../simple/Users/Users';
-import Sidebar from '../../simple/Sidebar/Sidebar';
-import AuthServices from '../../../api/AuthServices';
-import styles from './MainPage.module.scss';
-const MainPage: FC = () => {
-  const [users, setUsers] = useState<TypeUser[]>();
+import { Spinner } from "react-activity";
+import Users from "../../simple/Users/Users";
+import Sidebar from "../../simple/Sidebar/Sidebar";
+import { useGetUsers } from "../../../hooks/useGetUsers";
 
-  useEffect(() => {
-    const init = async (): Promise<void> => {
-      const data = await AuthServices.getUsers();
-      setUsers(data);
-    };
-    init();
-  }, []);
+const MainPage = () => {
+  const { data: users, isError, isFetching } = useGetUsers();
   return (
     <div className="flex">
       <Sidebar />
-      {users ? (
-        <Users users={users} />
-      ) : (
-        <p className={styles.loadUsers}>Загрузка всех пользователей...</p>
-      )}
+      {isFetching ? <Spinner color="red" size={50} speed={1} animating={true} /> : <Users users={users || []} />}
     </div>
   );
 };

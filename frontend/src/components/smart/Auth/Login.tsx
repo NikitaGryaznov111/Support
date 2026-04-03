@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AuthServices from '../../../api/AuthServices';
+import AuthServices from '../../../api/auth.service';
 import styles from './AuthStyles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { TypeAuthUser } from '../../../types/types';
