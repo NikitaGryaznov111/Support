@@ -1,10 +1,10 @@
-import { ClipLoader } from "react-spinners";
-import Users from "../../simple/Users/Users";
-import Sidebar from "../../simple/Sidebar/Sidebar";
-import { useGetUsers } from "../../../hooks/useGetUsers";
-import { Colors } from "../../../styles/colors";
+import { ClipLoader } from 'react-spinners';
+import Sidebar from '../../simple/Sidebar/Sidebar';
+import { Colors } from '../../../styles/colors';
+import Users from '@/features/users/components/Users';
+import { useGetUsers } from '@/features/users/hooks/useGetUsers';
 
-const MainPage = () => {
+const UsersPage = () => {
   const { data: users, isError, isPending } = useGetUsers();
   return (
     <div className="flex flex-row">
@@ -22,4 +22,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default UsersPage;

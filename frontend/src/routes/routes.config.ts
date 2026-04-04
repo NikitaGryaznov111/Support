@@ -10,7 +10,6 @@ export const ROUTES = {
   taskInProject: '/:userId/projects/:projectId/:taskId',
   editProject: '/:userId/projects/:projectId/edit',
   error: '*',
-  navAuth: '/navigationAuth',
   login: '/login',
   registration: '/registration',
 } as const;

@@ -1,9 +1,12 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import styles from './Sidebar.module.scss';
-import Logout from '../../smart/Auth/Logout';
+import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/routes/routes.config';
 
 const Sidebar: FC = () => {
+  const navigate = useNavigate();
+
   const [userId, setUserId] = useState<string>();
   useEffect(() => {
     const userId = localStorage.getItem('userId');
@@ -11,6 +14,12 @@ const Sidebar: FC = () => {
       setUserId(userId);
     }
   }, []);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    navigate(ROUTES.registration);
+  };
   return (
     <div className={styles.wrap}>
       <div className={styles.sideBar}>
@@ -43,7 +52,9 @@ const Sidebar: FC = () => {
           </NavLink>
         </nav>
       </div>
-      <Logout />
+      <Button className="fixed bottom-0" onClick={handleLogout}>
+        Выйти
+      </Button>
     </div>
   );
 };

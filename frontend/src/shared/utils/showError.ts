@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 export const showError = (
   error: AxiosError<{ ERROR?: string; message?: string }>,
@@ -8,6 +8,6 @@ export const showError = (
     error?.response?.data?.ERROR ||
     error?.response?.data?.message ||
     error?.message ||
-    "Ошибка";
+    'Ошибка';
   return toast.error(message);
 };

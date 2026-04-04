@@ -1,27 +1,22 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
-import MainPage from '../components/pages/MainPage/MainPage';
 import UserPage from '../components/pages/UserPage/UserPage';
 import TasksPage from '../components/pages/TasksPage/TasksPage';
 import Error from '../components/simple/Error/Error';
 import EditTaskPage from '../components/pages/EditTaskPage/EditTaskPage';
 import TaskPage from '../components/pages/TaskPage/TaskPage';
-import NavAuth from '../components/smart/Auth/NavAuth';
-import Login from '../components/smart/Auth/Login';
 import ProjectsPage from '../components/pages/ProjectsPage/ProjectsPage';
 import ProjectPage from '../components/pages/ProjectPage/ProjectPage';
 import EditProjectPage from '../components/pages/EditProjectPage/EditProjectPage';
 import { ROUTES } from './routes.config';
 import { requireAuth } from '../utils/auth/requireAuth';
+import { LoginPage } from '@/components/pages/login/login.page';
 import { RegistrationPage } from '@/components/pages/registration/registration.page';
+import UsersPage from '@/components/pages/users/Users.page';
 // TODO Продолжи
 const routes: RouteObject[] = [
   {
-    path: ROUTES.navAuth,
-    element: <NavAuth />,
-  },
-  {
     path: ROUTES.login,
-    element: <Login />,
+    element: <LoginPage />,
   },
   {
     path: ROUTES.registration,
@@ -29,7 +24,7 @@ const routes: RouteObject[] = [
   },
   {
     path: ROUTES.root,
-    element: <MainPage />,
+    element: <UsersPage />,
     // loader: requireAuth,
   },
   {

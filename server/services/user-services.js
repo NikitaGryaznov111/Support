@@ -8,7 +8,9 @@ class UserServices {
     try {
       const candidate = await UserModel.findOne({ name });
       if (candidate) {
-        throw new Error(`Пользователь с таким ${name} уже существует`);
+        // TODO Вынеси в enum
+        return -1;
+        // Пользователь с таким ${name} уже существует
       }
       const hashedPassword = await bcrypt.hash(password, 3);
       const userId = nanoid(6);
@@ -25,18 +27,21 @@ class UserServices {
         user: userDto,
       };
     } catch (error) {
-      throw new Error('Ошибка в сервисе пользователя');
+      throw new Error('Ошибка регистрации');
     }
   }
   async login(name, password) {
     try {
       const user = await UserModel.findOne({ name });
       if (!user) {
-        return 'Пользователь с таким именем не найден';
+        // TODO Вынеси в enum
+        return 0;
+        //  'Пользователь с таким именем не найден'
       }
       const validPassword = bcrypt.compareSync(password, user.password);
       if (!validPassword) {
-        return 'Неверный пароль';
+        return -1;
+        // 'Неверный пароль'
       }
       const userDto = new UserDto(user);
       const token = TokenService.generateTokens({ ...userDto });
@@ -45,7 +50,9 @@ class UserServices {
         ...token,
         user: userDto,
       };
-    } catch (error) {}
+    } catch (error) {
+      throw new Error('Ошибка логирования');
+    }
   }
   async getUsers() {
     try {

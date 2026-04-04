@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import { TypeUser } from '../../../types/types';
-import Search from '../../smart/Search/Search';
 import styles from './Users.module.scss';
+import Search from '@/components/smart/Search/Search';
 
 interface TIProps {
   users: TypeUser[];

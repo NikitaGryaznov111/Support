@@ -1,33 +1,25 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRegistration } from '../hooks/useRegistration';
-import { ROUTES } from '@/routes/routes.config';
+import { useLogin } from '../hooks/useLogin';
 
-const RegistrationForm = () => {
-  const navigate = useNavigate();
-
+const LoginForm = () => {
   const [user, setUser] = useState({
     name: '',
-    email: '',
     password: '',
   });
 
-  const { registration, isLoading } = useRegistration();
+  const { login, isLoading } = useLogin();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await registration(user);
+    await login(user);
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     if (id === 'name') {
       setUser({ ...user, name: value });
-    }
-    if (id === 'email') {
-      setUser({ ...user, email: value });
     }
     if (id === 'password') {
       setUser({ ...user, password: value });
@@ -37,45 +29,17 @@ const RegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
       <div className="space-y-2">
-        <div className="flex items-end justify-between">
-          <label
-            htmlFor="name"
-            className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Имя
-          </label>
-          <Button
-            variant="link"
-            className="p-0 h-auto"
-            onClick={() => navigate(ROUTES.login)}
-          >
-            Войти
-          </Button>
-        </div>
-
+        <label
+          htmlFor="name"
+          className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Имя
+        </label>
         <Input
           id="name"
           type="text"
           placeholder="Введите имя"
           value={user.name}
-          onChange={handleInput}
-          disabled={isLoading}
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label
-          htmlFor="email"
-          className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Почта
-        </label>
-        <Input
-          id="email"
-          type="text"
-          placeholder="Введите электронную почту"
-          value={user.email}
           onChange={handleInput}
           disabled={isLoading}
           required
@@ -102,17 +66,12 @@ const RegistrationForm = () => {
       <Button
         type="submit"
         className="w-full"
-        disabled={
-          isLoading ||
-          !user.name.trim() ||
-          !user.password.trim() ||
-          !user.email.trim()
-        }
+        disabled={isLoading || !user.name.trim() || !user.password.trim()}
       >
-        {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+        {isLoading ? 'Вход...' : 'Войти'}
       </Button>
     </form>
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;
