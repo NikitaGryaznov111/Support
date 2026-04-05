@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TypePath, TypeTask } from '../../../types/types';
-import Sidebar from '../../simple/Sidebar/Sidebar';
 import Form from '../../ui/Form/Form';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
+import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 const EditTaskPage: FC = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<TypeTask>();

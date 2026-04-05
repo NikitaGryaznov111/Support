@@ -1,44 +1,39 @@
-import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../../store/store';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 import { TypeUser } from '../../../types/types';
-import styles from './Users.module.scss';
-import Search from '@/components/smart/Search/Search';
+import Search from '@/features/users/components/Search';
+import { Colors } from '@/styles/colors';
+import { useGetUsers } from '../hooks/useGetUsers';
+import { useSearchStore } from '../store/useSearch.store';
 
-interface TIProps {
-  users: TypeUser[];
-}
-const Users = ({ users }: TIProps) => {
-  const [filteredUsers, setFilteredUsers] = useState<TypeUser[]>([]);
-  const searchUser = useAppSelector((state) => state.search);
+const Users = () => {
+  const { data: users, isError, isPending } = useGetUsers();
+  const { setUsers, getFilteredUsers } = useSearchStore();
 
   useEffect(() => {
-    if (searchUser) {
-      const newUsers = users.filter((user) =>
-        user.name.toLowerCase().includes(searchUser.toLowerCase()),
-      );
-      setFilteredUsers(newUsers);
-    } else {
-      setFilteredUsers(users);
-    }
-  }, [searchUser, users]);
-  return (
-    <div className={styles.users}>
-      <div className="flex justify-between">
-        <h1>Список пользователей:</h1>
-        <Search />
-      </div>
-      {!filteredUsers.length ? (
-        <p className="text-xl">Данный пользователь не найден</p>
-      ) : (
-        <ul>
-          {filteredUsers.map((user: TypeUser) => (
-            <li className={styles.usersItem} key={user._id}>
-              <Link to={`/${user.userId}`}>{user.name}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
+    setUsers(users ?? []);
+  }, [setUsers, users]);
+
+  return isPending ? (
+    <ClipLoader
+      color={Colors.BlueL}
+      size={50}
+      speedMultiplier={1}
+      className="mx-auto mt-5"
+    />
+  ) : isError ? (
+    <p className="m-5 text-lg">Ошибка загрузки пользователей</p>
+  ) : (
+    <div className="w-full p-4">
+      <Search />
+      <ul>
+        {getFilteredUsers().map((user: TypeUser) => (
+          <li className="border-b py-1.5" key={user._id}>
+            <Link to={`/${user.userId}`}>{user.name}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

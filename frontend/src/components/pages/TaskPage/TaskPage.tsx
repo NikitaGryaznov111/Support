@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TypeTask, TypeTime, TypePath } from '../../../types/types';
-import Sidebar from '../../simple/Sidebar/Sidebar';
 import Button from '../../ui/Button/Button';
 import styles from './TaskPage.module.scss';
 import useTimer from '../../../hooks/useTimer';
@@ -10,6 +9,7 @@ import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import usePersistentTimer from '../../../hooks/usePersistentTimer';
 import { StorageTotalSeconds } from '../../../utils/storage/storageTotalSeconds';
+import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 
 const TaskPage: FC = () => {
   const { taskId, projectId, userId } = useParams<TypePath>();

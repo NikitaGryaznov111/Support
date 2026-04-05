@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Sidebar from '../../simple/Sidebar/Sidebar';
 import { TypePath, TypeProject, TypeTask } from '../../../types/types';
 import Button from '../../ui/Button/Button';
 import Task from '../../simple/Task/Task';
@@ -9,6 +8,7 @@ import getCheckedTask from '../../smart/Tasks/Tasks.helpers';
 import CheckboxAll from '../../ui/CheckboxAll/CheckboxAll';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import styles from './ProjectPage.module.scss';
+import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject | null>(null);

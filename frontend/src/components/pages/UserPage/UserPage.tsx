@@ -2,18 +2,24 @@ import { FC, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { TypeUser } from '../../../types/types';
 import Button from '../../ui/Button/Button';
-import Sidebar from '../../simple/Sidebar/Sidebar';
-import { getUser } from './UserPage.helpers';
 import styles from './UserPage.module.scss';
+import { useGetUsers } from '@/features/users/hooks/useGetUsers';
+import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 const UserPage: FC = () => {
   const [user, setUser] = useState<TypeUser>();
+  const { data } = useGetUsers();
   const { userId } = useParams<string>();
   const [load, setLoad] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     const init = async () => {
       try {
-        if (userId) setUser(await getUser(userId));
+        if (userId) {
+          const userAAA = data?.find(
+            (person: TypeUser): boolean => person.userId === userId,
+          );
+          setUser(userAAA);
+        }
         setError(false);
       } catch (error) {
         console.error('Failed to load user:', error);
