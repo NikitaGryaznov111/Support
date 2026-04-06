@@ -11,7 +11,7 @@ import { ROUTES } from './routes.config';
 import { requireAuth } from '../utils/auth/requireAuth';
 import UsersPage from '@/components/pages/users/Users.page';
 import { LoginPage } from '@/components/pages/login/Login.page';
-import { RegistrationPage } from '@/components/pages/registration/Registration.page';
+import { RegistrationPage } from '@/components/pages/registration/registration.page';
 // TODO Продолжи
 const routes: RouteObject[] = [
   {
