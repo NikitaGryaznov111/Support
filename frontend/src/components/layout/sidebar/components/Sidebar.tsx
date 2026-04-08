@@ -7,16 +7,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from '@/components/ui/sidebar';
-import { LogOut, Menu } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import SidebarNav from './SidebarNav';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/routes/routes.config';
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { toggleSidebar } = useSidebar();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -29,10 +27,7 @@ const Sidebar = () => {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton size="lg" onClick={toggleSidebar}>
-              <Menu className="size-5" />
-              <span className="font-semibold">Support</span>
-            </SidebarMenuButton>
+             <span className="font-semibold">Support</span>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

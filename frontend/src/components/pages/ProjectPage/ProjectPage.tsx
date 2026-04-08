@@ -8,7 +8,6 @@ import getCheckedTask from '../../smart/Tasks/Tasks.helpers';
 import CheckboxAll from '../../ui/CheckboxAll/CheckboxAll';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import styles from './ProjectPage.module.scss';
-import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 
 const ProjectPage = () => {
   const [project, setProject] = useState<TypeProject | null>(null);
@@ -50,46 +49,44 @@ const ProjectPage = () => {
   const handleCheckboxAll = (): void => {
     setCheckedAll((prev) => !prev);
   };
-  return (
-    <div className="flex">
-      <Sidebar />
-      <div className={styles.projectPage}>
-        <div className={styles.projectPageHeader}>
-          {!project ? <p>Проект не найден</p> : <h1>{project.name}</h1>}
-          <Link to={'/'}>
-            <Button>Закрыть</Button>
-          </Link>
-        </div>
-        {!tasks || tasks.length === 0 ? (
-          <p>Задачи отсутствуют</p>
-        ) : (
-          <>
-            <CheckboxAll
-              handleCheckboxAll={handleCheckboxAll}
-              text="Выбрать все задачи"
-            />
 
-            <ul ref={listTask} className="mb-[14px]">
-              {/* TODO Что за p внутри ul*/}
-              <p className="text-base mb-[15px]">Задачи:</p>
-              {tasks.map((task, index) => {
-                return (
-                  <Task
-                    key={task.taskId! + index}
-                    task={task}
-                    userId={userId}
-                    index={index}
-                    projectId={projectId}
-                    checkedAll={checkedAll}
-                    loadTasks={loadTasks}
-                  />
-                );
-              })}
-            </ul>
-            <Button onClick={handleDeletedCheckedTask}>Удалить задачи</Button>
-          </>
-        )}
+  return (
+    <div className={styles.projectPage}>
+      <div className={styles.projectPageHeader}>
+        {!project ? <p>Проект не найден</p> : <h1>{project.name}</h1>}
+        <Link to={'/'}>
+          <Button>Закрыть</Button>
+        </Link>
       </div>
+      {!tasks || tasks.length === 0 ? (
+        <p>Задачи отсутствуют</p>
+      ) : (
+        <>
+          <CheckboxAll
+            handleCheckboxAll={handleCheckboxAll}
+            text="Выбрать все задачи"
+          />
+
+          <ul ref={listTask} className="mb-[14px]">
+            {/* TODO Что за p внутри ul*/}
+            <p className="text-base mb-[15px]">Задачи:</p>
+            {tasks.map((task, index) => {
+              return (
+                <Task
+                  key={task.taskId! + index}
+                  task={task}
+                  userId={userId}
+                  index={index}
+                  projectId={projectId}
+                  checkedAll={checkedAll}
+                  loadTasks={loadTasks}
+                />
+              );
+            })}
+          </ul>
+          <Button onClick={handleDeletedCheckedTask}>Удалить задачи</Button>
+        </>
+      )}
     </div>
   );
 };

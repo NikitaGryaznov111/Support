@@ -4,13 +4,14 @@ import { TypeUser } from '../../../types/types';
 import Button from '../../ui/Button/Button';
 import styles from './UserPage.module.scss';
 import { useGetUsers } from '@/features/users/hooks/useGetUsers';
-import Sidebar from '@/components/layout/sidebar/components/Sidebar';
+
 const UserPage: FC = () => {
   const [user, setUser] = useState<TypeUser>();
   const { data } = useGetUsers();
   const { userId } = useParams<string>();
   const [load, setLoad] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+
   useEffect(() => {
     const init = async () => {
       try {
@@ -30,9 +31,9 @@ const UserPage: FC = () => {
     };
     init();
   }, [userId]);
+
   return (
-    <div className="flex">
-      <Sidebar />
+    <div className={styles.userPageContainer}>
       {load ? (
         <p className={styles.loadUser}>Загрузка страницы...</p>
       ) : error ? (

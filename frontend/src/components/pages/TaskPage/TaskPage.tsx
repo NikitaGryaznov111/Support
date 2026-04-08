@@ -9,7 +9,6 @@ import { StorageTasks } from '../../../utils/storage/storageTasks';
 import { StorageTimeTask } from '../../../utils/storage/storageTimeTask';
 import usePersistentTimer from '../../../hooks/usePersistentTimer';
 import { StorageTotalSeconds } from '../../../utils/storage/storageTotalSeconds';
-import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 
 const TaskPage: FC = () => {
   const { taskId, projectId, userId } = useParams<TypePath>();
@@ -150,30 +149,27 @@ const TaskPage: FC = () => {
     resetStartTimerStorage(taskId!, projectId!);
   };
   return (
-    <div className="flex ">
-      <Sidebar />
-      <div className={styles.taskPage}>
-        <div className={styles.taskPageHeader}>
-          <div>
-            <h3>{task?.taskName}</h3>
-            <p>{task?.description}</p>
+    <div className={styles.taskPage}>
+      <div className={styles.taskPageHeader}>
+        <div>
+          <h3>{task?.taskName}</h3>
+          <p>{task?.description}</p>
+        </div>
+        {time ? (
+          <div className="font-bold">
+            {hours < 10 ? '0' + hours : hours}:
+            {minutes < 10 ? '0' + minutes : minutes}:
+            {seconds < 10 ? '0' + seconds : seconds}
           </div>
-          {time ? (
-            <div className="font-bold">
-              {hours < 10 ? '0' + hours : hours}:
-              {minutes < 10 ? '0' + minutes : minutes}:
-              {seconds < 10 ? '0' + seconds : seconds}
-            </div>
-          ) : (
-            <p>00:00:00</p>
-          )}
-        </div>
-        <div className={styles.taskPageButtons}>
-          <Button onClick={handleBtnStartTime} disabled={isRunning}>
-            Start
-          </Button>
-          <Button onClick={handleBtnStopTime}>Stop</Button>
-        </div>
+        ) : (
+          <p>00:00:00</p>
+        )}
+      </div>
+      <div className={styles.taskPageButtons}>
+        <Button onClick={handleBtnStartTime} disabled={isRunning}>
+          Start
+        </Button>
+        <Button onClick={handleBtnStopTime}>Stop</Button>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { TypePath } from '../../../types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import styles from '../../UI/Form/Form.module.scss';
-import Sidebar from '@/components/layout/sidebar/components/Sidebar';
 
 const EditProjectPage = () => {
   const [value, setValue] = useState<string>('');
@@ -45,34 +44,32 @@ const EditProjectPage = () => {
       }
     }
   }
+
   return (
-    <div className="flex">
-      <Sidebar />
-      <form className={styles.form} onSubmit={handleForm}>
-        <div className="flex justify-between items-center">
-          <label className={styles.label} htmlFor="project">
-            Название проекта:
-          </label>
-          <Button to={`/${userId}/projects`} as="link">
-            Закрыть
-          </Button>
-        </div>
-        <input
-          className={`${styles.input} mt-3 mb-3`}
-          type="text"
-          id="project"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          name="projectName"
-        />
-        <Button children="Редактировать" type="submit" />
-        <Button
-          children="Отменить"
-          type="button"
-          onClick={() => navigate(`/${userId}/projects`)}
-        />
-      </form>
-    </div>
+    <form className={styles.form} onSubmit={handleForm}>
+      <div className="flex justify-between items-center">
+        <label className={styles.label} htmlFor="project">
+          Название проекта:
+        </label>
+        <Button to={`/${userId}/projects`} as="link">
+          Закрыть
+        </Button>
+      </div>
+      <input
+        className={`${styles.input} mt-3 mb-3`}
+        type="text"
+        id="project"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        name="projectName"
+      />
+      <Button children="Редактировать" type="submit" />
+      <Button
+        children="Отменить"
+        type="button"
+        onClick={() => navigate(`/${userId}/projects`)}
+      />
+    </form>
   );
 };
 

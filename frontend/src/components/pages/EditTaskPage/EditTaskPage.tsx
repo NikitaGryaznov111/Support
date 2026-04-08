@@ -4,7 +4,7 @@ import { TypePath, TypeTask } from '../../../types/types';
 import Form from '../../ui/Form/Form';
 import { StorageProjects } from '../../../utils/storage/storageProjects';
 import { StorageTasks } from '../../../utils/storage/storageTasks';
-import Sidebar from '@/components/layout/sidebar/components/Sidebar';
+
 const EditTaskPage: FC = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<TypeTask>();
@@ -28,6 +28,7 @@ const EditTaskPage: FC = () => {
     };
     init();
   }, [taskId, projectId]);
+
   async function handleForm(
     e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> {
@@ -48,8 +49,7 @@ const EditTaskPage: FC = () => {
   }
 
   return (
-    <div className="flex ">
-      <Sidebar />
+    <div>
       {task && (
         <Form
           formAction={handleForm}

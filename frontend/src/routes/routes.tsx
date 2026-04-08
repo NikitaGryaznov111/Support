@@ -12,6 +12,8 @@ import { requireAuth } from '../utils/auth/requireAuth';
 import UsersPage from '@/components/pages/users/Users.page';
 import { LoginPage } from '@/components/pages/login/Login.page';
 import { RegistrationPage } from '@/components/pages/registration/registration.page';
+import MainLayout from '@/components/layout/main/MainLayout';
+
 // TODO Продолжи
 const routes: RouteObject[] = [
   {
@@ -23,53 +25,57 @@ const routes: RouteObject[] = [
     element: <RegistrationPage />,
   },
   {
-    path: ROUTES.root,
-    element: <UsersPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.editTask,
-    element: <EditTaskPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.editProject,
-    element: <EditProjectPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.editTaskInProject,
-    element: <EditTaskPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.task,
-    element: <TaskPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.taskInProject,
-    element: <TaskPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.project,
-    element: <ProjectPage />,
-    // loader: requireAuth,
-  },
-  {
-    path: ROUTES.user,
-    element: <UserPage />,
-    // loader: requireAuth,
+    element: <MainLayout />,
     children: [
       {
-        path: ROUTES.tasks,
-        element: <TasksPage />,
+        path: ROUTES.root,
+        element: <UsersPage />,
+        // loader: requireAuth,
       },
-
       {
-        path: ROUTES.projects,
-        element: <ProjectsPage />,
+        path: ROUTES.editTask,
+        element: <EditTaskPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.editProject,
+        element: <EditProjectPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.editTaskInProject,
+        element: <EditTaskPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.task,
+        element: <TaskPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.taskInProject,
+        element: <TaskPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.project,
+        element: <ProjectPage />,
+        // loader: requireAuth,
+      },
+      {
+        path: ROUTES.user,
+        element: <UserPage />,
+        // loader: requireAuth,
+        children: [
+          {
+            path: ROUTES.tasks,
+            element: <TasksPage />,
+          },
+          {
+            path: ROUTES.projects,
+            element: <ProjectsPage />,
+          },
+        ],
       },
     ],
   },
