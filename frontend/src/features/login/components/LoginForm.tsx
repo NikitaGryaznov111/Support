@@ -2,8 +2,12 @@ import { FormEvent, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/routes/routes.config';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     name: '',
     password: '',
@@ -29,12 +33,21 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
       <div className="space-y-2">
-        <label
-          htmlFor="name"
-          className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Имя
-        </label>
+        <div className="flex items-end justify-between">
+          <label
+            htmlFor="name"
+            className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Имя
+          </label>
+          <Button
+            variant="link"
+            className="p-0 h-auto"
+            onClick={() => navigate(ROUTES.registration)}
+          >
+            Зарегаться
+          </Button>
+        </div>
         <Input
           id="name"
           type="text"

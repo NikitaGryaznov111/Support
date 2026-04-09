@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { TypeUser } from '../../../types/types';
 import Button from '../../ui/Button/Button';
 import styles from './UserPage.module.scss';
 import { useGetUsers } from '@/features/users/hooks/useGetUsers';
-
-const UserPage: FC = () => {
+// TODO Надо запрашивать не всех юзеров, а одного с бэка по userId
+const UserPage = () => {
   const [user, setUser] = useState<TypeUser>();
   const { data } = useGetUsers();
   const { userId } = useParams<string>();

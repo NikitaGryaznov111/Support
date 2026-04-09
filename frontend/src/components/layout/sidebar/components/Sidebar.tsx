@@ -36,7 +36,6 @@ const Sidebar = () => {
             onClick={toggleSidebar}
           >
             <PanelLeft />
-            <span className="sr-only">Закрыть сайдбар</span>
           </Button>
         )}
       </SidebarHeader>

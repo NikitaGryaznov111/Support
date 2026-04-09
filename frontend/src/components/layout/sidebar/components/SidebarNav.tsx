@@ -14,14 +14,8 @@ interface ISidebarNavProps {
   groupLabel?: string;
 }
 const SidebarNav = ({ groupLabel }: ISidebarNavProps) => {
+  const { toggleSidebar } = useSidebar();
   const userId = localStorage.getItem('userId') ?? '';
-  const { setOpenMobile, isMobile } = useSidebar();
-
-  const handleNavigation = () => {
-    if (isMobile) {
-      setOpenMobile(false);
-    }
-  };
 
   return (
     <SidebarGroup>
@@ -34,12 +28,13 @@ const SidebarNav = ({ groupLabel }: ISidebarNavProps) => {
 
             return (
               <SidebarMenuItem key={item.id}>
-                <NavLink to={to} end={item.end} onClick={handleNavigation}>
+                <NavLink to={to} end={item.end}>
                   {({ isActive }) => (
                     <SidebarMenuButton
                       isActive={isActive}
                       tooltip={item.label}
                       className="w-full"
+                      onClick={toggleSidebar}
                     >
                       <item.icon />
                       <span>{item.label}</span>

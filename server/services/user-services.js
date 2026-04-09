@@ -57,9 +57,20 @@ class UserServices {
   async getUsers() {
     try {
       const users = await UserModel.find();
+      if (!users.length) return 0;
       return users;
     } catch (error) {
       throw new Error('Ошибка при получении списка пользователей');
+    }
+  }
+
+  async getUser(userId) {
+    try {
+      const user = await UserModel.findOne({ userId });
+      if (!user) return 0;
+      return user;
+    } catch (error) {
+      throw new Error('Ошибка при получении пользователя');
     }
   }
 }

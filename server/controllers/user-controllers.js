@@ -6,12 +6,10 @@ class UserController {
       const { name, email, password } = req.body;
       const result = await userServices.registration(name, email, password);
       if (result === -1) {
-        return res
-          .status(404)
-          .json({
-            code: -1,
-            message: 'Пользователь с таким именем уже существует',
-          });
+        return res.status(404).json({
+          code: -1,
+          message: 'Пользователь с таким именем уже существует',
+        });
       }
       return res.json(result);
     } catch (error) {
@@ -40,7 +38,26 @@ class UserController {
   async getUsers(req, res, next) {
     try {
       const users = await userServices.getUsers();
+      if (users === 0) {
+        return res
+          .status(404)
+          .json({ code: 0, message: 'Пользователи не найдены' });
+      }
       return res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+  async getUser(req, res, next) {
+    const { userId } = req.params;
+    try {
+      const user = await userServices.getUser(userId);
+      if (user === 0) {
+        return res
+          .status(404)
+          .json({ code: 0, message: 'Пользователь не найден' });
+      }
+      return res.json(user);
     } catch (error) {
       res.status(500).json({ message: 'Server error' });
     }

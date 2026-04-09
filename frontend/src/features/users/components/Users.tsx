@@ -8,7 +8,7 @@ import { useGetUsers } from '../hooks/useGetUsers';
 import { useSearchStore } from '../store/useSearch.store';
 
 const Users = () => {
-  const { data: users, isError, isPending } = useGetUsers();
+  const { data: users, isError, isPending, error } = useGetUsers();
   const { setUsers, getFilteredUsers } = useSearchStore();
 
   useEffect(() => {
@@ -23,7 +23,9 @@ const Users = () => {
       className="mx-auto mt-5"
     />
   ) : isError ? (
-    <p className="m-5 text-lg">Ошибка загрузки пользователей</p>
+    <p className="m-5 text-lg">
+      Ошибка загрузки пользователей: {error?.message}
+    </p>
   ) : (
     <div className="w-full p-4">
       <Search />
