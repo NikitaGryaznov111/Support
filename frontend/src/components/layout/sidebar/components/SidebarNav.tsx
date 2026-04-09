@@ -5,6 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { SIDEBAR_ITEMS } from '../config/sidebar.config';
 import { NavLink } from 'react-router-dom';
@@ -14,6 +15,13 @@ interface ISidebarNavProps {
 }
 const SidebarNav = ({ groupLabel }: ISidebarNavProps) => {
   const userId = localStorage.getItem('userId') ?? '';
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  const handleNavigation = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
     <SidebarGroup>
@@ -26,7 +34,7 @@ const SidebarNav = ({ groupLabel }: ISidebarNavProps) => {
 
             return (
               <SidebarMenuItem key={item.id}>
-                <NavLink to={to} end={item.end}>
+                <NavLink to={to} end={item.end} onClick={handleNavigation}>
                   {({ isActive }) => (
                     <SidebarMenuButton
                       isActive={isActive}
